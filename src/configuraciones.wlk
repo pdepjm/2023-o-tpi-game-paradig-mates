@@ -1,4 +1,5 @@
 import wollok.game.*
+import piezas.*
 
 object config {
 	// Cargamos todas las configuraciones necesarias (Ventana, Teclas, Colisiones y Eventos automaticos)
@@ -22,6 +23,10 @@ object config {
 	// Configuracion de las teclas.
 	method configTeclas() {
 		// TODO: Generar movimiento de las piezas.
+		keyboard.up().onPressDo({pieza_Z.moverseHaciaArriba()})
+		keyboard.down().onPressDo({pieza_Z.moverseHaciaAbajo()})
+		keyboard.left().onPressDo({pieza_Z.moverseHaciaIzquierda()})
+		keyboard.right().onPressDo({pieza_Z.moverseHaciaDerecha()})
 	}
 	
 	// Configuracion de colisiones.
