@@ -1,8 +1,27 @@
 import wollok.game.*
 import pepita.*
 
-program juego {
-	game.title("Juego Base")
+/* INFORMACION GENERAL DEL JUEGO TETRIS ORIGINAL.
+	* Deriva de 'Tetra' pues las piezas estan conformadas por 4 cuadraditos.
+	* Piezas: I, J, L, O, S, T, Z.
+	* Puntos base: 1 línea: 100 puntos. 2 líneas: 200 puntos. 3 líneas: 400 puntos. 4 líneas: 800 puntos.
+	* Sus medidas son 10 minos de ancho por 20 minos de alto. Minos = Cuadraditos.
+	* Formación objetivo del juego, completar líneas en la parte inferior y así limpiar la matrix de las piezas.
+	* El jugador puede decidir la rotación de la pieza (0°, 90°, 180°, 270°) y el lugar debe caer.
+	* La caída de las piezas se acelera progresivamente.
+*/
+
+program tetris {
+	game.title("Juego Base") // TODO: Pensar un buen nombre para el juego.
+	
+	// Dimensiones del tablero.
+	game.width(10)
+	game.height(20)
+	game.cellSize(30)
+	
+	// Imagen del tablero. Se aplica cuadrado a cuadrado.
+	game.ground("background.png")
+	
 	game.addVisual(pepita)
 	game.start()
 }
