@@ -6,43 +6,30 @@ import wollok.game.*
 
 // Pieza del tetris (pieza de forma Z)
 object pieza_Z {
-	const mino_1 = new Mino(ejeX = 0, ejeY = 1, imagen = "pieza_z.png")
-	const mino_2 = new Mino(ejeX = 1, ejeY = 1, imagen = "pieza_z.png")
-	const mino_3 = new Mino(ejeX = 1, ejeY = 0, imagen = "pieza_z.png")
-	const mino_4 = new Mino(ejeX = 2, ejeY = 0, imagen = "pieza_z.png")
+	const mino_1 = new Mino(ejeX = 3, ejeY = 19, imagen = "pieza_z.png")
+	const mino_2 = new Mino(ejeX = 4, ejeY = 19, imagen = "pieza_z.png")
+	const mino_3 = new Mino(ejeX = 4, ejeY = 18, imagen = "pieza_z.png")
+	const mino_4 = new Mino(ejeX = 5, ejeY = 18, imagen = "pieza_z.png")
 	
-	// Para generar nuestra pieza. // TODO: Probar si se puede optimizar mejor
+	const minos = [mino_1, mino_2, mino_3, mino_4]
+	
+	// Para generar nuestra pieza.
 	method generarPieza() {
-		game.addVisual(mino_1)
-		game.addVisual(mino_2)
-		game.addVisual(mino_3)
-		game.addVisual(mino_4)
+		minos.forEach({mino => game.addVisual(mino)})
 	}
 	
-	// Movimiento de pieza.
+	// Movimiento de la pieza.
 	method moverseHaciaArriba(){
-		mino_1.position(mino_1.position().up(1))
-		mino_2.position(mino_2.position().up(1))
-		mino_3.position(mino_3.position().up(1))
-		mino_4.position(mino_4.position().up(1))
+		minos.forEach({mino => mino.position(mino.position().up(1))})
 	}
 	method moverseHaciaAbajo(){
-		mino_1.position(mino_1.position().down(1))
-		mino_2.position(mino_2.position().down(1))
-		mino_3.position(mino_3.position().down(1))
-		mino_4.position(mino_4.position().down(1))
+		minos.forEach({mino => mino.position(mino.position().down(1))})
 	}
 	method moverseHaciaIzquierda(){
-		mino_1.position(mino_1.position().left(1))
-		mino_2.position(mino_2.position().left(1))
-		mino_3.position(mino_3.position().left(1))
-		mino_4.position(mino_4.position().left(1))
+		minos.forEach({mino => mino.position(mino.position().left(1))})
 	}
 	method moverseHaciaDerecha(){
-		mino_1.position(mino_1.position().right(1))
-		mino_2.position(mino_2.position().right(1))
-		mino_3.position(mino_3.position().right(1))
-		mino_4.position(mino_4.position().right(1))
+		minos.forEach({mino => mino.position(mino.position().right(1))})
 	}
 }
 // Pieza del tetris (pieza de forma I)
