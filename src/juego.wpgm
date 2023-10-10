@@ -1,4 +1,5 @@
 import wollok.game.*
+import configuraciones.*
 import piezas.*
 
 /* INFORMACION GENERAL DEL JUEGO TETRIS ORIGINAL.
@@ -12,18 +13,15 @@ import piezas.*
 */
 
 program tetris {
-	game.title("Juego Base") // TODO: Pensar un buen nombre para el juego.
-	
-	// Dimensiones del tablero.
-	game.width(10)
-	game.height(20)
-	game.cellSize(30)
+	// Cargamos las configuraciones del juego.
+	config.cargarConfiguraciones()
 	
 	// Imagen del tablero. Se aplica cuadrado a cuadrado.
 	game.ground("background.png")
 	
 	// Generamos nuestra primera pieza // TODO: Codear y probar con las demas.
 	pieza_Z.generarPieza()
-	
+		
+	// Lanzamos el juego.
 	game.start()
 }
