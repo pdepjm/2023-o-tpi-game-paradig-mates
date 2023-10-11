@@ -1,6 +1,7 @@
 import wollok.game.*
 import configuraciones.*
 import piezas.*
+import tablero.*
 
 /* INFORMACION GENERAL DEL JUEGO TETRIS ORIGINAL.
 	* Deriva de 'Tetra' pues las piezas estan conformadas por 4 cuadraditos.
@@ -13,14 +14,16 @@ import piezas.*
 */
 
 program tetris {
-	// Cargamos las configuraciones del juego.
+	// Cargar las configuraciones del juego.
 	config.cargarConfiguraciones()
 	
-	// Imagen del tablero. Se aplica cuadrado a cuadrado.
-	game.ground("background.png")
+	// Generar el tablero del juego.
+	tablero.generarTablero()
 	
-	// Generamos nuestra primera pieza // TODO: Codear y probar con las demas.
-	pieza_Z.generarPieza()
+	// Generamos una pieza al azar.		// TODO: Agregar las demas piezas cuando ya tengamos estructura definida.
+	const piezas = [pieza_Z].anyOne()
+	// Generamos nuestra primera pieza.
+	piezas.generarPieza()
 		
 	// Lanzamos el juego.
 	game.start()

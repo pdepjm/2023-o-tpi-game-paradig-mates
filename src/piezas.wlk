@@ -4,48 +4,74 @@ import wollok.game.*
 // Piezas del Tetris.
 ///////////////////////////////////////////////////////////////////////////////
 
-// Pieza del tetris (pieza de forma Z)
-object pieza_Z {
-	// Mino Nucleo o cuadradito central de la pieza.
-	const minoCentral = new Mino(ejeX = 4, ejeY = 18, imagen = "pieza_z.png")
-	// Mino no nucleo o cuadradito no central de la pieza.
-	var property mino_1 = new Mino(ejeX = 3, ejeY = 19, imagen = "pieza_z.png")
-	var property mino_2 = new Mino(ejeX = 4, ejeY = 19, imagen = "pieza_z.png")
-	var property mino_3 = new Mino(ejeX = 5, ejeY = 18, imagen = "pieza_z.png")
-	
-	// Lista de los cuadradistos no centrales de la pieza.
-	const minosAledanios = [mino_1, mino_2, mino_3]
-	
+object pieza {
 	// Para generar nuestra pieza.
-	method generarPieza() {
+	method generarPieza(minoCentral, minosAledanios) {
 		// Generamos el mino nucleo.
 		game.addVisual(minoCentral)
 		// Generamos los minos aledanios.
 		minosAledanios.forEach({mino => game.addVisual(mino)})
 	}
 	
-	// Movimiento de la pieza. // TODO: Son controles para prueba.
-	method moverseHaciaAbajo(){
+	// Movimiento de la pieza.
+	method moverAbajo(minoCentral, minosAledanios){
 		minoCentral.position(minoCentral.position().down(1))
 		minosAledanios.forEach({mino => mino.position(mino.position().down(1))})
 	}
-	method moverseHaciaIzquierda(){
+	method moverIzquierda(minoCentral, minosAledanios){
 		minoCentral.position(minoCentral.position().left(1))
 		minosAledanios.forEach({mino => mino.position(mino.position().left(1))})
 	}
-	method moverseHaciaDerecha(){
+	method moverDerecha(minoCentral, minosAledanios){
 		minoCentral.position(minoCentral.position().right(1))
 		minosAledanios.forEach({mino => mino.position(mino.position().right(1))})
 	}
 	
-	// Girar la pieza. // TODO: Son controles para prueba.
-	method girarPieza(){
-		minosAledanios.forEach({mino => mino.position(self.rotarCoordenadas(mino.position()))})
+	// Girar la pieza.
+	method girarPieza(minoCentral, minosAledanios){
+		minosAledanios.forEach({mino => mino.position(self.rotarCoordenadas(mino.position(), minoCentral))})
 	}
 	
-	// Rotar coordenadas.
-	method rotarCoordenadas(coordenada) = game.at(coordenada.y() + minoCentral.position().x() - minoCentral.position().y(), -coordenada.x() + minoCentral.position().x() + minoCentral.position().y())
+	// Rotar coordenadas (Para poder girarla, se utiliza los vectores aprendidos en Algebra)
+	method rotarCoordenadas(coordenada, minoCentral) = game.at(
+		coordenada.y() + minoCentral.position().x() - minoCentral.position().y(),
+		- coordenada.x() + minoCentral.position().x() + minoCentral.position().y()
+	)
 }
+
+// Pieza del tetris (pieza de forma Z)
+object pieza_Z {
+	// Mino central o cuadradito nucleo de la pieza.
+	const minoCentral = new Mino(position = game.at(4,18), image = "pieza_z.png")	
+	// Lista de los minos no centrales de la pieza.
+	const minosAledanios = [
+		new Mino(position = minoCentral.position().right(1), image = "pieza_z.png"),
+		new Mino(position = minoCentral.position().up(1), image = "pieza_z.png"),
+		new Mino(position = minoCentral.position().up(1).left(1), image = "pieza_z.png")
+	]
+	
+	// Generar nuestra pieza.
+	method generarPieza() {
+		pieza.generarPieza(minoCentral, minosAledanios)
+	}
+	
+	// Movimiento de la pieza (Izquierda, Abajo, Derecha)
+	method moverAbajo(){
+		pieza.moverAbajo(minoCentral, minosAledanios)
+	}
+	method moverIzquierda(){
+		pieza.moverIzquierda(minoCentral, minosAledanios)
+	}
+	method moverDerecha(){
+		pieza.moverDerecha(minoCentral, minosAledanios)
+	}
+	// Girar la pieza en sentido horario.
+	method girarPieza(){
+		pieza.girarPieza(minoCentral, minosAledanios)
+	}
+}
+	
+
 // Pieza del tetris (pieza de forma I)
 object pieza_I {
 	// Para generar nuestra pieza.
@@ -100,10 +126,8 @@ object pieza_T {
 
 // Sabemos que todas las piezas estan formadas por 4 minos (Cuadraditos)
 class Mino {
-	var property ejeX
-	var property ejeY
-	var property imagen
-	var property position = game.at(ejeX, ejeY)
-	
-	method image() = imagen
+	// Posicion del Mino.
+	var property position
+	// Imagen del Mino.
+	const property image
 }

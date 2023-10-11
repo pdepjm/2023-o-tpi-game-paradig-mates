@@ -22,13 +22,13 @@ object config {
 	
 	// Configuracion de las teclas.
 	method configTeclas() {
-		// TODO: Generar el giro de las piezas.
+		// Generar el giro de las piezas.
 		keyboard.up().onPressDo({pieza_Z.girarPieza()})
 		
-		// TODO: Generar movimiento de las piezas.
-		keyboard.down().onPressDo({pieza_Z.moverseHaciaAbajo()})
-		keyboard.left().onPressDo({pieza_Z.moverseHaciaIzquierda()})
-		keyboard.right().onPressDo({pieza_Z.moverseHaciaDerecha()})
+		// Generar movimiento de las piezas.
+		keyboard.down().onPressDo({pieza_Z.moverAbajo()})
+		keyboard.left().onPressDo({pieza_Z.moverIzquierda()})
+		keyboard.right().onPressDo({pieza_Z.moverDerecha()})
 	}
 	
 	// Configuracion de colisiones.
