@@ -6,31 +6,45 @@ import wollok.game.*
 
 // Pieza del tetris (pieza de forma Z)
 object pieza_Z {
-	const mino_1 = new Mino(ejeX = 3, ejeY = 19, imagen = "pieza_z.png")
-	const mino_2 = new Mino(ejeX = 4, ejeY = 19, imagen = "pieza_z.png")
-	const mino_3 = new Mino(ejeX = 4, ejeY = 18, imagen = "pieza_z.png")
-	const mino_4 = new Mino(ejeX = 5, ejeY = 18, imagen = "pieza_z.png")
+	// Mino Nucleo o cuadradito central de la pieza.
+	const minoCentral = new Mino(ejeX = 4, ejeY = 18, imagen = "pieza_z.png")
+	// Mino no nucleo o cuadradito no central de la pieza.
+	var property mino_1 = new Mino(ejeX = 3, ejeY = 19, imagen = "pieza_z.png")
+	var property mino_2 = new Mino(ejeX = 4, ejeY = 19, imagen = "pieza_z.png")
+	var property mino_3 = new Mino(ejeX = 5, ejeY = 18, imagen = "pieza_z.png")
 	
-	const minos = [mino_1, mino_2, mino_3, mino_4]
+	// Lista de los cuadradistos no centrales de la pieza.
+	const minosAledanios = [mino_1, mino_2, mino_3]
 	
 	// Para generar nuestra pieza.
 	method generarPieza() {
-		minos.forEach({mino => game.addVisual(mino)})
+		// Generamos el mino nucleo.
+		game.addVisual(minoCentral)
+		// Generamos los minos aledanios.
+		minosAledanios.forEach({mino => game.addVisual(mino)})
 	}
 	
-	// Movimiento de la pieza.
-	method moverseHaciaArriba(){
-		minos.forEach({mino => mino.position(mino.position().up(1))})
-	}
+	// Movimiento de la pieza. // TODO: Son controles para prueba.
 	method moverseHaciaAbajo(){
-		minos.forEach({mino => mino.position(mino.position().down(1))})
+		minoCentral.position(minoCentral.position().down(1))
+		minosAledanios.forEach({mino => mino.position(mino.position().down(1))})
 	}
 	method moverseHaciaIzquierda(){
-		minos.forEach({mino => mino.position(mino.position().left(1))})
+		minoCentral.position(minoCentral.position().left(1))
+		minosAledanios.forEach({mino => mino.position(mino.position().left(1))})
 	}
 	method moverseHaciaDerecha(){
-		minos.forEach({mino => mino.position(mino.position().right(1))})
+		minoCentral.position(minoCentral.position().right(1))
+		minosAledanios.forEach({mino => mino.position(mino.position().right(1))})
 	}
+	
+	// Girar la pieza. // TODO: Son controles para prueba.
+	method girarPieza(){
+		minosAledanios.forEach({mino => mino.position(self.rotarCoordenadas(mino.position()))})
+	}
+	
+	// Rotar coordenadas.
+	method rotarCoordenadas(coordenada) = game.at(coordenada.y() + minoCentral.position().x() - minoCentral.position().y(), -coordenada.x() + minoCentral.position().x() + minoCentral.position().y())
 }
 // Pieza del tetris (pieza de forma I)
 object pieza_I {
@@ -81,7 +95,7 @@ object pieza_T {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Clase
+// Mino o Cuadradito de pieza.
 ///////////////////////////////////////////////////////////////////////////////
 
 // Sabemos que todas las piezas estan formadas por 4 minos (Cuadraditos)
