@@ -5,40 +5,39 @@ import wollok.game.*
 ///////////////////////////////////////////////////////////////////////////////
 
 class Pieza {
-	const minoCentral
-	const minosAledanios = []
+	const property minos = []
+	
+	// Obtener los minos aledanios al mino central de la pieza.
+	method minosAledanios() = minos.drop(1)
+	// Obtener el mino central de la pieza.
+	method minoCentral() = minos.head()
 	
 	// Para generar nuestra pieza.
 	method generarPieza() {
-		// Generamos el mino nucleo.
-		game.addVisual(minoCentral)
 		// Generamos los minos aledanios.
-		minosAledanios.forEach({mino => game.addVisual(mino)})
+		minos.forEach({mino => game.addVisual(mino)})
 	}
 	
 	// Movimiento de la pieza.
 	method moverAbajo(){
-		minoCentral.position(minoCentral.position().down(1))
-		minosAledanios.forEach({mino => mino.position(mino.position().down(1))})
+		minos.forEach({mino => mino.position(mino.position().down(1))})
 	}
 	method moverIzquierda(){
-		minoCentral.position(minoCentral.position().left(1))
-		minosAledanios.forEach({mino => mino.position(mino.position().left(1))})
+		minos.forEach({mino => mino.position(mino.position().left(1))})
 	}
 	method moverDerecha(){
-		minoCentral.position(minoCentral.position().right(1))
-		minosAledanios.forEach({mino => mino.position(mino.position().right(1))})
+		minos.forEach({mino => mino.position(mino.position().right(1))})
 	}
 	
 	// Girar la pieza.
 	method girarPieza(){
-		minosAledanios.forEach({mino => mino.position(self.rotarCoordenadas(mino.position()))})
+		self.minosAledanios().forEach({mino => mino.position(self.rotarCoordenadas(mino))})
 	}
 	
 	// Rotar coordenadas (Para poder girarla, se utiliza los vectores aprendidos en Algebra)
-	method rotarCoordenadas(coordenada) = game.at(
-		coordenada.y() + minoCentral.position().x() - minoCentral.position().y(),
-		- coordenada.x() + minoCentral.position().x() + minoCentral.position().y()
+	method rotarCoordenadas(mino) = game.at(
+		mino.position().y() + self.minoCentral().position().x() - self.minoCentral().position().y(),
+		- mino.position().x() + self.minoCentral().position().x() + self.minoCentral().position().y()
 	)
 }
 
@@ -60,8 +59,10 @@ class Mino {
 
 // Pieza del tetris (pieza de forma Z)
 const pieza_Z = new Pieza(
-	minoCentral = new Mino(position = game.at(4, 18), image = "pieza_z.png"),
-	minosAledanios = [
+	minos = [
+		// MINO CENTRAL (Siempre en la primera posicion de la lista)
+		new Mino(position = game.at(4, 18), image = "pieza_z.png"),
+		// MINOS ALEDANIOS (Siempre luego del mino central)
 		new Mino(position = game.at(3, 19), image = "pieza_z.png"),
 		new Mino(position = game.at(4, 19), image = "pieza_z.png"),
 		new Mino(position = game.at(5, 18), image = "pieza_z.png")
