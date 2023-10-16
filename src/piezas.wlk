@@ -1,4 +1,5 @@
 import wollok.game.*
+import configuraciones.*
 
 ///////////////////////////////////////////////////////////////////////////////
 // Clase para las piezas del Tetris.
@@ -7,10 +8,14 @@ import wollok.game.*
 class Pieza {
 	const property minos = []
 	
-	// Obtener los minos aledanios al mino central de la pieza.
-	method minosAledanios() = minos.drop(1)
 	// Obtener el mino central de la pieza.
-	method minoCentral() = minos.head()
+	method minoCentral() = minos.first()
+	// Saber si puede moverse a un Lugar.
+	method puedeMoverAbajo() = minos.all({mino => mino.position().y() > 0})
+	method puedeMoverDerecha() = minos.all({mino => (mino.position().x()) < config.largo() - 1})
+	method puedeMoverIzquierda() = minos.all({mino => (mino.position().x()) > 0})
+	// Saber si puede rotar.
+	method puedeRotar() = true // TODO: Falta implementar.
 	
 	// Para generar nuestra pieza.
 	method generarPieza() {
@@ -20,18 +25,18 @@ class Pieza {
 	
 	// Movimiento de la pieza.
 	method moverAbajo(){
-		minos.forEach({mino => mino.position(mino.position().down(1))})
+		if(self.puedeMoverAbajo()) minos.forEach({mino => mino.position(mino.position().down(1))})
 	}
 	method moverIzquierda(){
-		minos.forEach({mino => mino.position(mino.position().left(1))})
+		if(self.puedeMoverIzquierda()) minos.forEach({mino => mino.position(mino.position().left(1))})
 	}
 	method moverDerecha(){
-		minos.forEach({mino => mino.position(mino.position().right(1))})
+		if(self.puedeMoverDerecha()) minos.forEach({mino => mino.position(mino.position().right(1))})
 	}
 	
 	// Girar la pieza.
 	method girarPieza(){
-		self.minosAledanios().forEach({mino => mino.position(self.rotarCoordenadas(mino))})
+		if(self.puedeRotar()) minos.forEach({mino => mino.position(self.rotarCoordenadas(mino))})
 	}
 	
 	// Rotar coordenadas (Para poder girarla, se utiliza los vectores aprendidos en Algebra)
@@ -70,7 +75,7 @@ const pieza_Z = new Pieza(
 )
 	
 // Pieza del tetris (pieza de forma I)
-// const pieza_Z
+// const pieza_I
 
 // Pieza del tetris (pieza de forma J)
 // const pieza_J
@@ -79,7 +84,16 @@ const pieza_Z = new Pieza(
 // const pieza_L
 
 // Pieza del tetris (pieza de forma O)
-// const pieza_O
+const pieza_O = new Pieza(
+	minos = [
+		// MINO CENTRAL (Siempre en la primera posicion de la lista)
+		new Mino(position = game.at(4, 18), image = "pieza_z.png"),
+		// MINOS ALEDANIOS (Siempre luego del mino central)
+		new Mino(position = game.at(4, 19), image = "pieza_z.png"),
+		new Mino(position = game.at(5, 19), image = "pieza_z.png"),
+		new Mino(position = game.at(5, 18), image = "pieza_z.png")
+	]
+)
 
 // Pieza del tetris (pieza de forma S)
 // const pieza_S

@@ -24,7 +24,7 @@ import piezas.*
 
 object tablero {
 	// Minos ocupados en tablero.
-	const minosOcupados = [new Mino(position = game.at(3, 0), image = "pieza_z.png"), new Mino(position = game.at(8, 0), image = "pieza_z.png")] // TODO: limpiar luego.
+	const minosOcupados = []
 	
 	// Obtener las posiciones del tablero ocupados por minos.
 	method posicionesOcupadas() = minosOcupados.map({mOcupados => mOcupados.position()})
@@ -38,6 +38,15 @@ object tablero {
 		self.mostrarMinosOcupados()
 	}
 	
+	method incrustarPieza(pieza) {
+		// Agregamos la pieza a la lista
+		self.agregarMinosOcupados(pieza)
+		// TODO: Verificamos si existe linea completa (Si existe se elimina y se bajan las superiores)
+		
+		// Mostramos los minos ocupados.
+		self.mostrarMinosOcupados()
+	}
+	
 	// Agregar los minos de la pieza a los minos ocupados.
 	method agregarMinosOcupados(pieza) {
 		pieza.minos().forEach({mino => minosOcupados.add(mino)})
@@ -46,5 +55,9 @@ object tablero {
 	// Mostrar/pintar los minos ocupados en tablero.
 	method mostrarMinosOcupados() {
 		minosOcupados.forEach({mino => game.addVisual(mino)})
+	}
+	
+	method estaFuera(minos) {
+		
 	}
 }
