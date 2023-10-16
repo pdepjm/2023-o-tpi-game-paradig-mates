@@ -19,6 +19,8 @@ program tetris {
 	
 	// Generar el tablero del juego.
 	tablero.generarTablero()
+	// TODO: Borrar luego.
+	tablero.incrustarPieza(pieza_O)
 	
 	// Generamos una pieza al azar.		// TODO: Agregar las demas piezas cuando ya tengamos estructura definida.
 	const piezas = [pieza_Z].anyOne()

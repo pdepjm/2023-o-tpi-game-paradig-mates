@@ -28,6 +28,8 @@ object tablero {
 	
 	// Obtener las posiciones del tablero ocupados por minos.
 	method posicionesOcupadas() = minosOcupados.map({mOcupados => mOcupados.position()})
+	// Saber si hay un objeto en una posicion determinada.
+	method hayMinoEn(posicion) = (self.posicionesOcupadas()).contains(posicion)
 	
 	// Generar nuestro tablero del tetris.
 	method generarTablero() {
@@ -55,9 +57,5 @@ object tablero {
 	// Mostrar/pintar los minos ocupados en tablero.
 	method mostrarMinosOcupados() {
 		minosOcupados.forEach({mino => game.addVisual(mino)})
-	}
-	
-	method estaFuera(minos) {
-		
 	}
 }

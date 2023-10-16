@@ -1,5 +1,6 @@
 import wollok.game.*
 import configuraciones.*
+import tablero.*
 
 ///////////////////////////////////////////////////////////////////////////////
 // Clase para las piezas del Tetris.
@@ -10,12 +11,6 @@ class Pieza {
 	
 	// Obtener el mino central de la pieza.
 	method minoCentral() = minos.first()
-	// Saber si puede moverse a un Lugar.
-	method puedeMoverAbajo() = minos.all({mino => mino.position().y() > 0})
-	method puedeMoverDerecha() = minos.all({mino => (mino.position().x()) < config.largo() - 1})
-	method puedeMoverIzquierda() = minos.all({mino => (mino.position().x()) > 0})
-	// Saber si puede rotar.
-	method puedeRotar() = true // TODO: Falta implementar.
 	
 	// Para generar nuestra pieza.
 	method generarPieza() {
@@ -44,6 +39,20 @@ class Pieza {
 		mino.position().y() + self.minoCentral().position().x() - self.minoCentral().position().y(),
 		- mino.position().x() + self.minoCentral().position().x() + self.minoCentral().position().y()
 	)
+	
+	// Saber si puede moverse a un Lugar.
+	method puedeMoverAbajo() = minos.all({
+		mino => mino.position().y() > 0 && !tablero.hayMinoEn(mino.position().down(1))
+	})
+	method puedeMoverDerecha() = minos.all({
+		mino => (mino.position().x()) < config.largo() - 1 && !tablero.hayMinoEn(mino.position().right(1))
+	})
+	method puedeMoverIzquierda() = minos.all({
+		mino => (mino.position().x()) > 0 && !tablero.hayMinoEn(mino.position().left(1))
+	})
+	
+	// Saber si puede rotar.
+	method puedeRotar() = true // TODO: Falta implementar.
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -87,11 +96,11 @@ const pieza_Z = new Pieza(
 const pieza_O = new Pieza(
 	minos = [
 		// MINO CENTRAL (Siempre en la primera posicion de la lista)
-		new Mino(position = game.at(4, 18), image = "pieza_z.png"),
+		new Mino(position = game.at(4, 10), image = "pieza_z.png"),
 		// MINOS ALEDANIOS (Siempre luego del mino central)
-		new Mino(position = game.at(4, 19), image = "pieza_z.png"),
-		new Mino(position = game.at(5, 19), image = "pieza_z.png"),
-		new Mino(position = game.at(5, 18), image = "pieza_z.png")
+		new Mino(position = game.at(4, 11), image = "pieza_z.png"),
+		new Mino(position = game.at(5, 11), image = "pieza_z.png"),
+		new Mino(position = game.at(5, 10), image = "pieza_z.png")
 	]
 )
 
