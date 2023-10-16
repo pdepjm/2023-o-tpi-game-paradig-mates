@@ -1,5 +1,4 @@
 import wollok.game.*
-import tablero.*
 
 ///////////////////////////////////////////////////////////////////////////////
 // Clase para las piezas del Tetris.
@@ -19,18 +18,18 @@ class Pieza {
 	
 	// Movimiento de la pieza.
 	method moverAbajo(){
-		if(self.puedeMoverAbajo()) minos.forEach({mino => mino.position(mino.position().down(1))})
+		minos.forEach({mino => mino.position(mino.position().down(1))})
 	}
 	method moverIzquierda(){
-		if(self.puedeMoverIzquierda()) minos.forEach({mino => mino.position(mino.position().left(1))})
+		minos.forEach({mino => mino.position(mino.position().left(1))})
 	}
 	method moverDerecha(){
-		if(self.puedeMoverDerecha()) minos.forEach({mino => mino.position(mino.position().right(1))})
+		minos.forEach({mino => mino.position(mino.position().right(1))})
 	}
 	
 	// Girar la pieza.
 	method girarPieza(){
-		if(self.puedeRotar()) minos.forEach({mino => mino.position(self.rotarCoordenadas(mino))})
+		minos.forEach({mino => mino.position(self.rotarCoordenadas(mino))})
 	}
 	
 	// Rotar coordenadas (Para poder girarla, se utiliza los vectores aprendidos en Algebra)
@@ -39,20 +38,7 @@ class Pieza {
 		- mino.position().x() + self.minoCentral().position().x() + self.minoCentral().position().y()
 	)
 	
-	// Saber si puede moverse a un Lugar.
-	method puedeMoverAbajo() = minos.all({mino =>
-		mino.position().y() > 0 && !tablero.hayMinoEn(mino.position().down(1))
-	})
-	method puedeMoverDerecha() = minos.all({mino =>
-		mino.position().x() < tablero.largo() - 1 && !tablero.hayMinoEn(mino.position().right(1))
-	})
-	method puedeMoverIzquierda() = minos.all({mino =>
-		mino.position().x() > 0 && !tablero.hayMinoEn(mino.position().left(1))
-	})
-	// Saber si puede rotar a un Lugar. // TODO: Falta hacer que no se salga del tablero.
-	method puedeRotar() = minos.all({mino =>
-		!tablero.hayMinoEn(self.rotarCoordenadas(mino))
-	})
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////

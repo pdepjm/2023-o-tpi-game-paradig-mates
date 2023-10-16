@@ -1,5 +1,4 @@
 import wollok.game.*
-import piezas.*
 
 /* ¿Cómo se genera el tablero en Wollok?
 	- n -> Max. Columnas.
@@ -31,8 +30,12 @@ object tablero {
 	
 	// Obtener las posiciones del tablero ocupados por minos.
 	method posicionesOcupadas() = minosOcupados.map({mOcupados => mOcupados.position()})
-	// Saber si hay un objeto en una posicion determinada.
+	// Saber si hay un mino en una posicion determinada.
 	method hayMinoEn(posicion) = (self.posicionesOcupadas()).contains(posicion)
+	// Saber si una posicion esta dentro de los limites.
+	method dentroMargenDerecho(numero) = numero < largo - 1
+	method dentroMargenIzquierdo(numero) = numero > 0
+	method dentroMargenAbajo(numero) = numero > 0
 	
 	// Generar nuestro tablero del tetris.
 	method generarTablero() {
@@ -61,4 +64,22 @@ object tablero {
 	method mostrarMinosOcupados() {
 		minosOcupados.forEach({mino => game.addVisual(mino)})
 	}
+	
+	// Saber si puede moverse a un Lugar.
+	method puedeMoverAbajo(pieza) = (pieza.minos()).all({mino =>
+		self.dentroMargenAbajo(mino.position().y()) && !self.hayMinoEn(mino.position().down(1))
+	})
+	method puedeMoverDerecha(pieza) = (pieza.minos()).all({mino =>
+		self.dentroMargenDerecho(mino.position().x()) && !self.hayMinoEn(mino.position().right(1))
+	})
+	method puedeMoverIzquierda(pieza) = (pieza.minos()).all({mino =>
+		self.dentroMargenIzquierdo(mino.position().x()) && !self.hayMinoEn(mino.position().left(1))
+	})
+	// Saber si puede rotar a un Lugar.
+	method puedeRotar(pieza) = (pieza.minos()).all({mino =>
+		self.dentroMargenAbajo(pieza.rotarCoordenadas(mino).y() + 1) &&
+		self.dentroMargenDerecho(pieza.rotarCoordenadas(mino).x() - 1) &&
+		self.dentroMargenIzquierdo(pieza.rotarCoordenadas(mino).x() + 1) &&
+		!self.hayMinoEn(pieza.rotarCoordenadas(mino))
+	})
 }
