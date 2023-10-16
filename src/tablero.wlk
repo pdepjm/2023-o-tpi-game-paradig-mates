@@ -23,6 +23,9 @@ import piezas.*
 */
 
 object tablero {
+	// Dimensiones tablero.
+	const property largo = 10
+	const property alto = 20
 	// Minos ocupados en tablero.
 	const minosOcupados = []
 	

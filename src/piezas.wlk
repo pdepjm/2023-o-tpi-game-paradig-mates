@@ -1,5 +1,4 @@
 import wollok.game.*
-import configuraciones.*
 import tablero.*
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -41,18 +40,19 @@ class Pieza {
 	)
 	
 	// Saber si puede moverse a un Lugar.
-	method puedeMoverAbajo() = minos.all({
-		mino => mino.position().y() > 0 && !tablero.hayMinoEn(mino.position().down(1))
+	method puedeMoverAbajo() = minos.all({mino =>
+		mino.position().y() > 0 && !tablero.hayMinoEn(mino.position().down(1))
 	})
-	method puedeMoverDerecha() = minos.all({
-		mino => (mino.position().x()) < config.largo() - 1 && !tablero.hayMinoEn(mino.position().right(1))
+	method puedeMoverDerecha() = minos.all({mino =>
+		mino.position().x() < tablero.largo() - 1 && !tablero.hayMinoEn(mino.position().right(1))
 	})
-	method puedeMoverIzquierda() = minos.all({
-		mino => (mino.position().x()) > 0 && !tablero.hayMinoEn(mino.position().left(1))
+	method puedeMoverIzquierda() = minos.all({mino =>
+		mino.position().x() > 0 && !tablero.hayMinoEn(mino.position().left(1))
 	})
-	
-	// Saber si puede rotar.
-	method puedeRotar() = true // TODO: Falta implementar.
+	// Saber si puede rotar a un Lugar. // TODO: Falta hacer que no se salga del tablero.
+	method puedeRotar() = minos.all({mino =>
+		!tablero.hayMinoEn(self.rotarCoordenadas(mino))
+	})
 }
 
 ///////////////////////////////////////////////////////////////////////////////

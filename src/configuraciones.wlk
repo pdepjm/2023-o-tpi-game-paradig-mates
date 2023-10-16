@@ -1,10 +1,8 @@
 import wollok.game.*
 import piezas.*
+import tablero.*
 
-object config {
-	const property largo = 10
-	const property alto = 20
-	
+object config {	
 	// Cargamos todas las configuraciones necesarias (Ventana, Teclas, Colisiones y Eventos automaticos)
 	method cargarConfiguraciones() {
 		self.configVentana()
@@ -18,8 +16,8 @@ object config {
 		// Titulo del juego.
 		game.title("TETRIS: ALGO") // TODO: Pensar un buen nombre para el juego.
 		// Dimensiones del tablero.
-		game.width(largo)
-		game.height(alto)
+		game.width(tablero.largo())
+		game.height(tablero.alto())
 		game.cellSize(30)
 	}
 	
