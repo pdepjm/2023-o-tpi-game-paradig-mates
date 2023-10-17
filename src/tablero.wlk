@@ -27,7 +27,7 @@ object tablero {
 	const property largo = 10
 	const property alto = 20
 	// Minos ocupados en tablero.
-	const minosOcupados = [new Mino(position = game.at(1, 0), image = "pieza_z.png"), new Mino(position = game.at(3, 0), image = "pieza_z.png")]
+	const minosOcupados = []
 	
 	// Obtener las posiciones del tablero ocupados por minos.
 	method posicionesOcupadas() = minosOcupados.map({mOcupados => mOcupados.position()})
@@ -72,23 +72,32 @@ object tablero {
 	
 	// Saber si puede moverse a un Lugar.
 	method puedeMoverAbajo(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenAbajo(mino.position().y()) && !self.hayMinoEn(mino.position().down(1))
+		self.dentroMargenAbajo(mino.position().y()) and  not self.hayMinoEn(mino.position().down(1))
 	})
 	method puedeMoverArriba(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenArriba(mino.position().y()) && !self.hayMinoEn(mino.position().up(1))
+		self.dentroMargenArriba(mino.position().y()) and not self.hayMinoEn(mino.position().up(1))
 	})
 	method puedeMoverDerecha(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenDerecho(mino.position().x()) && !self.hayMinoEn(mino.position().right(1))
+		self.dentroMargenDerecho(mino.position().x()) and not self.hayMinoEn(mino.position().right(1))
 	})
 	method puedeMoverIzquierda(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenIzquierdo(mino.position().x()) && !self.hayMinoEn(mino.position().left(1))
+		self.dentroMargenIzquierdo(mino.position().x()) and not self.hayMinoEn(mino.position().left(1))
 	})
 	// Saber si puede rotar a un Lugar.
 	method puedeRotar(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenAbajo(pieza.rotarCoordenadas(mino).y() + 1) &&
-		self.dentroMargenArriba(pieza.rotarCoordenadas(mino).y() - 1) &&
-		self.dentroMargenIzquierdo(pieza.rotarCoordenadas(mino).x() + 1) &&
-		self.dentroMargenDerecho(pieza.rotarCoordenadas(mino).x() - 1) &&
-		!self.hayMinoEn(pieza.rotarCoordenadas(mino))
+		self.dentroMargenAbajo(pieza.rotarCoordenadas(mino).y() + 1) and
+		self.dentroMargenArriba(pieza.rotarCoordenadas(mino).y() - 1) and
+		self.dentroMargenIzquierdo(pieza.rotarCoordenadas(mino).x() + 1) and
+		self.dentroMargenDerecho(pieza.rotarCoordenadas(mino).x() - 1) and
+		not self.hayMinoEn(pieza.rotarCoordenadas(mino))
 	})
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Borde del Tablero.
+///////////////////////////////////////////////////////////////////////////////
+// TODO: No olvidar de buscar los colores definitivos.
+// Pieza del tetris (pieza de forma Z)
+object bordeTablero {
+	
 }

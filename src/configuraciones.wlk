@@ -3,11 +3,13 @@ import piezas.*
 import tablero.*
 
 object config {
-	// Pieza actual a mover.
-	const property piezaActual = self.obtenerPieza()
+	// Pieza actual a mover. // TODO: property?
+	var property piezaActual = self.obtenerPieza()
 	
+	// Establecer el centro de generacion.
+	method inicio() = game.at(4, 18)
 	// Generar pieza al azar.
-	method obtenerPieza() = [pieza_T, pieza_I, pieza_J, pieza_L, pieza_O, pieza_S, pieza_T].anyOne()
+	method obtenerPieza() = [pieza_Z, pieza_I, pieza_J, pieza_L, pieza_O, pieza_S, pieza_T].anyOne()
 	
 	// Cargamos todas las configuraciones necesarias (Ventana, Teclas, Colisiones y Eventos automaticos)
 	method cargarConfiguraciones() {
@@ -28,7 +30,7 @@ object config {
 	}
 	
 	// Configuracion de las teclas.
-	method configTeclas() {
+	method configTeclas() { // TODO: Los 'and' en los ifs generan algo de lag entre las acciones.
 		// Generar el giro de las piezas.
 		keyboard.up().onPressDo({if(tablero.puedeRotar(piezaActual)) piezaActual.girarPieza()})
 		
