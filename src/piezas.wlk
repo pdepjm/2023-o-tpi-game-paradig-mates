@@ -57,41 +57,73 @@ class Mino {
 // Forma de las Piezas.
 ///////////////////////////////////////////////////////////////////////////////
 
+// TODO: No olvidar de buscar los colores definitivos.
 // Pieza del tetris (pieza de forma Z)
-const pieza_Z = new Pieza(
-	minos = [
-		// MINO CENTRAL (Siempre en la primera posicion de la lista)
-		new Mino(position = game.at(4, 18), image = "pieza_z.png"),
-		// MINOS ALEDANIOS (Siempre luego del mino central)
-		new Mino(position = game.at(3, 19), image = "pieza_z.png"),
-		new Mino(position = game.at(4, 19), image = "pieza_z.png"),
-		new Mino(position = game.at(5, 18), image = "pieza_z.png")
-	]
-)
+object pieza_Z inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = game.at(4, 18), image = "pieza_z.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = game.at(3, 19), image = "pieza_z.png"),
+	new Mino(position = game.at(4, 19), image = "pieza_z.png"),
+	new Mino(position = game.at(5, 18), image = "pieza_z.png")
+]) {}
 	
 // Pieza del tetris (pieza de forma I)
-// const pieza_I
+object pieza_I inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = game.at(4, 18), image = "pieza_z.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = game.at(4, 19), image = "pieza_z.png"),
+	new Mino(position = game.at(4, 17), image = "pieza_z.png"),
+	new Mino(position = game.at(4, 16), image = "pieza_z.png")
+]) {}
 
 // Pieza del tetris (pieza de forma J)
-// const pieza_J
+object pieza_J inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = game.at(5, 18), image = "pieza_z.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = game.at(5, 19), image = "pieza_z.png"),
+	new Mino(position = game.at(5, 17), image = "pieza_z.png"),
+	new Mino(position = game.at(4, 17), image = "pieza_z.png")
+]) {}
 
 // Pieza del tetris (pieza de forma L)
-// const pieza_L
+object pieza_L inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = game.at(4, 18), image = "pieza_z.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = game.at(4, 19), image = "pieza_z.png"),
+	new Mino(position = game.at(4, 17), image = "pieza_z.png"),
+	new Mino(position = game.at(5, 17), image = "pieza_z.png")
+]) {}
 
 // Pieza del tetris (pieza de forma O)
-const pieza_O = new Pieza(
-	minos = [
-		// MINO CENTRAL (Siempre en la primera posicion de la lista)
-		new Mino(position = game.at(4, 10), image = "pieza_z.png"),
-		// MINOS ALEDANIOS (Siempre luego del mino central)
-		new Mino(position = game.at(4, 11), image = "pieza_z.png"),
-		new Mino(position = game.at(5, 11), image = "pieza_z.png"),
-		new Mino(position = game.at(5, 10), image = "pieza_z.png")
-	]
-)
+object pieza_O inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = game.at(4, 18), image = "pieza_z.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = game.at(4, 19), image = "pieza_z.png"),
+	new Mino(position = game.at(5, 19), image = "pieza_z.png"),
+	new Mino(position = game.at(5, 18), image = "pieza_z.png")
+]) {override method girarPieza() {}}
 
 // Pieza del tetris (pieza de forma S)
-// const pieza_S
+object pieza_S inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = game.at(4, 18), image = "pieza_z.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = game.at(4, 19), image = "pieza_z.png"),
+	new Mino(position = game.at(4, 17), image = "pieza_z.png"),
+	new Mino(position = game.at(4, 16), image = "pieza_z.png")
+]) {}
 
 // Pieza del tetris (pieza de forma T)
-// const pieza_T
+object pieza_T inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = game.at(4, 18), image = "pieza_z.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = game.at(4, 19), image = "pieza_z.png"),
+	new Mino(position = game.at(3, 18), image = "pieza_z.png"),
+	new Mino(position = game.at(5, 18), image = "pieza_z.png")
+]) {}

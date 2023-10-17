@@ -1,4 +1,5 @@
 import wollok.game.*
+import piezas.*
 
 /* ¿Cómo se genera el tablero en Wollok?
 	- n -> Max. Columnas.
@@ -26,7 +27,7 @@ object tablero {
 	const property largo = 10
 	const property alto = 20
 	// Minos ocupados en tablero.
-	const minosOcupados = []
+	const minosOcupados = [new Mino(position = game.at(1, 0), image = "pieza_z.png"), new Mino(position = game.at(3, 0), image = "pieza_z.png")]
 	
 	// Obtener las posiciones del tablero ocupados por minos.
 	method posicionesOcupadas() = minosOcupados.map({mOcupados => mOcupados.position()})
@@ -36,6 +37,7 @@ object tablero {
 	method dentroMargenDerecho(numero) = numero < largo - 1
 	method dentroMargenIzquierdo(numero) = numero > 0
 	method dentroMargenAbajo(numero) = numero > 0
+	method dentroMargenArriba(numero) = numero < alto - 1
 	
 	// Generar nuestro tablero del tetris.
 	method generarTablero() {
@@ -47,6 +49,9 @@ object tablero {
 	}
 	
 	method incrustarPieza(pieza) {
+		// Removemos los minos ocupados. // TODO: Verificar si hace falta.
+		minosOcupados.forEach({mino => game.removeVisual(mino)})
+		
 		// Agregamos la pieza a la lista
 		self.agregarMinosOcupados(pieza)
 		// TODO: Verificamos si existe linea completa (Si existe se elimina y se bajan las superiores)
@@ -55,9 +60,9 @@ object tablero {
 		self.mostrarMinosOcupados()
 	}
 	
-	// Agregar los minos de la pieza a los minos ocupados.
+	// Agregar los minos de la pieza a los minos ocupados. // TODO: Hay que quitarle el down luego.
 	method agregarMinosOcupados(pieza) {
-		pieza.minos().forEach({mino => minosOcupados.add(mino)})
+		pieza.minos().forEach({mino => minosOcupados.add(new Mino(position = mino.position().down(7), image = mino.image()))})
 	}
 	
 	// Mostrar/pintar los minos ocupados en tablero.
@@ -69,6 +74,9 @@ object tablero {
 	method puedeMoverAbajo(pieza) = (pieza.minos()).all({mino =>
 		self.dentroMargenAbajo(mino.position().y()) && !self.hayMinoEn(mino.position().down(1))
 	})
+	method puedeMoverArriba(pieza) = (pieza.minos()).all({mino =>
+		self.dentroMargenArriba(mino.position().y()) && !self.hayMinoEn(mino.position().up(1))
+	})
 	method puedeMoverDerecha(pieza) = (pieza.minos()).all({mino =>
 		self.dentroMargenDerecho(mino.position().x()) && !self.hayMinoEn(mino.position().right(1))
 	})
@@ -78,8 +86,9 @@ object tablero {
 	// Saber si puede rotar a un Lugar.
 	method puedeRotar(pieza) = (pieza.minos()).all({mino =>
 		self.dentroMargenAbajo(pieza.rotarCoordenadas(mino).y() + 1) &&
-		self.dentroMargenDerecho(pieza.rotarCoordenadas(mino).x() - 1) &&
+		self.dentroMargenArriba(pieza.rotarCoordenadas(mino).y() - 1) &&
 		self.dentroMargenIzquierdo(pieza.rotarCoordenadas(mino).x() + 1) &&
+		self.dentroMargenDerecho(pieza.rotarCoordenadas(mino).x() - 1) &&
 		!self.hayMinoEn(pieza.rotarCoordenadas(mino))
 	})
 }

@@ -20,12 +20,10 @@ program tetris {
 	// Generar el tablero del juego.
 	tablero.generarTablero()
 	// TODO: Borrar luego.
-	tablero.incrustarPieza(pieza_O)
+	tablero.incrustarPieza(pieza_Z)
 	
-	// Generamos una pieza al azar.		// TODO: Agregar las demas piezas cuando ya tengamos estructura definida.
-	const piezas = [pieza_Z].anyOne()
 	// Generamos nuestra primera pieza.
-	piezas.generarPieza()
+	config.piezaActual().generarPieza()
 		
 	// Lanzamos el juego.
 	game.start()

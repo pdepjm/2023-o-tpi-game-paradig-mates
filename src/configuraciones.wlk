@@ -2,7 +2,13 @@ import wollok.game.*
 import piezas.*
 import tablero.*
 
-object config {	
+object config {
+	// Pieza actual a mover.
+	const property piezaActual = self.obtenerPieza()
+	
+	// Generar pieza al azar.
+	method obtenerPieza() = [pieza_T, pieza_I, pieza_J, pieza_L, pieza_O, pieza_S, pieza_T].anyOne()
+	
 	// Cargamos todas las configuraciones necesarias (Ventana, Teclas, Colisiones y Eventos automaticos)
 	method cargarConfiguraciones() {
 		self.configVentana()
@@ -24,12 +30,12 @@ object config {
 	// Configuracion de las teclas.
 	method configTeclas() {
 		// Generar el giro de las piezas.
-		keyboard.up().onPressDo({if(tablero.puedeRotar(pieza_Z)) pieza_Z.girarPieza()})
+		keyboard.up().onPressDo({if(tablero.puedeRotar(piezaActual)) piezaActual.girarPieza()})
 		
 		// Generar movimiento de las piezas.
-		keyboard.down().onPressDo({if(tablero.puedeMoverAbajo(pieza_Z)) pieza_Z.moverAbajo()})
-		keyboard.left().onPressDo({if(tablero.puedeMoverIzquierda(pieza_Z)) pieza_Z.moverIzquierda()})
-		keyboard.right().onPressDo({if(tablero.puedeMoverDerecha(pieza_Z)) pieza_Z.moverDerecha()})
+		keyboard.down().onPressDo({if(tablero.puedeMoverAbajo(piezaActual)) piezaActual.moverAbajo()})
+		keyboard.left().onPressDo({if(tablero.puedeMoverIzquierda(piezaActual)) piezaActual.moverIzquierda()})
+		keyboard.right().onPressDo({if(tablero.puedeMoverDerecha(piezaActual)) piezaActual.moverDerecha()})
 	}
 	
 	// Configuracion de colisiones.
