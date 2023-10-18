@@ -43,26 +43,34 @@ object tablero {
 	method generarTablero() {
 		// Imagen del tablero (Se aplica la imagen cuadrado a cuadrado)
 		game.ground("background.png")
-		
-		// TODO: Pintar tablero inicial (Solo para pruebas)
-		self.mostrarMinosOcupados()
 	}
 	
 	method incrustarPieza(pieza) {
-		// Removemos los minos ocupados. // TODO: Verificar si hace falta.
+		// Removemos los minos ocupados.
 		minosOcupados.forEach({mino => game.removeVisual(mino)})
-		
-		// Agregamos la pieza a la lista
+		// Agregamos la pieza a la lista.
 		self.agregarMinosOcupados(pieza)
-		// TODO: Verificamos si existe linea completa (Si existe se elimina y se bajan las superiores)
-		
+		// Verificamos si existe linea completa (Si existe se elimina y se bajan las superiores)
+		self.eliminarLinea()
 		// Mostramos los minos ocupados.
 		self.mostrarMinosOcupados()
 	}
 	
-	// Agregar los minos de la pieza a los minos ocupados. // TODO: Hay que quitarle el down luego.
+	// TODO: Eliminar linea y bajar minos superiores.
+	method eliminarLinea() {
+		// Obtener las filas completas.
+		
+		// Eliminar fila completas
+		
+		// Bajar minos superiores.
+		
+		// Sumar puntos
+		
+	}
+	
+	// Agregar los minos de la pieza a los minos ocupados.
 	method agregarMinosOcupados(pieza) {
-		pieza.minos().forEach({mino => minosOcupados.add(new Mino(position = mino.position().down(7), image = mino.image()))})
+		pieza.minos().forEach({mino => minosOcupados.add(new Mino(position = mino.position(), image = mino.image()))})
 	}
 	
 	// Mostrar/pintar los minos ocupados en tablero.
@@ -72,7 +80,7 @@ object tablero {
 	
 	// Saber si puede moverse a un Lugar.
 	method puedeMoverAbajo(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenAbajo(mino.position().y()) and  not self.hayMinoEn(mino.position().down(1))
+		self.dentroMargenAbajo(mino.position().y()) and not self.hayMinoEn(mino.position().down(1))
 	})
 	method puedeMoverArriba(pieza) = (pieza.minos()).all({mino =>
 		self.dentroMargenArriba(mino.position().y()) and not self.hayMinoEn(mino.position().up(1))

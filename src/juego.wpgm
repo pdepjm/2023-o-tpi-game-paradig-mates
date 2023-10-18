@@ -19,12 +19,10 @@ program tetris {
 	
 	// Generar el tablero del juego.
 	tablero.generarTablero()
-	// TODO: Borrar luego.
-	tablero.incrustarPieza(pieza_Z)
 	
 	// Generamos nuestra primera pieza.
-	config.piezaActual().generarPieza()
-		
+	config.generarPieza()
+	
 	// Lanzamos el juego.
 	game.start()
 }
