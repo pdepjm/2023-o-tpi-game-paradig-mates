@@ -47,25 +47,38 @@ object tablero {
 	
 	method incrustarPieza(pieza) {
 		// Removemos los minos ocupados.
-		minosOcupados.forEach({mino => game.removeVisual(mino)})
+		//minosOcupados.forEach({mino => game.removeVisual(mino)})
 		// Agregamos la pieza a la lista.
 		self.agregarMinosOcupados(pieza)
 		// Verificamos si existe linea completa (Si existe se elimina y se bajan las superiores)
 		self.eliminarLinea()
+		
 		// Mostramos los minos ocupados.
-		self.mostrarMinosOcupados()
+		//self.mostrarMinosOcupados()
 	}
 	
 	// TODO: Eliminar linea y bajar minos superiores.
 	method eliminarLinea() {
 		// Obtener las filas completas.
+		const filasCompletas =
+			(0..alto).filter({fila => self.posicionesOcupadas().filter({posicion => posicion.y() == fila}).size() == largo})
 		
 		// Eliminar fila completas
 		
+		//minosOcupados.removeAllSuchThat{mino => filasCompletas.contains(mino.position().y())} // REVISAR
+		/*desarrollar minos de la fila y que caigan todos
+		self.minosDeLaFila(fila).forEach{mino => 
+			minosOcupados.remove(mino)
+			game.removeVisual(mino)
+			self.caerTodo(mino)
+		}
+		*/
+		
 		// Bajar minos superiores.
+		// Por cada fila, se bajara una cantidad de posiciones equivalente a la cantidad menor de elementos de la lista
 		
 		// Sumar puntos
-		
+		// puntaje += 100 * filasCompletas
 	}
 	
 	// Agregar los minos de la pieza a los minos ocupados.
