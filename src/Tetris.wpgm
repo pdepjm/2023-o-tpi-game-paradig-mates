@@ -1,7 +1,5 @@
-import wollok.game.*
 import Configuracion.*
-import Piezas.*
-import Tablero.*
+import wollok.game.*
 
 /* INFORMACION GENERAL DEL JUEGO TETRIS ORIGINAL.
 	* Deriva de 'Tetra' pues las piezas estan conformadas por 4 cuadraditos.
@@ -10,19 +8,16 @@ import Tablero.*
 	* Sus medidas son 10 minos de ancho por 20 minos de alto. Minos = Cuadraditos.
 	* Formación objetivo del juego, completar líneas en la parte inferior y así limpiar la matrix de las piezas.
 	* El jugador puede decidir la rotación de la pieza (0°, 90°, 180°, 270°) y el lugar debe caer.
-	* La caída de las piezas se acelera progresivamente.
+	* La caída de las piezas se acelera progresivamente. // TODO: Falta.
 */
 
 program tetris {
-	// Cargar las configuraciones del juego.
-	config.cargarConfiguraciones()
+	// Cargar configuraciones iniciales.
+	config.cargarConfigInicial()
 	
-	// Generar el tablero del juego.
-	tablero.generarTablero()
+	// Mostrar menu del juego.
+	menu.cargar()
 	
-	// Generamos nuestra primera pieza.
-	config.generarPieza()
-	
-	// Lanzamos el juego.
+	// Lanzar juego.
 	game.start()
 }

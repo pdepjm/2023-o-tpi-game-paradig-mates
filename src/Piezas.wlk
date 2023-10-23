@@ -1,23 +1,29 @@
 import wollok.game.*
 import Configuracion.*
 
-///////////////////////////////////////////////////////////////////////////////
-// Clase para las piezas del Tetris.
-///////////////////////////////////////////////////////////////////////////////
-
+//////////////////////////////////////////////////////////
+// PIEZAS JUGABLES.
+//////////////////////////////////////////////////////////
+// Molde de las Piezas del tetris (Formado siempre por 4 minos)
 class Pieza {
+	// Minos que conforman la pieza.
 	const property minos = []
 	
-	// Obtener el mino central de la pieza.
-	method minoCentral() = minos.first()
+	// Consultar mino central.
+	method centro() = minos.first()
+	// Consultar si esta la pieza activa en el tablero.
+	method estaActiva() = game.hasVisual(self.centro())
 	
-	// Para generar nuestra pieza.
-	method generarPieza() {
-		// Generamos los minos aledanios.
+	// Generar pieza en tablero.
+	method generar() {
 		minos.forEach({mino => game.addVisual(mino)})
 	}
+	// Eliminar pieza del tablero.
+	method eliminar() {
+		minos.forEach({mino => game.removeVisual(mino)})
+	}
 	
-	// Movimiento de la pieza.
+	// Mover la pieza hacia una direccion.
 	method moverAbajo(){
 		minos.forEach({mino => mino.position(mino.position().down(1))})
 	}
@@ -28,103 +34,90 @@ class Pieza {
 		minos.forEach({mino => mino.position(mino.position().right(1))})
 	}
 	
-	// Girar la pieza.
-	method girarPieza(){
+	// Girar pieza en sentido horario.
+	method girar(){
 		minos.forEach({mino => mino.position(self.rotarCoordenadas(mino))})
 	}
 	
-	// Rotar coordenadas (Para poder girarla, se utiliza los vectores aprendidos en Algebra)
+	// Rotar en sentido horario las coordenadas de la posicion de un mino dado.
 	method rotarCoordenadas(mino) = game.at(
-		mino.position().y() + self.minoCentral().position().x() - self.minoCentral().position().y(),
-		- mino.position().x() + self.minoCentral().position().x() + self.minoCentral().position().y()
+		mino.position().y() + self.centro().position().x() - self.centro().position().y(),
+		- mino.position().x() + self.centro().position().x() + self.centro().position().y()
 	)
-	
-	
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// Mino o Cuadradito de pieza.
-///////////////////////////////////////////////////////////////////////////////
+// Pieza I. (Rojo)
+class Pieza_I inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = config.centroGeneracion(), image = "red.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = config.centroGeneracion().up(1), image = "red.png"),
+	new Mino(position = config.centroGeneracion().down(1), image = "red.png"),
+	new Mino(position = config.centroGeneracion().down(2), image = "red.png")
+]) {}
+// Pieza J. (Azul)
+class Pieza_J inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = config.centroGeneracion(), image = "blue.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = config.centroGeneracion().up(1), image = "blue.png"),
+	new Mino(position = config.centroGeneracion().down(1), image = "blue.png"),
+	new Mino(position = config.centroGeneracion().down(1).left(1), image = "blue.png")
+]) {}
+// Pieza L. (Naranja)
+class Pieza_L inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = config.centroGeneracion(), image = "orange.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = config.centroGeneracion().up(1), image = "orange.png"),
+	new Mino(position = config.centroGeneracion().down(1), image = "orange.png"),
+	new Mino(position = config.centroGeneracion().down(1).right(1), image = "orange.png")
+]) {}
+// Pieza O. (Blanco)
+class Pieza_O inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = config.centroGeneracion(), image = "white.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = config.centroGeneracion().up(1), image = "white.png"),
+	new Mino(position = config.centroGeneracion().right(1), image = "white.png"),
+	new Mino(position = config.centroGeneracion().up(1).right(1), image = "white.png")
+]) {override method girar() {}}
+// Pieza S. (Verde)
+class Pieza_S inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = config.centroGeneracion(), image = "green.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = config.centroGeneracion().up(1), image = "green.png"),
+	new Mino(position = config.centroGeneracion().left(1), image = "green.png"),
+	new Mino(position = config.centroGeneracion().up(1).right(1), image = "green.png")
+]) {}
+// Pieza T. (Violeta)
+class Pieza_T inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = config.centroGeneracion(), image = "purple.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = config.centroGeneracion().up(1), image = "purple.png"),
+	new Mino(position = config.centroGeneracion().left(1), image = "purple.png"),
+	new Mino(position = config.centroGeneracion().right(1), image = "purple.png")
+]) {}
+// Pieza Z. (Celeste)
+class Pieza_Z inherits Pieza(minos = [
+	// MINO CENTRAL (Siempre en la primera posicion de la lista)
+	new Mino(position = config.centroGeneracion(), image = "lightblue.png"),
+	// MINOS ALEDANIOS (Siempre luego del mino central)
+	new Mino(position = config.centroGeneracion().up(1), image = "lightblue.png"),
+	new Mino(position = config.centroGeneracion().up(1).left(1), image = "lightblue.png"),
+	new Mino(position = config.centroGeneracion().right(1), image = "lightblue.png")
+]) {}
 
-// Sabemos que todas las piezas estan formadas por 4 minos (Cuadraditos)
+//////////////////////////////////////////////////////////
+// MINOS.
+//////////////////////////////////////////////////////////
+
+// Molde de los minos de las piezas.
 class Mino {
-	// Posicion del Mino.
+	// Posicion del mino.
 	var property position
-	// Imagen del Mino.
+	// Imagen del mino (Depende de la pieza que conforme)
 	const property image
 }
-
-///////////////////////////////////////////////////////////////////////////////
-// Forma de las Piezas.
-///////////////////////////////////////////////////////////////////////////////
-
-// TODO: No olvidar de buscar los colores definitivos.
-// Pieza del tetris (pieza de forma Z)
-class Pieza_Z inherits Pieza(minos = [
-		// MINO CENTRAL (Siempre en la primera posicion de la lista)
-		new Mino(position = config.inicio(), image = "pieza_z.png"),
-		// MINOS ALEDANIOS (Siempre luego del mino central)
-		new Mino(position = config.inicio().up(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().up(1).left(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().right(1), image = "pieza_z.png")
-	]) {}
-
-// Pieza del tetris (pieza de forma I)
-class Pieza_I inherits Pieza(minos = [
-		// MINO CENTRAL (Siempre en la primera posicion de la lista)
-		new Mino(position = config.inicio(), image = "pieza_z.png"),
-		// MINOS ALEDANIOS (Siempre luego del mino central)
-		new Mino(position = config.inicio().up(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().down(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().down(2), image = "pieza_z.png")
-	]) {}
-
-// Pieza del tetris (pieza de forma J)
-class Pieza_J inherits Pieza(minos = [
-		// MINO CENTRAL (Siempre en la primera posicion de la lista)
-		new Mino(position = config.inicio(), image = "pieza_z.png"),
-		// MINOS ALEDANIOS (Siempre luego del mino central)
-		new Mino(position = config.inicio().up(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().down(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().down(1).left(1), image = "pieza_z.png")
-	]) {}
-
-// Pieza del tetris (pieza de forma L)
-class Pieza_L inherits Pieza(minos = [
-		// MINO CENTRAL (Siempre en la primera posicion de la lista)
-		new Mino(position = config.inicio(), image = "pieza_z.png"),
-		// MINOS ALEDANIOS (Siempre luego del mino central)
-		new Mino(position = config.inicio().up(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().down(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().down(1).right(1), image = "pieza_z.png")
-	]) {}
-
-// Pieza del tetris (pieza de forma O)
-class Pieza_O inherits Pieza(minos = [
-		// MINO CENTRAL (Siempre en la primera posicion de la lista)
-		new Mino(position = config.inicio(), image = "pieza_z.png"),
-		// MINOS ALEDANIOS (Siempre luego del mino central)
-		new Mino(position = config.inicio().up(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().right(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().up(1).right(1), image = "pieza_z.png")
-	]) {override method girarPieza() {}}
-
-// Pieza del tetris (pieza de forma S)
-class Pieza_S inherits Pieza(minos = [
-		// MINO CENTRAL (Siempre en la primera posicion de la lista)
-		new Mino(position = config.inicio(), image = "pieza_z.png"),
-		// MINOS ALEDANIOS (Siempre luego del mino central)
-		new Mino(position = config.inicio().up(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().left(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().up(1).right(1), image = "pieza_z.png")
-	]) {}
-
-// Pieza del tetris (pieza de forma T)
-class Pieza_T inherits Pieza(minos = [
-		// MINO CENTRAL (Siempre en la primera posicion de la lista)
-		new Mino(position = config.inicio(), image = "pieza_z.png"),
-		// MINOS ALEDANIOS (Siempre luego del mino central)
-		new Mino(position = config.inicio().up(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().left(1), image = "pieza_z.png"),
-		new Mino(position = config.inicio().right(1), image = "pieza_z.png")
-	]) {}

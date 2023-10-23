@@ -1,5 +1,4 @@
 import wollok.game.*
-import Piezas.*
 
 /* ¿Cómo se genera el tablero en Wollok?
 	- n -> Max. Columnas.
@@ -22,103 +21,91 @@ import Piezas.*
 	En nuestro caso, el tablero original del tetris posee: 20 filas y 10 columnas.
 */
 
+//////////////////////////////////////////////////////////
+// TABLERO DE JUEGO.
+//////////////////////////////////////////////////////////
+// Parte del tablero jugable.
 object tablero {
-	// Dimensiones tablero.
-	const property largo = 10
-	const property alto = 20
-	// Minos ocupados en tablero.
-	const minosOcupados = []
+	// Minos acumulados.
+	const property minosAcumulados = []
 	
-	// Obtener las posiciones del tablero ocupados por minos.
-	method posicionesOcupadas() = minosOcupados.map({mOcupados => mOcupados.position()})
+	// Dimensiones jugables.
+	method ancho() = 10
+	method alto() = 20
+	
+	// Saber si un mino esta dentro de los limites jugables.
+	method esValida(posicion) = posicion.x().between(1, self.ancho()) and posicion.y().between(1, self.alto())
 	// Saber si hay un mino en una posicion determinada.
 	method hayMinoEn(posicion) = (self.posicionesOcupadas()).contains(posicion)
-	// Saber si una posicion esta dentro de los limites.
-	method dentroMargenDerecho(numero) = numero < largo - 1
-	method dentroMargenIzquierdo(numero) = numero > 0
-	method dentroMargenAbajo(numero) = numero > 0
-	method dentroMargenArriba(numero) = numero < alto - 1
 	
-	// Generar nuestro tablero del tetris.
-	method generarTablero() {
-		// Imagen del tablero (Se aplica la imagen cuadrado a cuadrado)
-		game.ground("background.png")
+	// Saber si una pieza se puede mover a una determinada posicion. // TODO: Ver si se puede cambiar los 'and' por 'or'
+	method puedeBajar(pieza) = pieza.minos().all({mino => self.esValida(mino.position().down(1)) and not self.hayMinoEn(mino.position().down(1))})
+	method puedeDerecha(pieza) = pieza.minos().all({mino => self.esValida(mino.position().right(1)) and not self.hayMinoEn(mino.position().right(1))})
+	method puedeIzquierda(pieza) = pieza.minos().all({mino => self.esValida(mino.position().left(1)) and not self.hayMinoEn(mino.position().left(1))})
+	// Saber si una pieza puede rotar en sentido horario.
+	method puedeRotar(pieza) = pieza.minos().all({mino => self.esValida(pieza.rotarCoordenadas(mino)) and not self.hayMinoEn(pieza.rotarCoordenadas(mino))})
+	// Saber si se puede generar una pieza en una posicion determinada.
+	method puedeGenerar(pieza) = pieza.minos().all({mino => not self.hayMinoEn(mino.position())})
+	
+	// Obtener las posiciones de los minos acumulados.
+	method posicionesOcupadas() = minosAcumulados.map({mOcupados => mOcupados.position()})
+	// Obtener las filas que estan completas. // TODO: Hay una mejor forma? Ver occurrencesOf(element)
+	method filasCompletas(posiciones) = (0..self.alto()).filter({fila => posiciones.filter({posicion => posicion.y() == fila}).size() == self.ancho()})
+	// Obtener la cantidad de posiciones que va a bajar un mino por completar filas.
+	method cantidadBajar(mino, filasCompletas) = filasCompletas.count({fila => mino.position().y() > fila})
+	// Obtener los puntos ganados por completar filas.
+	method puntosGanados(filasCompletas) = [100, 200, 400, 800].get(filasCompletas.size() - 1)
+	
+	// Agregar los minos de una pieza dada a la lista de minos acumulados.
+	method agregarMinos(pieza) {
+		minosAcumulados.addAll(pieza.minos())
 	}
 	
-	method incrustarPieza(pieza) {
-		// Removemos los minos ocupados.
-		//minosOcupados.forEach({mino => game.removeVisual(mino)})
+	// Incrustar los minos de una pieza en el tablero.
+	method incrustar(pieza) {
 		// Agregamos la pieza a la lista.
-		self.agregarMinosOcupados(pieza)
-		// Verificamos si existe linea completa (Si existe se elimina y se bajan las superiores)
-		self.eliminarLinea()
-		
-		// Mostramos los minos ocupados.
-		//self.mostrarMinosOcupados()
+		self.agregarMinos(pieza)
+		// Eliminar filas completadas y bajar las filas superiores.
+		self.eliminarFilas()
 	}
 	
-	// TODO: Eliminar linea y bajar minos superiores.
-	method eliminarLinea() {
-		// Obtener las filas completas.
-		const filasCompletas =
-			(0..alto).filter({fila => self.posicionesOcupadas().filter({posicion => posicion.y() == fila}).size() == largo})
+	// Eliminar filas que estan completas.
+	method eliminarFilas() {
+		// Obtener una lista con las filas completas.
+		const filasCompletas = self.filasCompletas(self.posicionesOcupadas())
 		
-		// Eliminar fila completas
-		
-		//minosOcupados.removeAllSuchThat{mino => filasCompletas.contains(mino.position().y())} // REVISAR
-		/*desarrollar minos de la fila y que caigan todos
-		self.minosDeLaFila(fila).forEach{mino => 
-			minosOcupados.remove(mino)
-			game.removeVisual(mino)
-			self.caerTodo(mino)
+		// Si hay filas completas.
+		if(not filasCompletas.isEmpty()) {
+			// Eliminar las filas completas.
+			minosAcumulados.forEach({mino => 
+				if(filasCompletas.contains(mino.position().y())) {
+					// Eliminar filas completas.
+					minosAcumulados.remove(mino)
+					game.removeVisual(mino)
+				}
+				// Bajar filas superiores.
+				mino.position(mino.position().down(self.cantidadBajar(mino, filasCompletas)))
+			})
+			
+			// Incrementar la puntuacion al completar filas.
+			puntaje.incrementar(self.puntosGanados(filasCompletas))
 		}
-		*/
-		
-		// Bajar minos superiores.
-		// Por cada fila, se bajara una cantidad de posiciones equivalente a la cantidad menor de elementos de la lista
-		
-		// Sumar puntos
-		// puntaje += 100 * filasCompletas
 	}
 	
-	// Agregar los minos de la pieza a los minos ocupados.
-	method agregarMinosOcupados(pieza) {
-		pieza.minos().forEach({mino => minosOcupados.add(new Mino(position = mino.position(), image = mino.image()))})
+	// Resetear tablero.
+	method resetear() {
+		minosAcumulados.forEach({mino => game.removeVisual(mino)})
+		minosAcumulados.clear()
 	}
-	
-	// Mostrar/pintar los minos ocupados en tablero.
-	method mostrarMinosOcupados() {
-		minosOcupados.forEach({mino => game.addVisual(mino)})
-	}
-	
-	// Saber si puede moverse a un Lugar.
-	method puedeMoverAbajo(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenAbajo(mino.position().y()) and not self.hayMinoEn(mino.position().down(1))
-	})
-	method puedeMoverArriba(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenArriba(mino.position().y()) and not self.hayMinoEn(mino.position().up(1))
-	})
-	method puedeMoverDerecha(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenDerecho(mino.position().x()) and not self.hayMinoEn(mino.position().right(1))
-	})
-	method puedeMoverIzquierda(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenIzquierdo(mino.position().x()) and not self.hayMinoEn(mino.position().left(1))
-	})
-	// Saber si puede rotar a un Lugar.
-	method puedeRotar(pieza) = (pieza.minos()).all({mino =>
-		self.dentroMargenAbajo(pieza.rotarCoordenadas(mino).y() + 1) and
-		self.dentroMargenArriba(pieza.rotarCoordenadas(mino).y() - 1) and
-		self.dentroMargenIzquierdo(pieza.rotarCoordenadas(mino).x() + 1) and
-		self.dentroMargenDerecho(pieza.rotarCoordenadas(mino).x() - 1) and
-		not self.hayMinoEn(pieza.rotarCoordenadas(mino))
-	})
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // Borde del Tablero.
 ///////////////////////////////////////////////////////////////////////////////
-// TODO: No olvidar de buscar los colores definitivos.
-// Pieza del tetris (pieza de forma Z)
-object bordeTablero {
+// Muros delimitantes.
+object muros{
+	// Cantidad de minos / Espesor del muro.
+	method cantLados() = 2 // Lado derecho y Lado Izquierdo.
+	method cantSuelo() = 1 // Suelo.
 	
 }
