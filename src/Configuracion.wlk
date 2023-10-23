@@ -31,7 +31,10 @@ object config {
 			game.clear()
 			puntaje.cargar()
 			nivel.cargar()
-			// TODO: Generar mensaje de 'JUEGO FINALIZADO'
+			// Generar mensaje de 'JUEGO FINALIZADO'.
+			mensaje.image("FinDeJuego.png")
+			mensaje.position(game.at(2, 10))
+			self.parpadeoMensaje()
 		}
 	}
 	
@@ -39,13 +42,16 @@ object config {
 	method cargarConfigInicial() {
 		self.ventana()
 		self.teclaEnter()
-		self.parpadeoMenu()
+		// Generar mensaje 'Presionar ENTER para continuar'
+		mensaje.image("MensajeMenu.png")
+		self.parpadeoMensaje()
 	}
 	
 	// Cargar las configuraciones del juego.
 	method cargarConfigJuego(){
 		self.teclasJuego()
 		self.caidaPiezas()
+		// self.aumentoDeNivel()
 	}
 	
 	// Configurar la informacion de la ventana.
@@ -69,11 +75,11 @@ object config {
 			// Si esta el menu habilitado.
 			if(menu.estaActivo()) {
 				// Detener el evento de "Presionar enter para continuar".
-				game.removeTickEvent("ParpadeoMenu")
+				game.removeTickEvent("ParpadeoMensaje")
 				// Ocultar menu.
 				menu.ocultar()
 				// Si "Presionar enter para continuar" esta activo, se oculta.
-				if(mensajeMenu.estaActivo()) mensajeMenu.ocultar()
+				if(mensaje.estaActivo()) mensaje.ocultar()
 				
 				// Cargar la informacion del hub.
 				puntaje.cargar()
@@ -95,8 +101,8 @@ object config {
 	}
 	
 	// Configurar el parpadeo del mensaje "Presionar enter para continuar".
-	method parpadeoMenu() {
-		game.onTick(500, "ParpadeoMenu", {if(mensajeMenu.estaActivo()) mensajeMenu.ocultar() else mensajeMenu.cargar()})
+	method parpadeoMensaje() {
+		game.onTick(500, "ParpadeoMensaje", {if(mensaje.estaActivo()) mensaje.ocultar() else mensaje.cargar()})
 	}
 	
 	// Configurar las teclas del juego.
@@ -139,4 +145,12 @@ object config {
 			}
 		})
 	}
+	
+	// Configurar aumento de nivel.
+	method aumentoDeNivel() {
+		game.onTick(1000, "AumentarDificultad", {
+			tiempoCaida -= 100
+			nivel.incrementar()
+		})
+	}	
 }

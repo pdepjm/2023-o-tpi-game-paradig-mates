@@ -67,16 +67,16 @@ describe "Nivel" {
 	}
 }
 
-describe "Mensaje menu" {
+describe "Mensaje" {
 	test "Es posible mostrar el mensaje 'Presionar enter para continuar'" {
-		mensajeMenu.cargar()
-		assert.that(mensajeMenu.estaActivo())
+		mensaje.cargar()
+		assert.that(mensaje.estaActivo())
 	}
 	
 	test "Es posible ocultar el mensaje 'Presionar enter para continuar'" {
-		mensajeMenu.cargar()
-		mensajeMenu.ocultar()
-		assert.notThat(mensajeMenu.estaActivo())
+		mensaje.cargar()
+		mensaje.ocultar()
+		assert.notThat(mensaje.estaActivo())
 	}
 }
 

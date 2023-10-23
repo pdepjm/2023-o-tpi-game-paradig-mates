@@ -60,10 +60,10 @@ object nivel {
 }
 
 // Mensaje "Presionar enter para continuar" del menu.
-object mensajeMenu {
+object mensaje {
 	// Configuraciones del mensaje.
-	method position() = game.at(2, 5)
-	method image() = "MensajeMenu.png"
+	var property image = "MensajeMenu.png"
+	var property position = game.at(2, 5)
 	// Consultar si se muestra el mensaje.
 	method estaActivo() = game.hasVisual(self)
 	
@@ -71,7 +71,6 @@ object mensajeMenu {
 	method cargar() {
 		game.addVisual(self)
 	}
-	
 	// Ocultar mensaje.
 	method ocultar() {
 		game.removeVisual(self)
