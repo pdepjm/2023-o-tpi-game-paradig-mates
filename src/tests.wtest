@@ -1,6 +1,224 @@
+import wollok.game.*
+import Configuracion.*
+import Entorno.*
+import Informacion.*
+import Piezas.*
+import Tablero.*
 
-test "testX" {
+//////////////////////////////////////////////////////////
+// CONFIGURACION.
+//////////////////////////////////////////////////////////
+describe "Configuracion" {
+	test "testX" {
+		assert.that(true)
+	}
+}
 
-	assert.that(true)
+//////////////////////////////////////////////////////////
+// ENTORNO.
+//////////////////////////////////////////////////////////
+describe "Menu" {
+	test "Es posible ocultarlo/deshabilitarlo" {
+		menu.cargar()
+		menu.ocultar()
+		assert.notThat(menu.estaActivo())
+	}
+}
 
+describe "Hub" { // TODO: No se si habra test para hacerle.
+	test "testX" {
+		assert.that(true)
+	}
+}
+
+//////////////////////////////////////////////////////////
+// INFORMACION.
+//////////////////////////////////////////////////////////
+describe "Puntaje" {
+	test "Es posible aumentarlo dado un valor" {
+		puntaje.incrementar(100)
+		puntaje.incrementar(200)
+		assert.equals("300", puntaje.text())
+	}
+	
+	test "Es posible resetearlo a 0" {
+		puntaje.incrementar(100)
+		puntaje.resetear()
+		assert.equals("0", puntaje.text())
+	}
+	
+	test "Al llegar al puntaje maximo puntaje se resetea" {
+		puntaje.incrementar(999999900)
+		puntaje.incrementar(100)
+		assert.equals("100", puntaje.text())
+	}
+}
+
+describe "Nivel" {
+	test "Es posible aumentarlo en 1" {
+		nivel.incrementar()
+		assert.equals("2", nivel.text())
+	}
+	
+	test "Es posible resetearlo a 1" {
+		nivel.incrementar()
+		nivel.resetear()
+		assert.equals("1", nivel.text())
+	}
+}
+
+describe "Mensaje menu" {
+	test "Es posible mostrar el mensaje 'Presionar enter para continuar'" {
+		mensajeMenu.cargar()
+		assert.that(mensajeMenu.estaActivo())
+	}
+	
+	test "Es posible ocultar el mensaje 'Presionar enter para continuar'" {
+		mensajeMenu.cargar()
+		mensajeMenu.ocultar()
+		assert.notThat(mensajeMenu.estaActivo())
+	}
+}
+
+//////////////////////////////////////////////////////////
+// PIEZAS.
+//////////////////////////////////////////////////////////
+describe "Piezas" {
+	const unaPieza = new Pieza_Z()
+	
+	test "Es posible mostrarlo en el tablero" {
+		unaPieza.generar()
+		assert.that(unaPieza.estaActiva())
+	}
+	
+	test "Es posible eliminarlo del tablero" {
+		unaPieza.generar()
+		unaPieza.eliminar()
+		assert.notThat(unaPieza.estaActiva())
+	}
+	
+	test "Es posible moverlo hacia abajo" {
+		unaPieza.moverAbajo()
+		assert.equals(config.centroGeneracion().down(1), unaPieza.centro().position())
+	}
+	
+	test "Es posible moverlo hacia la derecha" {
+		unaPieza.moverDerecha()
+		assert.equals(config.centroGeneracion().right(1), unaPieza.centro().position())
+	}
+	
+	test "Es posible moverlo hacia la izquierda" {
+		unaPieza.moverIzquierda()
+		assert.equals(config.centroGeneracion().left(1), unaPieza.centro().position())
+	}
+}
+
+describe "Minos" { // TODO: No se si habra test para hacerle.
+	test "testX" {
+		assert.that(true)
+	}
+}
+
+//////////////////////////////////////////////////////////
+// TABLERO.
+//////////////////////////////////////////////////////////
+describe "Tablero" {
+	test "La posicion (0, 1) no es valida" {
+		assert.notThat(tablero.esValida(game.at(0, 1)))
+	}
+	
+	test "La posicion (1, 0) no es valida" {
+		assert.notThat(tablero.esValida(game.at(1, 0)))
+	}
+	
+	test "La posicion (11, 1) no es valida" {
+		assert.notThat(tablero.esValida(game.at(11, 1)))
+	}
+	
+	test "La posicion (1, 1) es valida" {
+		assert.that(tablero.esValida(game.at(1, 1)))
+	}
+	
+	test "Una pieza con el mino central en el (1, 1) no puede moverse hacia abajo" {
+		assert.notThat(tablero.puedeBajar(new Pieza(minos = [new Mino(position = game.at(1,1), image = "lightblue.png")])))
+	}
+	
+	test "Una pieza con el mino central en el (1, 2) puede moverse hacia abajo" {
+		assert.that(tablero.puedeBajar(new Pieza(minos = [new Mino(position = game.at(1,2), image = "lightblue.png")])))
+	}
+	
+	test "Una pieza con el mino central en el (1, 1) no puede moverse hacia la izquierda" {
+		assert.notThat(tablero.puedeIzquierda(new Pieza(minos = [new Mino(position = game.at(1,1), image = "lightblue.png")])))
+	}
+	
+	test "Una pieza con el mino central en el (2, 1) puede moverse hacia la izquierda" {
+		assert.that(tablero.puedeIzquierda(new Pieza(minos = [new Mino(position = game.at(2,1), image = "lightblue.png")])))
+	}
+	
+	test "Una pieza con el mino central en el (10, 1) no puede moverse hacia la derecha" {
+		assert.notThat(tablero.puedeDerecha(new Pieza(minos = [new Mino(position = game.at(10,1), image = "lightblue.png")])))
+	}
+	
+	test "Una pieza con el mino central en el (9, 1) puede moverse hacia la derecha" {
+		assert.that(tablero.puedeDerecha(new Pieza(minos = [new Mino(position = game.at(9,1), image = "lightblue.png")])))
+	}
+	
+	test "Una pieza con el mino central en el (0, 0) y con un mino aledanio en el (1, 0) no puede rotar" {
+		assert.notThat(tablero.puedeRotar(new Pieza(minos = [new Mino(position = game.at(0,0), image = "lightblue.png"), new Mino(position = game.at(1,0), image = "lightblue.png")])))
+	}
+	
+	test "Una pieza con el mino central en el (0, 0) y con un mino aledanio en el (0, 1) no puede rotar" {
+		assert.notThat(tablero.puedeRotar(new Pieza(minos = [new Mino(position = game.at(0,0), image = "lightblue.png"), new Mino(position = game.at(0,1), image = "lightblue.png")])))
+	}
+	
+	test "Es posible agregar una pieza a minos ocupados" {
+		const unaPieza = new Pieza(minos = [new Mino(position = game.at(0,0), image = "lightblue.png"), new Mino(position = game.at(0,1), image = "lightblue.png")])
+		tablero.agregarMinos(unaPieza)
+		assert.equals(unaPieza.minos(), tablero.minosAcumulados())
+	}
+	
+	test "Es posible saber si hay mino ocupado en una posicion dada" {
+		tablero.agregarMinos(new Pieza_Z())
+		assert.that(tablero.hayMinoEn(config.centroGeneracion()))
+	}
+	
+	test "Es posible generar una pieza si la posicion no esta ocupada" {
+		assert.that(tablero.puedeGenerar(new Pieza_Z()))
+	}
+	
+	test "No es posible generar una pieza si la posicion esta ocupada" {
+		tablero.agregarMinos(new Pieza_T())
+		assert.notThat(tablero.puedeGenerar(new Pieza_Z()))
+	}
+	
+	test "Es posible obtener una lista de las filas completas" {
+		const posiciones = (1..tablero.ancho()).map({columna => game.at(columna, 1)}) + (2..tablero.ancho()).map({columna => game.at(columna, 3)})
+		assert.equals([1], tablero.filasCompletas(posiciones))
+	}
+	
+	test "Si se eliminan las filas 1 y 2, el mino en la posicion (3, 4) debera bajar 2 posiciones" {
+		assert.equals(2, tablero.cantidadBajar(new Mino(position = game.at(3,4), image = "lightblue.png"), [1, 2]))
+	}
+	
+	test "Si se completa 1 fila, se obtiene 100 puntos" {
+		assert.equals(100, tablero.puntosGanados([1]))
+	}
+	
+	test "Si se completa 2 fila, se obtiene 200 puntos" {
+		assert.equals(200, tablero.puntosGanados([1, 2]))
+	}
+	
+	test "Si se completa 3 fila, se obtiene 400 puntos" {
+		assert.equals(400, tablero.puntosGanados([1, 2, 3]))
+	}
+	
+	test "Si se completa 4 fila, se obtiene 800 puntos" {
+		assert.equals(800, tablero.puntosGanados([1, 2, 3, 4]))
+	}
+}
+
+describe "Muros" { // TODO: No se si habra test para hacerle.
+	test "testX" {
+		assert.that(true)
+	}
 }
