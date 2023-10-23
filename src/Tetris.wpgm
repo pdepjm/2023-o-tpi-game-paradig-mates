@@ -1,5 +1,6 @@
 import Configuracion.*
 import wollok.game.*
+import Entorno.*
 
 /* INFORMACION GENERAL DEL JUEGO TETRIS ORIGINAL.
 	* Deriva de 'Tetra' pues las piezas estan conformadas por 4 cuadraditos.
@@ -11,7 +12,7 @@ import wollok.game.*
 	* La caída de las piezas se acelera progresivamente. // TODO: Falta.
 */
 
-program tetris {
+program Tetris {
 	// Cargar configuraciones iniciales.
 	config.cargarConfigInicial()
 	

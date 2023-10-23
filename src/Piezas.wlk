@@ -4,7 +4,8 @@ import Configuracion.*
 //////////////////////////////////////////////////////////
 // PIEZAS JUGABLES.
 //////////////////////////////////////////////////////////
-// Molde de las Piezas del tetris (Formado siempre por 4 minos)
+
+// Molde de las Piezas del tetris (Formado por 4 minos)
 class Pieza {
 	// Minos que conforman la pieza.
 	const property minos = []

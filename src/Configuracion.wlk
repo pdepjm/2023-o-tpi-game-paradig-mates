@@ -1,15 +1,20 @@
 import wollok.game.*
 import Piezas.*
 import Tablero.*
+import Informacion.*
+import Entorno.*
 
 //////////////////////////////////////////////////////////
 // CONFIGURACIONES.
 //////////////////////////////////////////////////////////
+
 // Configuraciones del juego.
 object config {
 	// Pieza actual en juego.
 	var piezaActual = new Pieza_Z()
-	// Tiempo en que tarda una pieza en ir cayendo // TODO: Bajar el tiempo de caida al pasar el tiempo.
+	// TODO: Pieza almacenada.
+	
+	// var piezaAlmacenada.
 	var tiempoCaida = 1000
 	
 	// Centro de generacion de las piezas.
@@ -21,24 +26,23 @@ object config {
 	method generarPieza() {
 		piezaActual = self.obtenerPieza()
 		// Si se puede generar, se genera.
-		if(tablero.puedeGenerar(piezaActual)) piezaActual.generar()
-		else {
+		if(tablero.puedeGenerar(piezaActual)) piezaActual.generar() else {
 			// Si no se puede generar, se termina el juego.
 			game.clear()
 			puntaje.cargar()
 			nivel.cargar()
-			// TODO: Generar mensaje de 'JUEGO FINALIZADO'.
-			
+			// TODO: Generar mensaje de 'JUEGO FINALIZADO'
 		}
 	}
 	
-	// Cargar las configuraciones iniciales (Ventana, Acciones del ENTER, Evento del menu)
+	// Cargar las configuraciones iniciales.
 	method cargarConfigInicial() {
 		self.ventana()
 		self.teclaEnter()
 		self.parpadeoMenu()
 	}
-	// Cargar las configuraciones del juego (Teclas jugables, Evento de caida)
+	
+	// Cargar las configuraciones del juego.
 	method cargarConfigJuego(){
 		self.teclasJuego()
 		self.caidaPiezas()
@@ -56,6 +60,43 @@ object config {
 		
 		// Titulo del juego.
 		game.title("TETRIS")
+	}
+	
+	// Configurar las teclas del menu.
+	method teclaEnter() {
+		// Comenzar o resetear partida.
+		keyboard.enter().onPressDo({
+			// Si esta el menu habilitado.
+			if(menu.estaActivo()) {
+				// Detener el evento de "Presionar enter para continuar".
+				game.removeTickEvent("ParpadeoMenu")
+				// Ocultar menu.
+				menu.ocultar()
+				// Si "Presionar enter para continuar" esta activo, se oculta.
+				if(mensajeMenu.estaActivo()) mensajeMenu.ocultar()
+				
+				// Cargar la informacion del hub.
+				puntaje.cargar()
+				nivel.cargar()
+				
+				// Cargar las configuraciones del juego.
+				self.cargarConfigJuego()
+			}
+			
+			// Resetear la partida.
+			puntaje.resetear()
+			nivel.resetear()
+			tablero.resetear()
+			if(piezaActual.estaActiva()) piezaActual.eliminar()
+			
+			// Generar la primera pieza.
+			self.generarPieza()
+		})
+	}
+	
+	// Configurar el parpadeo del mensaje "Presionar enter para continuar".
+	method parpadeoMenu() {
+		game.onTick(500, "ParpadeoMenu", {if(mensajeMenu.estaActivo()) mensajeMenu.ocultar() else mensajeMenu.cargar()})
 	}
 	
 	// Configurar las teclas del juego.
