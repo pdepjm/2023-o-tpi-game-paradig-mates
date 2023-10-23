@@ -1,5 +1,5 @@
-import Configuracion.*
 import wollok.game.*
+import Configuracion.*
 import Entorno.*
 
 /* INFORMACION GENERAL DEL JUEGO TETRIS ORIGINAL.

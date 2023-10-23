@@ -1,8 +1,8 @@
 import wollok.game.*
+import Entorno.*
+import Informacion.*
 import Piezas.*
 import Tablero.*
-import Informacion.*
-import Entorno.*
 
 //////////////////////////////////////////////////////////
 // CONFIGURACIONES.
