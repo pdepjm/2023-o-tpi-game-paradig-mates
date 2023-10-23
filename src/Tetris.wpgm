@@ -1,7 +1,7 @@
 import wollok.game.*
-import configuraciones.*
-import piezas.*
-import tablero.*
+import Configuracion.*
+import Piezas.*
+import Tablero.*
 
 /* INFORMACION GENERAL DEL JUEGO TETRIS ORIGINAL.
 	* Deriva de 'Tetra' pues las piezas estan conformadas por 4 cuadraditos.

@@ -1,5 +1,5 @@
 import wollok.game.*
-import piezas.*
+import Piezas.*
 
 /* ¿Cómo se genera el tablero en Wollok?
 	- n -> Max. Columnas.

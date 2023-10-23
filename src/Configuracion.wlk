@@ -1,6 +1,6 @@
 import wollok.game.*
-import piezas.*
-import tablero.*
+import Piezas.*
+import Tablero.*
 
 object config {
 	// Pieza actual a mover.

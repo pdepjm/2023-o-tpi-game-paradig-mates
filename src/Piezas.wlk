@@ -1,5 +1,5 @@
 import wollok.game.*
-import configuraciones.*
+import Configuracion.*
 
 ///////////////////////////////////////////////////////////////////////////////
 // Clase para las piezas del Tetris.
