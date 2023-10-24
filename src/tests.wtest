@@ -54,16 +54,31 @@ describe "Puntaje" {
 	}
 }
 
-describe "Nivel" {
+describe "Filas completadas" {
 	test "Es posible aumentarlo en 1" {
-		nivel.incrementar()
-		assert.equals("2", nivel.text())
+		contadorFilas.incrementar(1)
+		assert.equals("1", contadorFilas.text())
 	}
 	
-	test "Es posible resetearlo a 1" {
-		nivel.incrementar()
-		nivel.resetear()
-		assert.equals("1", nivel.text())
+	test "Es posible aumentarlo en 2" {
+		contadorFilas.incrementar(2)
+		assert.equals("2", contadorFilas.text())
+	}
+	
+	test "Es posible aumentarlo en 3" {
+		contadorFilas.incrementar(3)
+		assert.equals("3", contadorFilas.text())
+	}
+	
+	test "Es posible aumentarlo en 4" {
+		contadorFilas.incrementar(4)
+		assert.equals("4", contadorFilas.text())
+	}
+	
+	test "Es posible resetearlo a 0" {
+		contadorFilas.incrementar(2)
+		contadorFilas.resetear()
+		assert.equals("0", contadorFilas.text())
 	}
 }
 

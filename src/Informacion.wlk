@@ -3,7 +3,6 @@ import wollok.game.*
 //////////////////////////////////////////////////////////
 // INFORMACION DE LA PARTIDA.
 //////////////////////////////////////////////////////////
-
 // Puntaje.
 object puntaje {
 	// Puntaje acumulado.
@@ -33,29 +32,29 @@ object puntaje {
 	}
 }
 
-// Nivel de juego.
-object nivel {
-	// Nivel actual.
-	var nivelActual = 1
+// Filas completadas.
+object contadorFilas {
+	// Cantidad de filas completadas.
+	var contador = 0
 	
-	// Configuraciones del nivel actual.
+	// Configuraciones del contador de filas completadas.
 	method position() = game.at(15, 8)
 	method textColor() = "FFFFFF"
-	method text() = nivelActual.toString()
+	method text() = contador.toString()
 	
-	// Mostrar nivel actual.
+	// Mostrar cantidad de filas completadas.
 	method cargar() {
 		game.addVisual(self)
 	}
 	
-	// Incrementar nivel.
-	method incrementar() {
-		nivelActual ++
+	// Incrementar contador.
+	method incrementar(valor) {
+		contador = contador + valor
 	}
 	
-	// Resetear puntaje.
+	// Resetear contador.
 	method resetear() {
-		nivelActual = 1
+		contador = 0
 	}
 }
 

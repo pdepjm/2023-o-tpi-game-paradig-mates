@@ -4,7 +4,6 @@ import Informacion.*
 //////////////////////////////////////////////////////////
 // TABLERO DE JUEGO.
 //////////////////////////////////////////////////////////
-
 // Parte del tablero jugable.
 object tablero {
 	// Minos acumulados.
@@ -70,6 +69,8 @@ object tablero {
 			
 			// Incrementar la puntuacion al completar filas.
 			puntaje.incrementar(self.puntosGanados(filasCompletas))
+			// Incrementar el contador de filas completadas.
+			contadorFilas.incrementar(filasCompletas.size())
 		}
 	}
 	

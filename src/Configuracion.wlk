@@ -7,15 +7,15 @@ import Tablero.*
 //////////////////////////////////////////////////////////
 // CONFIGURACIONES.
 //////////////////////////////////////////////////////////
-
 // Configuraciones del juego.
 object config {
 	// Pieza actual en juego.
 	var piezaActual = new Pieza_Z()
 	// TODO: Pieza almacenada.
-	
 	// var piezaAlmacenada.
-	var tiempoCaida = 1000
+	
+	// Tiempo del evento de caida.
+	method tiempoCaida() = 800
 	
 	// Centro de generacion de las piezas.
 	method centroGeneracion() = game.at(5, 19)
@@ -30,7 +30,7 @@ object config {
 			// Si no se puede generar, se termina el juego.
 			game.clear()
 			puntaje.cargar()
-			nivel.cargar()
+			contadorFilas.cargar()
 			// Generar mensaje de 'JUEGO FINALIZADO'.
 			mensaje.image("FinDeJuego.png")
 			mensaje.position(game.at(2, 10))
@@ -83,7 +83,7 @@ object config {
 				
 				// Cargar la informacion del hub.
 				puntaje.cargar()
-				nivel.cargar()
+				contadorFilas.cargar()
 				
 				// Cargar las configuraciones del juego.
 				self.cargarConfigJuego()
@@ -91,7 +91,7 @@ object config {
 			
 			// Resetear la partida.
 			puntaje.resetear()
-			nivel.resetear()
+			contadorFilas.resetear()
 			tablero.resetear()
 			if(piezaActual.estaActiva()) piezaActual.eliminar()
 			
@@ -124,16 +124,11 @@ object config {
 		
 		// TODO: Guardar pieza.
 		// keyboard.e()
-		
-		// Aumentar nivel de dificultad.
-		keyboard.p().onPressDo({
-			nivel.incrementar()
-		})
 	}
 	
 	// Configurar la caida de las piezas.
 	method caidaPiezas() {
-		game.onTick(tiempoCaida, "CaidaPiezas", {
+		game.onTick(1000, "CaidaPiezas", {
 			// Comprobar si se puede bajar la pieza.
 			if(tablero.puedeBajar(piezaActual)) {
 				// Si puede bajar, baja.
@@ -143,14 +138,6 @@ object config {
 				tablero.incrustar(piezaActual)
 				self.generarPieza()
 			}
-		})
-	}
-	
-	// Configurar aumento de nivel.
-	method aumentoDeNivel() {
-		game.onTick(1000, "AumentarDificultad", {
-			tiempoCaida -= 100
-			nivel.incrementar()
 		})
 	}	
 }
