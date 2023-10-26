@@ -79,6 +79,14 @@ object tablero {
 		minosAcumulados.forEach({mino => game.removeVisual(mino)})
 		minosAcumulados.clear()
 	}
+	
+	// Bajar e incrustar pieza.
+	method bajarIncrustar(pieza) {
+		if(self.puedeBajar(pieza)){
+			pieza.moverAbajo()
+			self.bajarIncrustar(pieza)
+		}
+	}
 }
 
 // Muros delimitantes.

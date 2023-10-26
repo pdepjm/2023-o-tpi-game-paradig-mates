@@ -120,7 +120,7 @@ object config {
 		// keyboard.w()
 		
 		// TODO: Incrustar pieza.
-		// keyboard.space()
+		keyboard.space().onPressDo({tablero.bajarIncrustar(piezaActual) puntaje.incrementar(50)})
 		
 		// TODO: Guardar pieza.
 		// keyboard.e()
