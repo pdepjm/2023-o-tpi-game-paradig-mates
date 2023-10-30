@@ -18,16 +18,43 @@ describe "Configuracion" {
 // ENTORNO.
 //////////////////////////////////////////////////////////
 describe "Menu" {
+	test "Es posbible mostrarlo" {
+		menu.cargar()
+		assert.that(menu.estaActivo())
+	}
+	
 	test "Es posible ocultarlo/deshabilitarlo" {
 		menu.cargar()
 		menu.ocultar()
 		assert.notThat(menu.estaActivo())
 	}
+	
+	test "Es posible establecer el mensaje 'Presionar enter para continuar'" {
+		menu.establecerMensaje()
+		assert.equals("MensajeMenu.png", mensaje.image())
+		assert.equals(game.at(2, 5), mensaje.position())
+	}
 }
 
-describe "Hub" { // TODO: No se si habra test para hacerle.
-	test "testX" {
-		assert.that(true)
+describe "Hub" {
+	test "Es posible mostrar su informacion" {
+		hub.cargar()
+		assert.that(game.hasVisual(puntaje))
+		assert.that(game.hasVisual(contadorFilas))
+	}
+	
+	test "Es posible resetear su informacion" {
+		puntaje.incrementar(10)
+		contadorFilas.incrementar(10)
+		hub.resetear()
+		assert.equals("0", puntaje.text())
+		assert.equals("0", contadorFilas.text())
+	}
+	
+	test "Es posible establecer el mensaje 'Fin de juego'" {
+		hub.establecerMensaje()
+		assert.equals("FinDeJuego.png", mensaje.image())
+		assert.equals(game.at(2, 10), mensaje.position())
 	}
 }
 

@@ -18,7 +18,7 @@ object tablero {
 	// Saber si hay un mino en una posicion determinada.
 	method hayMinoEn(posicion) = (self.posicionesOcupadas()).contains(posicion)
 	
-	// Saber si una pieza se puede mover a una determinada posicion. // TODO: Ver si se puede cambiar los 'and' por 'or'
+	// Saber si una pieza se puede mover a una determinada posicion.
 	method puedeBajar(pieza) = pieza.minos().all({mino => self.esValida(mino.position().down(1)) and not self.hayMinoEn(mino.position().down(1))})
 	method puedeDerecha(pieza) = pieza.minos().all({mino => self.esValida(mino.position().right(1)) and not self.hayMinoEn(mino.position().right(1))})
 	method puedeIzquierda(pieza) = pieza.minos().all({mino => self.esValida(mino.position().left(1)) and not self.hayMinoEn(mino.position().left(1))})
@@ -29,7 +29,7 @@ object tablero {
 	
 	// Obtener las posiciones de los minos acumulados.
 	method posicionesOcupadas() = minosAcumulados.map({mOcupados => mOcupados.position()})
-	// Obtener las filas que estan completas. // TODO: Hay una mejor forma? Ver occurrencesOf(element)
+	// Obtener las filas que estan completas.
 	method filasCompletas(posiciones) = (0..self.alto()).filter({fila => posiciones.filter({posicion => posicion.y() == fila}).size() == self.ancho()})
 	// Obtener la cantidad de posiciones que va a bajar un mino por completar filas.
 	method cantidadBajar(mino, filasCompletas) = filasCompletas.count({fila => mino.position().y() > fila})
@@ -80,7 +80,7 @@ object tablero {
 		minosAcumulados.clear()
 	}
 	
-	// Bajar e incrustar pieza.
+	// Bajar la pieza totalmente e incrustarla.
 	method bajarIncrustar(pieza) {
 		if(self.puedeBajar(pieza)){
 			pieza.moverAbajo()

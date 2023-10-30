@@ -26,15 +26,13 @@ object config {
 	method generarPieza() {
 		piezaActual = self.obtenerPieza()
 		// Si se puede generar, se genera.
-		if(tablero.puedeGenerar(piezaActual)) piezaActual.generar() else {
+		if(tablero.puedeGenerar(piezaActual)) piezaActual.generar()
+		else {
 			// Si no se puede generar, se termina el juego.
 			game.clear()
-			puntaje.cargar()
-			contadorFilas.cargar()
+			hub.cargar()
 			// Generar mensaje de 'JUEGO FINALIZADO'.
-			mensaje.image("FinDeJuego.png")
-			mensaje.position(game.at(2, 10))
-			self.parpadeoMensaje()
+			hub.establecerMensaje()
 		}
 	}
 	
@@ -42,9 +40,8 @@ object config {
 	method cargarConfigInicial() {
 		self.ventana()
 		self.teclaEnter()
-		// Generar mensaje 'Presionar ENTER para continuar'
-		mensaje.image("MensajeMenu.png")
-		self.parpadeoMensaje()
+		// Generar mensaje 'Presionar ENTER para continuar'.
+		menu.establecerMensaje()
 	}
 	
 	// Cargar las configuraciones del juego.
@@ -74,35 +71,26 @@ object config {
 		keyboard.enter().onPressDo({
 			// Si esta el menu habilitado.
 			if(menu.estaActivo()) {
-				// Detener el evento de "Presionar enter para continuar".
+				// Detener el evento del parpadeo de mensaje.
 				game.removeTickEvent("ParpadeoMensaje")
 				// Ocultar menu.
 				menu.ocultar()
-				// Si "Presionar enter para continuar" esta activo, se oculta.
-				if(mensaje.estaActivo()) mensaje.ocultar()
 				
-				// Cargar la informacion del hub.
-				puntaje.cargar()
-				contadorFilas.cargar()
+				// Cargar el hub.
+				hub.cargar()
 				
 				// Cargar las configuraciones del juego.
 				self.cargarConfigJuego()
 			}
 			
 			// Resetear la partida.
-			puntaje.resetear()
-			contadorFilas.resetear()
+			hub.resetear()
 			tablero.resetear()
 			if(piezaActual.estaActiva()) piezaActual.eliminar()
 			
 			// Generar la primera pieza.
 			self.generarPieza()
 		})
-	}
-	
-	// Configurar el parpadeo del mensaje "Presionar enter para continuar".
-	method parpadeoMensaje() {
-		game.onTick(500, "ParpadeoMensaje", {if(mensaje.estaActivo()) mensaje.ocultar() else mensaje.cargar()})
 	}
 	
 	// Configurar las teclas del juego.
@@ -119,7 +107,7 @@ object config {
 		keyboard.up().onPressDo({if(tablero.puedeRotar(piezaActual)) piezaActual.girar()})
 		// keyboard.w()
 		
-		// TODO: Incrustar pieza.
+		// Bajar totalmente la pieza e incrustarla.
 		keyboard.space().onPressDo({tablero.bajarIncrustar(piezaActual) puntaje.incrementar(50)})
 		
 		// TODO: Guardar pieza.

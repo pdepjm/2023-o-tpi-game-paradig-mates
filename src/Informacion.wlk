@@ -61,8 +61,8 @@ object contadorFilas {
 // Mensaje "Presionar enter para continuar" del menu.
 object mensaje {
 	// Configuraciones del mensaje.
-	var property image = "MensajeMenu.png"
-	var property position = game.at(2, 5)
+	var property image = null
+	var property position = null
 	// Consultar si se muestra el mensaje.
 	method estaActivo() = game.hasVisual(self)
 	
@@ -73,5 +73,10 @@ object mensaje {
 	// Ocultar mensaje.
 	method ocultar() {
 		game.removeVisual(self)
+	}
+	
+	// Configurar el parpadeo del mensaje.
+	method parpadeo() {
+		game.onTick(500, "ParpadeoMensaje", {if(self.estaActivo()) self.ocultar() else self.cargar()})
 	}
 }
