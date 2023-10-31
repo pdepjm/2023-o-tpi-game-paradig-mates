@@ -3,6 +3,11 @@ import wollok.game.*
 //////////////////////////////////////////////////////////
 // INFORMACION DE LA PARTIDA.
 //////////////////////////////////////////////////////////
+// TODO: Desarrollar clase abstracta 'Informacion'.
+class Informacion {
+	
+}
+
 // Puntaje.
 object puntaje {
 	// Puntaje acumulado.
@@ -38,7 +43,7 @@ object contadorFilas {
 	var contador = 0
 	
 	// Configuraciones del contador de filas completadas.
-	method position() = game.at(15, 8)
+	method position() = game.at(17, 8)
 	method textColor() = "FFFFFF"
 	method text() = contador.toString()
 	
@@ -55,6 +60,25 @@ object contadorFilas {
 	// Resetear contador.
 	method resetear() {
 		contador = 0
+	}
+}
+
+// Proxima pieza a generar. // TODO: Hacer test.
+object proxima {
+	// Configuraciones de la proxima pieza.
+	var property image = null
+	// Consultar la posicion.
+	method position() = game.at(13, 8)
+	
+	// Mostrar proxima pieza.
+	method cargar(pieza) {
+		image = pieza.mini()
+		game.addVisual(self)
+	}
+	
+	// Ocultar proxima pieza.
+	method ocultar() {
+		game.removeVisual(self)
 	}
 }
 

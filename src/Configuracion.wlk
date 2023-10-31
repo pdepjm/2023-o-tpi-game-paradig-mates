@@ -11,8 +11,8 @@ import Tablero.*
 object config {
 	// Pieza actual en juego.
 	var piezaActual = new Pieza_Z()
-	// TODO: Pieza almacenada.
-	// var piezaAlmacenada.
+	// TODO: Proxima pieza.
+	var siguientePieza
 	
 	// Tiempo del evento de caida.
 	var tiempoCaida = 1010
@@ -24,10 +24,13 @@ object config {
 	
 	// Generar una nueva pieza.
 	method generarPieza() {
-		piezaActual = self.obtenerPieza()
+		piezaActual = siguientePieza
+		siguientePieza = self.obtenerPieza()
 		// Si se puede generar, se genera.
-		if(tablero.puedeGenerar(piezaActual)) piezaActual.generar()
-		else {
+		if(tablero.puedeGenerar(piezaActual)) {
+			piezaActual.generar()
+			proxima.cargar(siguientePieza) // TODO: esto va aca?
+		} else {
 			// Si no se puede generar, se termina el juego.
 			game.clear()
 			hub.cargar()
@@ -58,7 +61,7 @@ object config {
 		game.cellSize(30)
 		
 		// Imagen de fondo, celda a celda.
-		game.boardGround("Background.png")
+		game.boardGround("Background2.png") // TODO: Si queda esta, cambiar nombre y borrar el otro.
 		
 		// Titulo del juego.
 		game.title("TETRIS")
@@ -88,29 +91,23 @@ object config {
 			if(piezaActual.estaActiva()) piezaActual.eliminar()
 			
 			// Generar la primera pieza.
+			siguientePieza = self.obtenerPieza() // TODO: Esto va aca?
 			self.generarPieza()
 		})
 	}
 	
 	// Configurar las teclas del juego.
 	method teclasJuego() {
-		// TODO: Movimiento de pieza.
+		// Movimiento de pieza.
 		keyboard.down().onPressDo({if(tablero.puedeBajar(piezaActual)) {piezaActual.moverAbajo() puntaje.incrementar(10)}})
-		// keyboard.s()
 		keyboard.left().onPressDo({if(tablero.puedeIzquierda(piezaActual)) piezaActual.moverIzquierda()})
-		// keyboard.a()
 		keyboard.right().onPressDo({if(tablero.puedeDerecha(piezaActual)) piezaActual.moverDerecha()})
-		// keyboard.d()
 		
-		// TODO: Rotacion de pieza.
+		// Rotacion de pieza.
 		keyboard.up().onPressDo({if(tablero.puedeRotar(piezaActual)) piezaActual.girar()})
-		// keyboard.w()
 		
 		// Bajar totalmente la pieza e incrustarla.
 		keyboard.space().onPressDo({tablero.bajarIncrustar(piezaActual) puntaje.incrementar(50)})
-		
-		// TODO: Guardar pieza.
-		// keyboard.e()
 	}
 	
 	// Iniciar la caida de piezas.
@@ -145,6 +142,7 @@ object config {
 			} else {
 				// Si no puede bajar, se incrusta la pieza y se genera una nueva.
 				tablero.incrustar(piezaActual)
+				proxima.ocultar() //TODO: esto va aca?
 				self.generarPieza()
 			}
 		})

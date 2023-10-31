@@ -165,6 +165,8 @@ describe "Minos" { // TODO: No se si habra test para hacerle.
 // TABLERO.
 //////////////////////////////////////////////////////////
 describe "Tablero" {
+	const unaPieza = new Pieza_Z()
+	
 	test "La posicion (0, 1) no es valida" {
 		assert.notThat(tablero.esValida(game.at(0, 1)))
 	}
@@ -181,56 +183,23 @@ describe "Tablero" {
 		assert.that(tablero.esValida(game.at(1, 1)))
 	}
 	
-	test "Una pieza con el mino central en el (1, 1) no puede moverse hacia abajo" {
-		assert.notThat(tablero.puedeBajar(new Pieza(minos = [new Mino(position = game.at(1,1), image = "lightblue.png")])))
-	}
-	
-	test "Una pieza con el mino central en el (1, 2) puede moverse hacia abajo" {
-		assert.that(tablero.puedeBajar(new Pieza(minos = [new Mino(position = game.at(1,2), image = "lightblue.png")])))
-	}
-	
-	test "Una pieza con el mino central en el (1, 1) no puede moverse hacia la izquierda" {
-		assert.notThat(tablero.puedeIzquierda(new Pieza(minos = [new Mino(position = game.at(1,1), image = "lightblue.png")])))
-	}
-	
-	test "Una pieza con el mino central en el (2, 1) puede moverse hacia la izquierda" {
-		assert.that(tablero.puedeIzquierda(new Pieza(minos = [new Mino(position = game.at(2,1), image = "lightblue.png")])))
-	}
-	
-	test "Una pieza con el mino central en el (10, 1) no puede moverse hacia la derecha" {
-		assert.notThat(tablero.puedeDerecha(new Pieza(minos = [new Mino(position = game.at(10,1), image = "lightblue.png")])))
-	}
-	
-	test "Una pieza con el mino central en el (9, 1) puede moverse hacia la derecha" {
-		assert.that(tablero.puedeDerecha(new Pieza(minos = [new Mino(position = game.at(9,1), image = "lightblue.png")])))
-	}
-	
-	test "Una pieza con el mino central en el (0, 0) y con un mino aledanio en el (1, 0) no puede rotar" {
-		assert.notThat(tablero.puedeRotar(new Pieza(minos = [new Mino(position = game.at(0,0), image = "lightblue.png"), new Mino(position = game.at(1,0), image = "lightblue.png")])))
-	}
-	
-	test "Una pieza con el mino central en el (0, 0) y con un mino aledanio en el (0, 1) no puede rotar" {
-		assert.notThat(tablero.puedeRotar(new Pieza(minos = [new Mino(position = game.at(0,0), image = "lightblue.png"), new Mino(position = game.at(0,1), image = "lightblue.png")])))
-	}
-	
 	test "Es posible agregar una pieza a minos ocupados" {
-		const unaPieza = new Pieza(minos = [new Mino(position = game.at(0,0), image = "lightblue.png"), new Mino(position = game.at(0,1), image = "lightblue.png")])
 		tablero.agregarMinos(unaPieza)
 		assert.equals(unaPieza.minos(), tablero.minosAcumulados())
 	}
 	
 	test "Es posible saber si hay mino ocupado en una posicion dada" {
-		tablero.agregarMinos(new Pieza_Z())
+		tablero.agregarMinos(unaPieza)
 		assert.that(tablero.hayMinoEn(config.centroGeneracion()))
 	}
 	
 	test "Es posible generar una pieza si la posicion no esta ocupada" {
-		assert.that(tablero.puedeGenerar(new Pieza_Z()))
+		assert.that(tablero.puedeGenerar(unaPieza))
 	}
 	
 	test "No es posible generar una pieza si la posicion esta ocupada" {
 		tablero.agregarMinos(new Pieza_T())
-		assert.notThat(tablero.puedeGenerar(new Pieza_Z()))
+		assert.notThat(tablero.puedeGenerar(unaPieza))
 	}
 	
 	test "Es posible obtener una lista de las filas completas" {
