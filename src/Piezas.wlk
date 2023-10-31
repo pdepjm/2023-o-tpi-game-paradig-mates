@@ -4,19 +4,17 @@ import Configuracion.*
 //////////////////////////////////////////////////////////
 // PIEZAS JUGABLES.
 //////////////////////////////////////////////////////////
-// Molde de las Piezas del tetris (Formado por 4 minos)
+// Clase abstracta de las Piezas del tetris (Formado por 4 minos)
 class Pieza {
 	// Minos que conforman la pieza.
 	const property minos = []
-	// Mini pieza. // TODO: Necesario?
+	// Mini pieza para el HUB.
 	const property mini
 	
 	// Consultar mino central.
 	method centro() = minos.first()
 	// Consultar si esta la pieza activa en el tablero.
 	method estaActiva() = game.hasVisual(self.centro())
-	// Obtener la mini pieza.
-	method mini() = mini
 	
 	// Generar pieza en tablero.
 	method generar() {

@@ -14,18 +14,24 @@ object menu {
 	
 	// Mostrar un menu de bienvenida.
 	method cargar() {
+		// Mostrar el menu de bienvenida del juego.
 		game.addVisual(self)
+		// Generar mensaje 'Presionar ENTER para continuar'.
+		self.mostrarMensaje()
 	}
 	
 	// Dejar de mostrar menu de bienvenida.
-	method ocultar() {
-		game.removeVisual(self)
+	method eliminar() {
+		// Detener el evento del parpadeo de mensaje.
+		game.removeTickEvent("ParpadeoMensaje")
 		// Si "Presionar enter para continuar" esta activo, se oculta.
 		if(mensaje.estaActivo()) mensaje.ocultar()
+		// Lo ocultamos.
+		game.removeVisual(self)
 	}
 	
 	// Establecer mensaje de inicio de partida.
-	method establecerMensaje() {
+	method mostrarMensaje() {
 		mensaje.image("MensajeMenu.png")
 		mensaje.position(game.at(2, 5))
 		mensaje.parpadeo()
@@ -50,11 +56,9 @@ object hub {
 	}
 	
 	// Establecer mensaje de final de partida.
-	method establecerMensaje() {
+	method mostrarMensaje() {
 		mensaje.image("FinDeJuego.png")
 		mensaje.position(game.at(2, 10))
 		mensaje.parpadeo()
 	}
-	
-	// TODO: Generar en el hub un espacio para ver la pieza acumulada.
 }

@@ -11,7 +11,7 @@ import Tablero.*
 object config {
 	// Pieza actual en juego.
 	var piezaActual = new Pieza_Z()
-	// TODO: Proxima pieza.
+	// Siguiente pieza para jugar.
 	var siguientePieza
 	
 	// Tiempo del evento de caida.
@@ -29,26 +29,33 @@ object config {
 		// Si se puede generar, se genera.
 		if(tablero.puedeGenerar(piezaActual)) {
 			piezaActual.generar()
-			proxima.cargar(siguientePieza) // TODO: esto va aca?
+			proxima.cargar(siguientePieza)
 		} else {
 			// Si no se puede generar, se termina el juego.
 			game.clear()
 			hub.cargar()
 			// Generar mensaje de 'Fin de juego'.
-			hub.establecerMensaje()
+			hub.mostrarMensaje()
 		}
 	}
 	
+	// Generar la primeras piezas.
+	method generarPiezaInicial() {
+		siguientePieza = self.obtenerPieza()
+		self.generarPieza()
+	}
+	
 	// Cargar las configuraciones iniciales.
-	method cargarConfigInicial() {
+	method cargar() {
 		self.ventana()
 		self.teclaEnter()
-		// Generar mensaje 'Presionar ENTER para continuar'.
-		menu.establecerMensaje()
+		
+		// Mostrar el menu de bienvenida del juego.
+		menu.cargar()
 	}
 	
 	// Cargar las configuraciones del juego.
-	method cargarConfigJuego(){
+	method cargarJuego(){
 		self.teclasJuego()
 		self.iniciarCaida()
 	}
@@ -61,38 +68,35 @@ object config {
 		game.cellSize(30)
 		
 		// Imagen de fondo, celda a celda.
-		game.boardGround("Background2.png") // TODO: Si queda esta, cambiar nombre y borrar el otro.
+		game.boardGround("Background.png")
 		
 		// Titulo del juego.
 		game.title("TETRIS")
 	}
 	
-	// Configurar las teclas del menu.
+	// Configurar la tecla ENTER del juego.
 	method teclaEnter() {
 		// Comenzar o resetear partida.
 		keyboard.enter().onPressDo({
 			// Si esta el menu habilitado.
 			if(menu.estaActivo()) {
-				// Detener el evento del parpadeo de mensaje.
-				game.removeTickEvent("ParpadeoMensaje")
 				// Ocultar menu.
-				menu.ocultar()
-				
+				menu.eliminar()
 				// Cargar el hub.
 				hub.cargar()
 				// Cargar las configuraciones del juego.
-				self.cargarConfigJuego()
+				self.cargarJuego()
 			}
 			
 			// Resetear la partida.
 			hub.resetear()
 			tablero.resetear()
 			self.resetearDificultad()
+			if(proxima.estaActiva()) proxima.ocultar()
 			if(piezaActual.estaActiva()) piezaActual.eliminar()
 			
-			// Generar la primera pieza.
-			siguientePieza = self.obtenerPieza() // TODO: Esto va aca?
-			self.generarPieza()
+			// Generar la primeras piezas.
+			self.generarPiezaInicial()
 		})
 	}
 	
@@ -106,7 +110,7 @@ object config {
 		// Rotacion de pieza.
 		keyboard.up().onPressDo({if(tablero.puedeRotar(piezaActual)) piezaActual.girar()})
 		
-		// Bajar totalmente la pieza e incrustarla.
+		// Bajar la pieza totalmente e incrustarla.
 		keyboard.space().onPressDo({tablero.bajarIncrustar(piezaActual) puntaje.incrementar(50)})
 	}
 	
@@ -142,7 +146,7 @@ object config {
 			} else {
 				// Si no puede bajar, se incrusta la pieza y se genera una nueva.
 				tablero.incrustar(piezaActual)
-				proxima.ocultar() //TODO: esto va aca?
+				proxima.ocultar()
 				self.generarPieza()
 			}
 		})

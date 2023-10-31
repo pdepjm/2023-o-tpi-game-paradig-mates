@@ -25,12 +25,12 @@ describe "Menu" {
 	
 	test "Es posible ocultarlo/deshabilitarlo" {
 		menu.cargar()
-		menu.ocultar()
+		menu.eliminar()
 		assert.notThat(menu.estaActivo())
 	}
 	
 	test "Es posible establecer el mensaje 'Presionar enter para continuar'" {
-		menu.establecerMensaje()
+		menu.mostrarMensaje()
 		assert.equals("MensajeMenu.png", mensaje.image())
 		assert.equals(game.at(2, 5), mensaje.position())
 	}
@@ -52,7 +52,7 @@ describe "Hub" {
 	}
 	
 	test "Es posible establecer el mensaje 'Fin de juego'" {
-		hub.establecerMensaje()
+		hub.mostrarMensaje()
 		assert.equals("FinDeJuego.png", mensaje.image())
 		assert.equals(game.at(2, 10), mensaje.position())
 	}
@@ -106,6 +106,19 @@ describe "Filas completadas" {
 		contadorFilas.incrementar(2)
 		contadorFilas.resetear()
 		assert.equals("0", contadorFilas.text())
+	}
+}
+
+describe "Proxima" {
+	test "Es posible cargarlo" {
+		proxima.cargar(new Pieza_Z())
+		assert.that(proxima.estaActiva())
+	}
+	
+	test "Es posible ocultarlo" {
+		proxima.cargar(new Pieza_Z())
+		proxima.ocultar()
+		assert.notThat(proxima.estaActiva())
 	}
 }
 
@@ -184,12 +197,12 @@ describe "Tablero" {
 	}
 	
 	test "Es posible agregar una pieza a minos ocupados" {
-		tablero.agregarMinos(unaPieza)
+		tablero.agregarMinosDe(unaPieza)
 		assert.equals(unaPieza.minos(), tablero.minosAcumulados())
 	}
 	
 	test "Es posible saber si hay mino ocupado en una posicion dada" {
-		tablero.agregarMinos(unaPieza)
+		tablero.agregarMinosDe(unaPieza)
 		assert.that(tablero.hayMinoEn(config.centroGeneracion()))
 	}
 	
@@ -198,7 +211,7 @@ describe "Tablero" {
 	}
 	
 	test "No es posible generar una pieza si la posicion esta ocupada" {
-		tablero.agregarMinos(new Pieza_T())
+		tablero.agregarMinosDe(new Pieza_T())
 		assert.notThat(tablero.puedeGenerar(unaPieza))
 	}
 	

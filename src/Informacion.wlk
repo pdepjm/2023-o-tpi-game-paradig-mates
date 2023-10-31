@@ -3,11 +3,6 @@ import wollok.game.*
 //////////////////////////////////////////////////////////
 // INFORMACION DE LA PARTIDA.
 //////////////////////////////////////////////////////////
-// TODO: Desarrollar clase abstracta 'Informacion'.
-class Informacion {
-	
-}
-
 // Puntaje.
 object puntaje {
 	// Puntaje acumulado.
@@ -63,12 +58,16 @@ object contadorFilas {
 	}
 }
 
-// Proxima pieza a generar. // TODO: Hacer test.
+// Proxima pieza a generar.
 object proxima {
 	// Configuraciones de la proxima pieza.
-	var property image = null
+	var image = null
 	// Consultar la posicion.
 	method position() = game.at(13, 8)
+	// Consultar si esta la pieza activa en el tablero.
+	method estaActiva() = game.hasVisual(self)
+	// Consultar imagen de la proxima pieza.
+	method image() = image
 	
 	// Mostrar proxima pieza.
 	method cargar(pieza) {
