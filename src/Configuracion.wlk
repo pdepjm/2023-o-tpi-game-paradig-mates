@@ -118,7 +118,7 @@ object config {
 		// Iniciamos caida de piezas.
 		self.caidaPiezas()
 		// Cada x tiempo, se aumenta la dificultad.
-		game.onTick(2000, "AumentarDificultad", {
+		game.onTick(20000, "AumentarDificultad", {
 			// Detener el evento de la caida de piezas.
 			game.removeTickEvent("CaidaPiezas")
 			// Aceleramos tiempo de caida.
