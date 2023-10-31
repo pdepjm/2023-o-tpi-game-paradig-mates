@@ -40,21 +40,37 @@ describe "Hub" {
 	test "Es posible mostrar su informacion" {
 		hub.cargar()
 		assert.that(game.hasVisual(puntaje))
-		assert.that(game.hasVisual(contadorFilas))
+		assert.that(game.hasVisual(filas))
 	}
 	
 	test "Es posible resetear su informacion" {
 		puntaje.incrementar(10)
-		contadorFilas.incrementar(10)
+		filas.incrementar(10)
 		hub.resetear()
 		assert.equals("0", puntaje.text())
-		assert.equals("0", contadorFilas.text())
+		assert.equals("0", filas.text())
 	}
 	
 	test "Es posible establecer el mensaje 'Fin de juego'" {
 		hub.mostrarMensaje()
 		assert.equals("FinDeJuego.png", mensaje.image())
 		assert.equals(game.at(2, 10), mensaje.position())
+	}
+	
+	test "Si se completa 1 fila, se obtiene 100 puntos" {
+		assert.equals(100, hub.puntosGanados([1]))
+	}
+	
+	test "Si se completa 2 fila, se obtiene 200 puntos" {
+		assert.equals(200, hub.puntosGanados([1, 2]))
+	}
+	
+	test "Si se completa 3 fila, se obtiene 400 puntos" {
+		assert.equals(400, hub.puntosGanados([1, 2, 3]))
+	}
+	
+	test "Si se completa 4 fila, se obtiene 800 puntos" {
+		assert.equals(800, hub.puntosGanados([1, 2, 3, 4]))
 	}
 }
 
@@ -83,40 +99,44 @@ describe "Puntaje" {
 
 describe "Filas completadas" {
 	test "Es posible aumentarlo en 1" {
-		contadorFilas.incrementar(1)
-		assert.equals("1", contadorFilas.text())
+		filas.incrementar(1)
+		assert.equals("1", filas.text())
 	}
 	
 	test "Es posible aumentarlo en 2" {
-		contadorFilas.incrementar(2)
-		assert.equals("2", contadorFilas.text())
+		filas.incrementar(2)
+		assert.equals("2", filas.text())
 	}
 	
 	test "Es posible aumentarlo en 3" {
-		contadorFilas.incrementar(3)
-		assert.equals("3", contadorFilas.text())
+		filas.incrementar(3)
+		assert.equals("3", filas.text())
 	}
 	
 	test "Es posible aumentarlo en 4" {
-		contadorFilas.incrementar(4)
-		assert.equals("4", contadorFilas.text())
+		filas.incrementar(4)
+		assert.equals("4", filas.text())
 	}
 	
 	test "Es posible resetearlo a 0" {
-		contadorFilas.incrementar(2)
-		contadorFilas.resetear()
-		assert.equals("0", contadorFilas.text())
+		filas.incrementar(2)
+		filas.resetear()
+		assert.equals("0", filas.text())
 	}
 }
 
 describe "Proxima" {
+	const unaPieza = new Pieza_Z()
+	
 	test "Es posible cargarlo" {
-		proxima.cargar(new Pieza_Z())
+		proxima.image(unaPieza.mini())
+		proxima.cargar()
 		assert.that(proxima.estaActiva())
 	}
 	
 	test "Es posible ocultarlo" {
-		proxima.cargar(new Pieza_Z())
+		proxima.image(unaPieza.mini())
+		proxima.cargar()
 		proxima.ocultar()
 		assert.notThat(proxima.estaActiva())
 	}
@@ -125,13 +145,13 @@ describe "Proxima" {
 describe "Mensaje" {
 	test "Es posible mostrar el mensaje 'Presionar enter para continuar'" {
 		mensaje.cargar()
-		assert.that(mensaje.estaActivo())
+		assert.that(mensaje.estaActiva())
 	}
 	
 	test "Es posible ocultar el mensaje 'Presionar enter para continuar'" {
 		mensaje.cargar()
 		mensaje.ocultar()
-		assert.notThat(mensaje.estaActivo())
+		assert.notThat(mensaje.estaActiva())
 	}
 }
 
@@ -222,22 +242,6 @@ describe "Tablero" {
 	
 	test "Si se eliminan las filas 1 y 2, el mino en la posicion (3, 4) debera bajar 2 posiciones" {
 		assert.equals(2, tablero.cantidadBajar(new Mino(position = game.at(3,4), image = "lightblue.png"), [1, 2]))
-	}
-	
-	test "Si se completa 1 fila, se obtiene 100 puntos" {
-		assert.equals(100, tablero.puntosGanados([1]))
-	}
-	
-	test "Si se completa 2 fila, se obtiene 200 puntos" {
-		assert.equals(200, tablero.puntosGanados([1, 2]))
-	}
-	
-	test "Si se completa 3 fila, se obtiene 400 puntos" {
-		assert.equals(400, tablero.puntosGanados([1, 2, 3]))
-	}
-	
-	test "Si se completa 4 fila, se obtiene 800 puntos" {
-		assert.equals(800, tablero.puntosGanados([1, 2, 3, 4]))
 	}
 }
 

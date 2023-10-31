@@ -1,5 +1,5 @@
 import wollok.game.*
-import Informacion.*
+import Entorno.*
 
 //////////////////////////////////////////////////////////
 // TABLERO DE JUEGO.
@@ -33,8 +33,6 @@ object tablero {
 	method filasCompletas(posiciones) = (0..self.alto()).filter({fila => posiciones.filter({posicion => posicion.y() == fila}).size() == self.ancho()})
 	// Obtener la cantidad de posiciones que va a bajar un mino por completar filas.
 	method cantidadBajar(mino, filasCompletas) = filasCompletas.count({fila => mino.position().y() > fila})
-	// Obtener los puntos ganados por completar filas.
-	method puntosGanados(filasCompletas) = [100, 200, 400, 800].get(filasCompletas.size() - 1)
 	
 	// Agregar los minos de una pieza dada a la lista de minos acumulados.
 	method agregarMinosDe(pieza) {
@@ -67,10 +65,8 @@ object tablero {
 				mino.position(mino.position().down(self.cantidadBajar(mino, filasCompletas)))
 			})
 			
-			// Incrementar la puntuacion al completar filas.
-			puntaje.incrementar(self.puntosGanados(filasCompletas))
-			// Incrementar el contador de filas completadas.
-			contadorFilas.incrementar(filasCompletas.size())
+			// Modificar puntaje obtenido y filas completadas.
+			hub.modificarContadores(filasCompletas)
 		}
 	}
 	

@@ -29,7 +29,7 @@ object config {
 		// Si se puede generar, se genera.
 		if(tablero.puedeGenerar(piezaActual)) {
 			piezaActual.generar()
-			proxima.cargar(siguientePieza)
+			hub.mostrarImagen(siguientePieza)
 		} else {
 			// Si no se puede generar, se termina el juego.
 			game.clear()
