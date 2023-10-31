@@ -58,7 +58,7 @@ object contadorFilas {
 	}
 }
 
-// Mensaje "Presionar enter para continuar" del menu.
+// Mensaje "Presionar enter para continuar" y "Fin de juego".
 object mensaje {
 	// Configuraciones del mensaje.
 	var property image = null

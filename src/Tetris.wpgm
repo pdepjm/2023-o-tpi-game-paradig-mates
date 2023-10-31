@@ -9,7 +9,7 @@ import Entorno.*
 	* Sus medidas son 10 minos de ancho por 20 minos de alto. Minos = Cuadraditos.
 	* Formación objetivo del juego, completar líneas en la parte inferior y así limpiar la matrix de las piezas.
 	* El jugador puede decidir la rotación de la pieza (0°, 90°, 180°, 270°) y el lugar debe caer.
-	* La caída de las piezas se acelera progresivamente. // TODO: Falta.
+	* La caída de las piezas se acelera progresivamente.
 */
 
 program Tetris {

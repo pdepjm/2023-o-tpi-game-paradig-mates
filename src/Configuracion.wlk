@@ -15,7 +15,7 @@ object config {
 	// var piezaAlmacenada.
 	
 	// Tiempo del evento de caida.
-	method tiempoCaida() = 800
+	var tiempoCaida = 1010
 	
 	// Centro de generacion de las piezas.
 	method centroGeneracion() = game.at(5, 19)
@@ -31,7 +31,7 @@ object config {
 			// Si no se puede generar, se termina el juego.
 			game.clear()
 			hub.cargar()
-			// Generar mensaje de 'JUEGO FINALIZADO'.
+			// Generar mensaje de 'Fin de juego'.
 			hub.establecerMensaje()
 		}
 	}
@@ -47,8 +47,7 @@ object config {
 	// Cargar las configuraciones del juego.
 	method cargarConfigJuego(){
 		self.teclasJuego()
-		self.caidaPiezas()
-		// self.aumentoDeNivel()
+		self.iniciarCaida()
 	}
 	
 	// Configurar la informacion de la ventana.
@@ -78,7 +77,6 @@ object config {
 				
 				// Cargar el hub.
 				hub.cargar()
-				
 				// Cargar las configuraciones del juego.
 				self.cargarConfigJuego()
 			}
@@ -86,6 +84,7 @@ object config {
 			// Resetear la partida.
 			hub.resetear()
 			tablero.resetear()
+			self.resetearDificultad()
 			if(piezaActual.estaActiva()) piezaActual.eliminar()
 			
 			// Generar la primera pieza.
@@ -114,18 +113,40 @@ object config {
 		// keyboard.e()
 	}
 	
+	// Iniciar la caida de piezas.
+	method iniciarCaida() {
+		// Iniciamos caida de piezas.
+		self.caidaPiezas()
+		// Cada x tiempo, se aumenta la dificultad.
+		game.onTick(2000, "AumentarDificultad", {
+			// Detener el evento de la caida de piezas.
+			game.removeTickEvent("CaidaPiezas")
+			// Aceleramos tiempo de caida.
+			tiempoCaida = 100.max(tiempoCaida - 100)
+			// Iniciamos el evento de la caida de piezas.
+			self.caidaPiezas()
+		})
+	}
+	// Resetear dificultad de juego.
+	method resetearDificultad() {
+		game.removeTickEvent("AumentarDificultad")
+		game.removeTickEvent("CaidaPiezas")
+		tiempoCaida = 1010
+		self.iniciarCaida()
+	}
+	
 	// Configurar la caida de las piezas.
 	method caidaPiezas() {
-		game.onTick(1000, "CaidaPiezas", {
+		game.onTick(tiempoCaida, "CaidaPiezas", {
 			// Comprobar si se puede bajar la pieza.
 			if(tablero.puedeBajar(piezaActual)) {
 				// Si puede bajar, baja.
 				piezaActual.moverAbajo()
 			} else {
-				// Si no puede bajar, se incrusta y se genera una nueva.
+				// Si no puede bajar, se incrusta la pieza y se genera una nueva.
 				tablero.incrustar(piezaActual)
 				self.generarPieza()
 			}
 		})
-	}	
+	}
 }
