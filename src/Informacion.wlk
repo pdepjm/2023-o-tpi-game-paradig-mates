@@ -61,7 +61,7 @@ object puntaje inherits InformacionTexto(
 
 // Filas completadas.
 object filas inherits InformacionTexto(
-	contadorMaximo = 10000,
+	contadorMaximo = 99999,
 	position = game.at(17, 8)
 ) {}
 

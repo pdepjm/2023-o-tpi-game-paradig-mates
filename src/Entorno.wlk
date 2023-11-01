@@ -65,16 +65,16 @@ object hub {
 		filas.incrementar(filasCompletas.size())
 	}
 	
+	// Mostrar proxima pieza a ser jugada.
+	method mostrarImagen(piezaProxima) {
+		proxima.image(piezaProxima.mini())
+		proxima.cargar()
+	}
+	
 	// Mostrar mensaje de final de partida.
 	method mostrarMensaje() {
 		mensaje.image("FinDeJuego.png")
 		mensaje.position(game.at(2, 10))
 		mensaje.parpadeo()
-	}
-	
-	// Mostrar proxima pieza a ser jugada.
-	method mostrarImagen(piezaProxima) {
-		proxima.image(piezaProxima.mini())
-		proxima.cargar()
 	}
 }

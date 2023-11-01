@@ -6,15 +6,6 @@ import Piezas.*
 import Tablero.*
 
 //////////////////////////////////////////////////////////
-// CONFIGURACION.
-//////////////////////////////////////////////////////////
-describe "Configuracion" {
-	test "testX" {
-		assert.that(true)
-	}
-}
-
-//////////////////////////////////////////////////////////
 // ENTORNO.
 //////////////////////////////////////////////////////////
 describe "Menu" {
@@ -23,7 +14,7 @@ describe "Menu" {
 		assert.that(menu.estaActivo())
 	}
 	
-	test "Es posible ocultarlo/deshabilitarlo" {
+	test "Es posible eliminarlo" {
 		menu.cargar()
 		menu.eliminar()
 		assert.notThat(menu.estaActivo())
@@ -72,12 +63,18 @@ describe "Hub" {
 	test "Si se completa 4 fila, se obtiene 800 puntos" {
 		assert.equals(800, hub.puntosGanados([1, 2, 3, 4]))
 	}
+	
+	test "Es posible modificar los contadores del juego" {
+		hub.modificarContadores([1, 2, 3])
+		assert.equals("400", puntaje.text())
+		assert.equals("3", filas.text())
+	}
 }
 
 //////////////////////////////////////////////////////////
 // INFORMACION.
 //////////////////////////////////////////////////////////
-describe "Puntaje" {
+describe "Puntaje obtenido" {
 	test "Es posible aumentarlo dado un valor" {
 		puntaje.incrementar(100)
 		puntaje.incrementar(200)
@@ -90,7 +87,7 @@ describe "Puntaje" {
 		assert.equals("0", puntaje.text())
 	}
 	
-	test "Al llegar al puntaje maximo puntaje se resetea" {
+	test "Al llegar al puntaje maximo puntaje, se resetea" {
 		puntaje.incrementar(999999900)
 		puntaje.incrementar(100)
 		assert.equals("100", puntaje.text())
@@ -123,9 +120,15 @@ describe "Filas completadas" {
 		filas.resetear()
 		assert.equals("0", filas.text())
 	}
+	
+	test "Al llegar a la cantidad de filas completadas maxima, se resetea" {
+		filas.incrementar(99900)
+		filas.incrementar(100)
+		assert.equals("100", filas.text())
+	}
 }
 
-describe "Proxima" {
+describe "Proxima pieza" {
 	const unaPieza = new Pieza_Z()
 	
 	test "Es posible cargarlo" {
@@ -143,12 +146,14 @@ describe "Proxima" {
 }
 
 describe "Mensaje" {
-	test "Es posible mostrar el mensaje 'Presionar enter para continuar'" {
+	test "Es posible mostrar el mensaje" {
+		mensaje.image("MensajeMenu.png")
 		mensaje.cargar()
 		assert.that(mensaje.estaActiva())
 	}
 	
-	test "Es posible ocultar el mensaje 'Presionar enter para continuar'" {
+	test "Es posible ocultar el mensaje" {
+		mensaje.image("MensajeMenu.png")
 		mensaje.cargar()
 		mensaje.ocultar()
 		assert.notThat(mensaje.estaActiva())
@@ -185,12 +190,6 @@ describe "Piezas" {
 	test "Es posible moverlo hacia la izquierda" {
 		unaPieza.moverIzquierda()
 		assert.equals(config.centroGeneracion().left(1), unaPieza.centro().position())
-	}
-}
-
-describe "Minos" { // TODO: No se si habra test para hacerle.
-	test "testX" {
-		assert.that(true)
 	}
 }
 
@@ -242,11 +241,5 @@ describe "Tablero" {
 	
 	test "Si se eliminan las filas 1 y 2, el mino en la posicion (3, 4) debera bajar 2 posiciones" {
 		assert.equals(2, tablero.cantidadBajar(new Mino(position = game.at(3,4), image = "lightblue.png"), [1, 2]))
-	}
-}
-
-describe "Muros" { // TODO: No se si habra test para hacerle.
-	test "testX" {
-		assert.that(true)
 	}
 }

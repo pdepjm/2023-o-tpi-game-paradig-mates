@@ -10,7 +10,7 @@ import Tablero.*
 // Configuraciones del juego.
 object config {
 	// Pieza actual en juego.
-	var piezaActual = new Pieza_Z()
+	var piezaActual = self.obtenerPieza()
 	// Siguiente pieza para jugar.
 	var siguientePieza
 	
@@ -26,7 +26,7 @@ object config {
 	method generarPieza() {
 		piezaActual = siguientePieza
 		siguientePieza = self.obtenerPieza()
-		// Si se puede generar, se genera.
+		// Si se puede generar la pieza, se genera.
 		if(tablero.puedeGenerar(piezaActual)) {
 			piezaActual.generar()
 			hub.mostrarImagen(siguientePieza)
@@ -95,7 +95,7 @@ object config {
 			if(proxima.estaActiva()) proxima.ocultar()
 			if(piezaActual.estaActiva()) piezaActual.eliminar()
 			
-			// Generar la primeras piezas.
+			// Generar las primeras piezas.
 			self.generarPiezaInicial()
 		})
 	}
