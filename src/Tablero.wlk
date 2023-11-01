@@ -44,7 +44,7 @@ object tablero {
 		// Agregamos la pieza a la lista.
 		self.agregarMinosDe(pieza)
 		// Reproducir sonido al incrustar.
-		game.sound("Incrustar.wav").play()
+		game.sound("Sonidos/Incrustar.wav").play()
 		// Eliminar filas completadas y bajar las filas superiores.
 		self.eliminarFilas()
 	}
@@ -70,7 +70,7 @@ object tablero {
 			// Modificar puntaje obtenido y filas completadas.
 			hub.modificarContadores(filasCompletas)
 			// Reproducir sonido al eliminar filas.
-			game.sound("EliminarFila.wav").play()
+			game.sound("Sonidos/EliminarFila.wav").play()
 		}
 	}
 	

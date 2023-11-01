@@ -49,67 +49,67 @@ class Pieza {
 }
 
 // Pieza I. (Rojo)
-class Pieza_I inherits Pieza(mini = "miniI.png", minos = [
+class Pieza_I inherits Pieza(mini = "Piezas/miniI.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
-	new Mino(position = config.centroGeneracion(), image = "red.png"),
+	new Mino(position = config.centroGeneracion(), image = "Minos/red.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
-	new Mino(position = config.centroGeneracion().up(1), image = "red.png"),
-	new Mino(position = config.centroGeneracion().down(1), image = "red.png"),
-	new Mino(position = config.centroGeneracion().down(2), image = "red.png")
+	new Mino(position = config.centroGeneracion().up(1), image = "Minos/red.png"),
+	new Mino(position = config.centroGeneracion().down(1), image = "Minos/red.png"),
+	new Mino(position = config.centroGeneracion().down(2), image = "Minos/red.png")
 ]) {}
 // Pieza J. (Azul)
-class Pieza_J inherits Pieza(mini = "miniJ.png", minos = [
+class Pieza_J inherits Pieza(mini = "Piezas/miniJ.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
-	new Mino(position = config.centroGeneracion(), image = "blue.png"),
+	new Mino(position = config.centroGeneracion(), image = "Minos/blue.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
-	new Mino(position = config.centroGeneracion().up(1), image = "blue.png"),
-	new Mino(position = config.centroGeneracion().down(1), image = "blue.png"),
-	new Mino(position = config.centroGeneracion().down(1).left(1), image = "blue.png")
+	new Mino(position = config.centroGeneracion().up(1), image = "Minos/blue.png"),
+	new Mino(position = config.centroGeneracion().down(1), image = "Minos/blue.png"),
+	new Mino(position = config.centroGeneracion().down(1).left(1), image = "Minos/blue.png")
 ]) {}
 // Pieza L. (Naranja)
-class Pieza_L inherits Pieza(mini = "miniL.png", minos = [
+class Pieza_L inherits Pieza(mini = "Piezas/miniL.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
-	new Mino(position = config.centroGeneracion(), image = "orange.png"),
+	new Mino(position = config.centroGeneracion(), image = "Minos/orange.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
-	new Mino(position = config.centroGeneracion().up(1), image = "orange.png"),
-	new Mino(position = config.centroGeneracion().down(1), image = "orange.png"),
-	new Mino(position = config.centroGeneracion().down(1).right(1), image = "orange.png")
+	new Mino(position = config.centroGeneracion().up(1), image = "Minos/orange.png"),
+	new Mino(position = config.centroGeneracion().down(1), image = "Minos/orange.png"),
+	new Mino(position = config.centroGeneracion().down(1).right(1), image = "Minos/orange.png")
 ]) {}
 // Pieza O. (Blanco)
-class Pieza_O inherits Pieza(mini = "miniO.png", minos = [
+class Pieza_O inherits Pieza(mini = "Piezas/miniO.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
-	new Mino(position = config.centroGeneracion(), image = "white.png"),
+	new Mino(position = config.centroGeneracion(), image = "Minos/white.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
-	new Mino(position = config.centroGeneracion().up(1), image = "white.png"),
-	new Mino(position = config.centroGeneracion().right(1), image = "white.png"),
-	new Mino(position = config.centroGeneracion().up(1).right(1), image = "white.png")
+	new Mino(position = config.centroGeneracion().up(1), image = "Minos/white.png"),
+	new Mino(position = config.centroGeneracion().right(1), image = "Minos/white.png"),
+	new Mino(position = config.centroGeneracion().up(1).right(1), image = "Minos/white.png")
 ]) {override method girar() {}}
 // Pieza S. (Verde)
-class Pieza_S inherits Pieza(mini = "miniS.png", minos = [
+class Pieza_S inherits Pieza(mini = "Piezas/miniS.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
-	new Mino(position = config.centroGeneracion(), image = "green.png"),
+	new Mino(position = config.centroGeneracion(), image = "Minos/green.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
-	new Mino(position = config.centroGeneracion().up(1), image = "green.png"),
-	new Mino(position = config.centroGeneracion().left(1), image = "green.png"),
-	new Mino(position = config.centroGeneracion().up(1).right(1), image = "green.png")
+	new Mino(position = config.centroGeneracion().up(1), image = "Minos/green.png"),
+	new Mino(position = config.centroGeneracion().left(1), image = "Minos/green.png"),
+	new Mino(position = config.centroGeneracion().up(1).right(1), image = "Minos/green.png")
 ]) {}
 // Pieza T. (Violeta)
-class Pieza_T inherits Pieza(mini = "miniT.png", minos = [
+class Pieza_T inherits Pieza(mini = "Piezas/miniT.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
-	new Mino(position = config.centroGeneracion(), image = "purple.png"),
+	new Mino(position = config.centroGeneracion(), image = "Minos/purple.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
-	new Mino(position = config.centroGeneracion().up(1), image = "purple.png"),
-	new Mino(position = config.centroGeneracion().left(1), image = "purple.png"),
-	new Mino(position = config.centroGeneracion().right(1), image = "purple.png")
+	new Mino(position = config.centroGeneracion().up(1), image = "Minos/purple.png"),
+	new Mino(position = config.centroGeneracion().left(1), image = "Minos/purple.png"),
+	new Mino(position = config.centroGeneracion().right(1), image = "Minos/purple.png")
 ]) {}
 // Pieza Z. (Celeste)
-class Pieza_Z inherits Pieza(mini = "miniZ.png", minos = [
+class Pieza_Z inherits Pieza(mini = "Piezas/miniZ.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
-	new Mino(position = config.centroGeneracion(), image = "lightblue.png"),
+	new Mino(position = config.centroGeneracion(), image = "Minos/lightblue.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
-	new Mino(position = config.centroGeneracion().up(1), image = "lightblue.png"),
-	new Mino(position = config.centroGeneracion().up(1).left(1), image = "lightblue.png"),
-	new Mino(position = config.centroGeneracion().right(1), image = "lightblue.png")
+	new Mino(position = config.centroGeneracion().up(1), image = "Minos/lightblue.png"),
+	new Mino(position = config.centroGeneracion().up(1).left(1), image = "Minos/lightblue.png"),
+	new Mino(position = config.centroGeneracion().right(1), image = "Minos/lightblue.png")
 ]) {}
 
 //////////////////////////////////////////////////////////

@@ -8,7 +8,7 @@ import Informacion.*
 object menu {	
 	// Configuraciones del menu.
 	method position() = game.at(0, 0)
-	method image() = "Menu.png"
+	method image() = "Creaciones/Menu.png"
 	// Consultar si se muestra el menu.
 	method estaActivo() = game.hasVisual(self)
 	
@@ -32,7 +32,7 @@ object menu {
 	
 	// Mostrar mensaje de inicio de partida.
 	method mostrarMensaje() {
-		mensaje.image("MensajeMenu.png")
+		mensaje.image("Creaciones/Continuar.png")
 		mensaje.position(game.at(2, 5))
 		mensaje.parpadeo()
 	}
@@ -73,7 +73,7 @@ object hub {
 	
 	// Mostrar mensaje de final de partida.
 	method mostrarMensaje() {
-		mensaje.image("FinDeJuego.png")
+		mensaje.image("Creaciones/FinDeJuego.png")
 		mensaje.position(game.at(2, 10))
 		mensaje.parpadeo()
 	}

@@ -17,16 +17,16 @@ object config {
 	var tiempoCaida = 1010
 	
 	// Sonidos del juego.
-	const sonidoMenu = game.sound("StartMenu.ogg")
+	const sonidoMenu = game.sound("Sonidos/StartMenu.ogg")
 	const sonidoJuego = game.sound(self.obtenerSonido())
-	const sonidoFinal = game.sound("Determination.ogg")
+	const sonidoFinal = game.sound("Sonidos/Determination.ogg")
 	
 	// Centro de generacion de las piezas.
 	method centroGeneracion() = game.at(5, 19)
 	// Obtener una pieza al azar.
 	method obtenerPieza() = [new Pieza_Z(), new Pieza_I(),  new Pieza_J(), new Pieza_L(), new Pieza_O(), new Pieza_S(), new Pieza_T()].anyOne()
 	// Obtener un sonido para el juego al azar.
-	method obtenerSonido() = ["OnceUponATime.ogg", "YourBestFriend.ogg", "Heartache.ogg", "BoneTrousle.ogg", "FallenDown.ogg"].anyOne()
+	method obtenerSonido() = ["Sonidos/OnceUponATime.ogg", "Sonidos/YourBestFriend.ogg", "Sonidos/Heartache.ogg", "Sonidos/BoneTrousle.ogg", "Sonidos/FallenDown.ogg"].anyOne()
 	
 	// Generar una nueva pieza.
 	method generarPieza() {
@@ -81,7 +81,7 @@ object config {
 		game.cellSize(30)
 		
 		// Imagen de fondo, celda a celda.
-		game.boardGround("Background.png")
+		game.boardGround("Creaciones/Background.png")
 		
 		// Titulo del juego.
 		game.title("TETRIS")

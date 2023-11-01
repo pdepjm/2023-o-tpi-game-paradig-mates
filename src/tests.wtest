@@ -22,7 +22,7 @@ describe "Menu" {
 	
 	test "Es posible establecer el mensaje 'Presionar enter para continuar'" {
 		menu.mostrarMensaje()
-		assert.equals("MensajeMenu.png", mensaje.image())
+		assert.equals("Creaciones/Continuar.png", mensaje.image())
 		assert.equals(game.at(2, 5), mensaje.position())
 	}
 }
@@ -44,7 +44,7 @@ describe "Hub" {
 	
 	test "Es posible establecer el mensaje 'Fin de juego'" {
 		hub.mostrarMensaje()
-		assert.equals("FinDeJuego.png", mensaje.image())
+		assert.equals("Creaciones/FinDeJuego.png", mensaje.image())
 		assert.equals(game.at(2, 10), mensaje.position())
 	}
 	
@@ -147,13 +147,13 @@ describe "Proxima pieza" {
 
 describe "Mensaje" {
 	test "Es posible mostrar el mensaje" {
-		mensaje.image("MensajeMenu.png")
+		mensaje.image("Creaciones/Continuar.png")
 		mensaje.cargar()
 		assert.that(mensaje.estaActiva())
 	}
 	
 	test "Es posible ocultar el mensaje" {
-		mensaje.image("MensajeMenu.png")
+		mensaje.image("Creaciones/Continuar.png")
 		mensaje.cargar()
 		mensaje.ocultar()
 		assert.notThat(mensaje.estaActiva())
@@ -240,6 +240,6 @@ describe "Tablero" {
 	}
 	
 	test "Si se eliminan las filas 1 y 2, el mino en la posicion (3, 4) debera bajar 2 posiciones" {
-		assert.equals(2, tablero.cantidadBajar(new Mino(position = game.at(3,4), image = "lightblue.png"), [1, 2]))
+		assert.equals(2, tablero.cantidadBajar(new Mino(position = game.at(3,4), image = "Minos/lightblue.png"), [1, 2]))
 	}
 }
