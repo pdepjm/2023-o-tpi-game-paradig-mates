@@ -9,7 +9,12 @@ import Configuracion.*
 	* Formación objetivo del juego, completar líneas en la parte inferior y así limpiar la matrix de las piezas.
 	* El jugador puede decidir la rotación de la pieza (0°, 90°, 180°, 270°) y el lugar debe caer.
 	* La caída de las piezas se acelera progresivamente.
-	* Posee musica de fondo y sonidos al completar filas. // TODO: Falta implementar.
+	* Posee musica de fondo y sonidos al completar filas.
+*/
+/* MUSICA:
+	* Inicio: Start Menu.
+	* Durante Juego: Once Upon a Time, Your Best Friend, Heartache, BoneTrousle, Fallen Down.
+	* Final: Determination.
 */
 
 program Tetris {

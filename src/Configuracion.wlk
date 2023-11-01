@@ -13,14 +13,20 @@ object config {
 	var piezaActual = self.obtenerPieza()
 	// Siguiente pieza para jugar.
 	var siguientePieza
-	
 	// Tiempo del evento de caida.
 	var tiempoCaida = 1010
+	
+	// Sonidos del juego.
+	const sonidoMenu = game.sound("StartMenu.ogg")
+	const sonidoJuego = game.sound(self.obtenerSonido())
+	const sonidoFinal = game.sound("Determination.ogg")
 	
 	// Centro de generacion de las piezas.
 	method centroGeneracion() = game.at(5, 19)
 	// Obtener una pieza al azar.
 	method obtenerPieza() = [new Pieza_Z(), new Pieza_I(),  new Pieza_J(), new Pieza_L(), new Pieza_O(), new Pieza_S(), new Pieza_T()].anyOne()
+	// Obtener un sonido para el juego al azar.
+	method obtenerSonido() = ["OnceUponATime.ogg", "YourBestFriend.ogg", "Heartache.ogg", "BoneTrousle.ogg", "FallenDown.ogg"].anyOne()
 	
 	// Generar una nueva pieza.
 	method generarPieza() {
@@ -34,6 +40,10 @@ object config {
 			// Si no se puede generar, se termina el juego.
 			game.clear()
 			hub.cargar()
+			// Detenemos el sonido del juego.
+			sonidoJuego.stop()
+			// Iniciar el sonido para el final del juego.
+			sonidoFinal.play()
 			// Generar mensaje de 'Fin de juego'.
 			hub.mostrarMensaje()
 		}
@@ -52,12 +62,15 @@ object config {
 		
 		// Mostrar el menu de bienvenida del juego.
 		menu.cargar()
+		// Iniciar el sonido para el menu.
+		game.schedule(500, {sonidoMenu.play()})
 	}
 	
 	// Cargar las configuraciones del juego.
 	method cargarJuego(){
 		self.teclasJuego()
 		self.iniciarCaida()
+		self.iniciarMusica()
 	}
 	
 	// Configurar la informacion de la ventana.
@@ -84,6 +97,8 @@ object config {
 				menu.eliminar()
 				// Cargar el hub.
 				hub.cargar()
+				// Detenemos el sonido del menu.
+				sonidoMenu.stop()
 				// Cargar las configuraciones del juego.
 				self.cargarJuego()
 			}
@@ -112,6 +127,9 @@ object config {
 		
 		// Bajar la pieza totalmente e incrustarla.
 		keyboard.space().onPressDo({tablero.bajarIncrustar(piezaActual) puntaje.incrementar(50)})
+		
+		// Pausar sonido del juego.
+		keyboard.p().onPressDo({if(sonidoJuego.paused()) sonidoJuego.resume() else sonidoJuego.pause()})
 	}
 	
 	// Iniciar la caida de piezas.
@@ -150,5 +168,13 @@ object config {
 				self.generarPieza()
 			}
 		})
+	}
+	
+	// Iniciar musica del juego.
+	method iniciarMusica() {
+		// Loop en el sonido del juego.
+		sonidoJuego.shouldLoop(true)
+		// Iniciar el sonido para el juego.
+		sonidoJuego.play()
 	}
 }
