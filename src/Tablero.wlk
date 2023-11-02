@@ -30,7 +30,8 @@ object tablero {
 	// Obtener las posiciones de los minos acumulados.
 	method posicionesOcupadas() = minosAcumulados.map({mino => mino.position()})
 	// Obtener las filas que estan completas.
-	method filasCompletas(posiciones) = (0..self.alto()).filter({fila => posiciones.filter({posicion => posicion.y() == fila}).size() == self.ancho()})
+	method filasCompletas(posiciones) = (0..self.alto()).filter({fila => self.estaCompleta(fila, posiciones)})
+	method estaCompleta(fila, posiciones) = posiciones.filter({posicion => posicion.y() == fila}).size() == self.ancho()
 	// Obtener la cantidad de posiciones que va a bajar un mino por completar filas.
 	method cantidadBajar(mino, filasCompletas) = filasCompletas.count({fila => mino.position().y() > fila})
 	
