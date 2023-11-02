@@ -17,9 +17,10 @@ object tablero {
 	method esValida(posicion) = posicion.x().between(1, self.ancho()) and posicion.y().between(1, self.alto())
 	// Saber si hay un mino en una posicion determinada.
 	method hayMinoEn(posicion) = self.posicionesOcupadas().contains(posicion)
+	method puedeMover(posicion) = self.esValida(posicion) and not self.hayMinoEn(posicion)
 	
-	// Saber si una pieza se puede mover a una determinada posicion.
-	method puedeBajar(pieza) = pieza.minos().all({mino => self.esValida(mino.position().down(1)) and not self.hayMinoEn(mino.position().down(1))})
+	// Saber si una pieza se puede mover a una determinada posicion. // TODO: Poner puede Bajar en pieza.
+	method puedeBajar(pieza) = pieza.minos().all({mino => self.puedeMover(mino.position().down(1))})
 	method puedeDerecha(pieza) = pieza.minos().all({mino => self.esValida(mino.position().right(1)) and not self.hayMinoEn(mino.position().right(1))})
 	method puedeIzquierda(pieza) = pieza.minos().all({mino => self.esValida(mino.position().left(1)) and not self.hayMinoEn(mino.position().left(1))})
 	// Saber si una pieza puede rotar en sentido horario.
