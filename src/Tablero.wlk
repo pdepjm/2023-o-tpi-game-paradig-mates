@@ -17,16 +17,6 @@ object tablero {
 	method esValida(posicion) = posicion.x().between(1, self.ancho()) and posicion.y().between(1, self.alto())
 	// Saber si hay un mino en una posicion determinada.
 	method hayMinoEn(posicion) = self.posicionesOcupadas().contains(posicion)
-	method puedeMover(posicion) = self.esValida(posicion) and not self.hayMinoEn(posicion)
-	
-	// Saber si una pieza se puede mover a una determinada posicion. // TODO: Poner puede Bajar en pieza.
-	method puedeBajar(pieza) = pieza.minos().all({mino => self.puedeMover(mino.position().down(1))})
-	method puedeDerecha(pieza) = pieza.minos().all({mino => self.esValida(mino.position().right(1)) and not self.hayMinoEn(mino.position().right(1))})
-	method puedeIzquierda(pieza) = pieza.minos().all({mino => self.esValida(mino.position().left(1)) and not self.hayMinoEn(mino.position().left(1))})
-	// Saber si una pieza puede rotar en sentido horario.
-	method puedeRotar(pieza) = pieza.minos().all({mino => self.esValida(pieza.rotarCoordenadas(mino)) and not self.hayMinoEn(pieza.rotarCoordenadas(mino))})
-	// Saber si se puede generar una pieza en una posicion determinada.
-	method puedeGenerar(pieza) = pieza.minos().all({mino => not self.hayMinoEn(mino.position())})
 	
 	// Obtener las posiciones de los minos acumulados.
 	method posicionesOcupadas() = minosAcumulados.map({mino => mino.position()})
@@ -80,14 +70,6 @@ object tablero {
 	method resetear() {
 		minosAcumulados.forEach({mino => game.removeVisual(mino)})
 		minosAcumulados.clear()
-	}
-	
-	// Bajar la pieza totalmente e incrustarla.
-	method bajarIncrustar(pieza) {
-		if(self.puedeBajar(pieza)){
-			pieza.moverAbajo()
-			self.bajarIncrustar(pieza)
-		}
 	}
 }
 

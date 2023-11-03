@@ -226,12 +226,12 @@ describe "Tablero" {
 	}
 	
 	test "Es posible generar una pieza si la posicion no esta ocupada" {
-		assert.that(tablero.puedeGenerar(unaPieza))
+		assert.that(unaPieza.puedeGenerar())
 	}
 	
 	test "No es posible generar una pieza si la posicion esta ocupada" {
 		tablero.agregarMinosDe(new Pieza_T())
-		assert.notThat(tablero.puedeGenerar(unaPieza))
+		assert.notThat(unaPieza.puedeGenerar())
 	}
 	
 	test "Es posible obtener una lista de las filas completas" {

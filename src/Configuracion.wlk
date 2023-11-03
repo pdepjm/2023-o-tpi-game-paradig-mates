@@ -33,7 +33,7 @@ object config {
 		piezaActual = siguientePieza
 		siguientePieza = self.obtenerPieza()
 		// Si se puede generar la pieza, se genera.
-		if(tablero.puedeGenerar(piezaActual)) {
+		if(piezaActual.puedeGenerar()) {
 			piezaActual.generar()
 			hub.mostrarImagen(siguientePieza)
 		} else {
@@ -118,15 +118,15 @@ object config {
 	// Configurar las teclas del juego.
 	method teclasJuego() {
 		// Movimiento de pieza.
-		keyboard.down().onPressDo({if(tablero.puedeBajar(piezaActual)) {piezaActual.moverAbajo() puntaje.incrementar(10)}})
-		keyboard.left().onPressDo({if(tablero.puedeIzquierda(piezaActual)) piezaActual.moverIzquierda()})
-		keyboard.right().onPressDo({if(tablero.puedeDerecha(piezaActual)) piezaActual.moverDerecha()})
+		keyboard.down().onPressDo({if(piezaActual.puedeBajar()) {piezaActual.moverAbajo() puntaje.incrementar(10)}})
+		keyboard.left().onPressDo({if(piezaActual.puedeIzquierda()) piezaActual.moverIzquierda()})
+		keyboard.right().onPressDo({if(piezaActual.puedeDerecha()) piezaActual.moverDerecha()})
 		
 		// Rotacion de pieza.
-		keyboard.up().onPressDo({if(tablero.puedeRotar(piezaActual)) piezaActual.girar()})
+		keyboard.up().onPressDo({if(piezaActual.puedeRotar()) piezaActual.girar()})
 		
 		// Bajar la pieza totalmente e incrustarla.
-		keyboard.space().onPressDo({tablero.bajarIncrustar(piezaActual) puntaje.incrementar(50)})
+		keyboard.space().onPressDo({piezaActual.bajarIncrustar() puntaje.incrementar(50)})
 		
 		// Pausar sonido del juego.
 		keyboard.p().onPressDo({if(sonidoJuego.paused()) sonidoJuego.resume() else sonidoJuego.pause()})
@@ -158,7 +158,7 @@ object config {
 	method caidaPiezas() {
 		game.onTick(tiempoCaida, "CaidaPiezas", {
 			// Comprobar si se puede bajar la pieza.
-			if(tablero.puedeBajar(piezaActual)) {
+			if(piezaActual.puedeBajar()) {
 				// Si puede bajar, baja.
 				piezaActual.moverAbajo()
 			} else {

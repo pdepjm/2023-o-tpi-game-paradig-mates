@@ -1,5 +1,6 @@
 import wollok.game.*
 import Configuracion.*
+import Tablero.*
 
 //////////////////////////////////////////////////////////
 // PIEZAS JUGABLES.
@@ -15,6 +16,17 @@ class Pieza {
 	method centro() = minos.first()
 	// Consultar si esta la pieza activa en el tablero.
 	method estaActiva() = game.hasVisual(self.centro())
+	// Saber si se puede generar.
+	method puedeGenerar() = minos.all({mino => not tablero.hayMinoEn(mino.position())})
+	// Saber si se puede mover a una posicion determinada. // TODO: Test
+	method puedeMover(posicion) = tablero.esValida(posicion) and not tablero.hayMinoEn(posicion)
+	
+	// Saber si se puede mover a una determinada posicion. // TODO: Test
+	method puedeBajar() = minos.all({mino => self.puedeMover(mino.position().down(1))})
+	method puedeDerecha() = minos.all({mino => self.puedeMover(mino.position().right(1))})
+	method puedeIzquierda() = minos.all({mino => self.puedeMover(mino.position().left(1))})
+	// Saber si se puede rotar en sentido horario.
+	method puedeRotar() = minos.all({mino => self.puedeMover(self.rotarCoordenadas(mino))})
 	
 	// Generar pieza en tablero.
 	method generar() {
@@ -35,10 +47,16 @@ class Pieza {
 	method moverDerecha(){
 		minos.forEach({mino => mino.position(mino.position().right(1))})
 	}
-	
 	// Girar pieza en sentido horario.
 	method girar(){
 		minos.forEach({mino => mino.position(self.rotarCoordenadas(mino))})
+	}
+	// Bajar totalmente e incrustarla. // TODO: Test
+	method bajarIncrustar() {
+		if(self.puedeBajar()){
+			self.moverAbajo()
+			self.bajarIncrustar()
+		}
 	}
 	
 	// Rotar en sentido horario las coordenadas de la posicion de un mino dado.
