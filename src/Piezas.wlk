@@ -10,7 +10,7 @@ class Pieza {
 	// Minos que conforman la pieza.
 	const property minos = []
 	// Mini pieza para el HUB.
-	const property mini
+	const property display
 	
 	// Consultar mino central.
 	method centro() = minos.first()
@@ -67,7 +67,7 @@ class Pieza {
 }
 
 // Pieza I. (Rojo)
-class Pieza_I inherits Pieza(mini = "Piezas/miniI.png", minos = [
+class Pieza_I inherits Pieza(display = "Piezas/miniI.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
 	new Mino(position = config.centroGeneracion(), image = "Minos/red.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
@@ -76,7 +76,7 @@ class Pieza_I inherits Pieza(mini = "Piezas/miniI.png", minos = [
 	new Mino(position = config.centroGeneracion().down(2), image = "Minos/red.png")
 ]) {}
 // Pieza J. (Azul)
-class Pieza_J inherits Pieza(mini = "Piezas/miniJ.png", minos = [
+class Pieza_J inherits Pieza(display = "Piezas/miniJ.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
 	new Mino(position = config.centroGeneracion(), image = "Minos/blue.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
@@ -85,7 +85,7 @@ class Pieza_J inherits Pieza(mini = "Piezas/miniJ.png", minos = [
 	new Mino(position = config.centroGeneracion().down(1).left(1), image = "Minos/blue.png")
 ]) {}
 // Pieza L. (Naranja)
-class Pieza_L inherits Pieza(mini = "Piezas/miniL.png", minos = [
+class Pieza_L inherits Pieza(display = "Piezas/miniL.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
 	new Mino(position = config.centroGeneracion(), image = "Minos/orange.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
@@ -94,7 +94,7 @@ class Pieza_L inherits Pieza(mini = "Piezas/miniL.png", minos = [
 	new Mino(position = config.centroGeneracion().down(1).right(1), image = "Minos/orange.png")
 ]) {}
 // Pieza O. (Blanco)
-class Pieza_O inherits Pieza(mini = "Piezas/miniO.png", minos = [
+class Pieza_O inherits Pieza(display = "Piezas/miniO.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
 	new Mino(position = config.centroGeneracion(), image = "Minos/white.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
@@ -103,7 +103,7 @@ class Pieza_O inherits Pieza(mini = "Piezas/miniO.png", minos = [
 	new Mino(position = config.centroGeneracion().up(1).right(1), image = "Minos/white.png")
 ]) {override method girar() {}}
 // Pieza S. (Verde)
-class Pieza_S inherits Pieza(mini = "Piezas/miniS.png", minos = [
+class Pieza_S inherits Pieza(display = "Piezas/miniS.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
 	new Mino(position = config.centroGeneracion(), image = "Minos/green.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
@@ -112,7 +112,7 @@ class Pieza_S inherits Pieza(mini = "Piezas/miniS.png", minos = [
 	new Mino(position = config.centroGeneracion().up(1).right(1), image = "Minos/green.png")
 ]) {}
 // Pieza T. (Violeta)
-class Pieza_T inherits Pieza(mini = "Piezas/miniT.png", minos = [
+class Pieza_T inherits Pieza(display = "Piezas/miniT.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
 	new Mino(position = config.centroGeneracion(), image = "Minos/purple.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)
@@ -121,7 +121,7 @@ class Pieza_T inherits Pieza(mini = "Piezas/miniT.png", minos = [
 	new Mino(position = config.centroGeneracion().right(1), image = "Minos/purple.png")
 ]) {}
 // Pieza Z. (Celeste)
-class Pieza_Z inherits Pieza(mini = "Piezas/miniZ.png", minos = [
+class Pieza_Z inherits Pieza(display = "Piezas/miniZ.png", minos = [
 	// MINO CENTRAL (Siempre en la primera posicion de la lista)
 	new Mino(position = config.centroGeneracion(), image = "Minos/lightblue.png"),
 	// MINOS ALEDANIOS (Siempre luego del mino central)

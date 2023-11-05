@@ -11,6 +11,7 @@ import Configuracion.*
 	* La caída de las piezas se acelera progresivamente.
 	* Posee musica de fondo y sonidos al completar filas.
 */
+
 /* MUSICA:
 	* Inicio: Start Menu.
 	* Durante Juego: Once Upon a Time, Your Best Friend, Heartache, BoneTrousle, Fallen Down.
@@ -20,7 +21,6 @@ import Configuracion.*
 program Tetris {
 	// Cargar configuraciones iniciales.
 	config.cargar()
-	
 	// Lanzar juego.
 	game.start()
 }

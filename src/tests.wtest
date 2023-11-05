@@ -16,36 +16,24 @@ describe "Menu" {
 	
 	test "Es posible eliminarlo" {
 		menu.cargar()
-		menu.eliminar()
+		menu.ocultar()
 		assert.notThat(menu.estaActivo())
-	}
-	
-	test "Es posible establecer el mensaje 'Presionar enter para continuar'" {
-		menu.mostrarMensaje()
-		assert.equals("Creaciones/Continuar.png", mensaje.image())
-		assert.equals(game.at(2, 5), mensaje.position())
 	}
 }
 
 describe "Hub" {
 	test "Es posible mostrar su informacion" {
 		hub.cargar()
-		assert.that(game.hasVisual(puntaje))
-		assert.that(game.hasVisual(filas))
+		assert.that(game.hasVisual(hub.puntajeAcumulado()))
+		assert.that(game.hasVisual(hub.filasCompletadas()))
 	}
 	
 	test "Es posible resetear su informacion" {
-		puntaje.incrementar(10)
-		filas.incrementar(10)
+		hub.puntajeAcumulado().incrementar(10)
+		hub.filasCompletadas().incrementar(10)
 		hub.resetear()
-		assert.equals("0", puntaje.text())
-		assert.equals("0", filas.text())
-	}
-	
-	test "Es posible establecer el mensaje 'Fin de juego'" {
-		hub.mostrarMensaje()
-		assert.equals("Creaciones/FinDeJuego.png", mensaje.image())
-		assert.equals(game.at(2, 10), mensaje.position())
+		assert.equals("0", hub.puntajeAcumulado().text())
+		assert.equals("0", hub.filasCompletadas().text())
 	}
 	
 	test "Si se completa 1 fila, se obtiene 100 puntos" {
@@ -66,8 +54,8 @@ describe "Hub" {
 	
 	test "Es posible modificar los contadores del juego" {
 		hub.modificarContadores([1, 2, 3])
-		assert.equals("400", puntaje.text())
-		assert.equals("3", filas.text())
+		assert.equals("400", hub.puntajeAcumulado().text())
+		assert.equals("3", hub.filasCompletadas().text())
 	}
 }
 
@@ -76,55 +64,43 @@ describe "Hub" {
 //////////////////////////////////////////////////////////
 describe "Puntaje obtenido" {
 	test "Es posible aumentarlo dado un valor" {
-		puntaje.incrementar(100)
-		puntaje.incrementar(200)
-		assert.equals("300", puntaje.text())
+		hub.puntajeAcumulado().incrementar(100)
+		hub.puntajeAcumulado().incrementar(200)
+		assert.equals("300", hub.puntajeAcumulado().text())
 	}
 	
 	test "Es posible resetearlo a 0" {
-		puntaje.incrementar(100)
-		puntaje.resetear()
-		assert.equals("0", puntaje.text())
-	}
-	
-	test "Al llegar al puntaje maximo puntaje, se resetea" {
-		puntaje.incrementar(999999900)
-		puntaje.incrementar(100)
-		assert.equals("100", puntaje.text())
+		hub.puntajeAcumulado().incrementar(100)
+		hub.puntajeAcumulado().resetear()
+		assert.equals("0", hub.puntajeAcumulado().text())
 	}
 }
 
 describe "Filas completadas" {
 	test "Es posible aumentarlo en 1" {
-		filas.incrementar(1)
-		assert.equals("1", filas.text())
+		hub.filasCompletadas().incrementar(1)
+		assert.equals("1", hub.filasCompletadas().text())
 	}
 	
 	test "Es posible aumentarlo en 2" {
-		filas.incrementar(2)
-		assert.equals("2", filas.text())
+		hub.filasCompletadas().incrementar(2)
+		assert.equals("2", hub.filasCompletadas().text())
 	}
 	
 	test "Es posible aumentarlo en 3" {
-		filas.incrementar(3)
-		assert.equals("3", filas.text())
+		hub.filasCompletadas().incrementar(3)
+		assert.equals("3", hub.filasCompletadas().text())
 	}
 	
 	test "Es posible aumentarlo en 4" {
-		filas.incrementar(4)
-		assert.equals("4", filas.text())
+		hub.filasCompletadas().incrementar(4)
+		assert.equals("4", hub.filasCompletadas().text())
 	}
 	
 	test "Es posible resetearlo a 0" {
-		filas.incrementar(2)
-		filas.resetear()
-		assert.equals("0", filas.text())
-	}
-	
-	test "Al llegar a la cantidad de filas completadas maxima, se resetea" {
-		filas.incrementar(99900)
-		filas.incrementar(100)
-		assert.equals("100", filas.text())
+		hub.filasCompletadas().incrementar(2)
+		hub.filasCompletadas().resetear()
+		assert.equals("0", hub.filasCompletadas().text())
 	}
 }
 
@@ -132,31 +108,31 @@ describe "Proxima pieza" {
 	const unaPieza = new Pieza_Z()
 	
 	test "Es posible cargarlo" {
-		proxima.image(unaPieza.mini())
-		proxima.cargar()
-		assert.that(proxima.estaActiva())
+		hub.proximaPieza().image(unaPieza.display())
+		hub.proximaPieza().cargar()
+		assert.that(hub.proximaPieza().estaActiva())
 	}
 	
 	test "Es posible ocultarlo" {
-		proxima.image(unaPieza.mini())
-		proxima.cargar()
-		proxima.ocultar()
-		assert.notThat(proxima.estaActiva())
+		hub.proximaPieza().image(unaPieza.display())
+		hub.proximaPieza().cargar()
+		hub.proximaPieza().ocultar()
+		assert.notThat(hub.proximaPieza().estaActiva())
 	}
 }
 
 describe "Mensaje" {
+	const mensaje = new Mensaje(image = "Creaciones/Continuar.png", position = game.at(0,0))
+	
 	test "Es posible mostrar el mensaje" {
-		mensaje.image("Creaciones/Continuar.png")
 		mensaje.cargar()
-		assert.that(mensaje.estaActiva())
+		assert.that(mensaje.estaActivo())
 	}
 	
 	test "Es posible ocultar el mensaje" {
-		mensaje.image("Creaciones/Continuar.png")
 		mensaje.cargar()
 		mensaje.ocultar()
-		assert.notThat(mensaje.estaActiva())
+		assert.notThat(mensaje.estaActivo())
 	}
 }
 

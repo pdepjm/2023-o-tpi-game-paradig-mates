@@ -2,6 +2,7 @@ import wollok.game.*
 import Entorno.*
 import Informacion.*
 import Piezas.*
+import Reproductor.*
 import Tablero.*
 
 //////////////////////////////////////////////////////////
@@ -10,16 +11,14 @@ import Tablero.*
 // Configuraciones del juego.
 object config {
 	// Pieza actual en juego.
-	var piezaActual = self.obtenerPieza()
+	var piezaActual
 	// Siguiente pieza para jugar.
-	var siguientePieza
+	var piezaSiguiente
 	// Tiempo del evento de caida.
-	var tiempoCaida = 1010
+	var tiempoCaida = 1500
 	
 	// Sonidos del juego.
-	const sonidoMenu = game.sound("Sonidos/StartMenu.ogg")
-	const sonidoJuego = game.sound(self.obtenerSonido())
-	const sonidoFinal = game.sound("Sonidos/Determination.ogg")
+	const musica = new Musica(musica = game.sound(self.obtenerSonido()))
 	
 	// Centro de generacion de las piezas.
 	method centroGeneracion() = game.at(5, 19)
@@ -30,47 +29,57 @@ object config {
 	
 	// Generar una nueva pieza.
 	method generarPieza() {
-		piezaActual = siguientePieza
-		siguientePieza = self.obtenerPieza()
-		// Si se puede generar la pieza, se genera.
+		// Obtener la pieza a ser jugada.
+		piezaActual = piezaSiguiente
+		// Obtener la pieza siguiente a ser jugada.
+		piezaSiguiente = self.obtenerPieza()
+		
+		// Comprobar si se puede generar.
 		if(piezaActual.puedeGenerar()) {
+			// Si se puede generar, cargar en el tablero la pieza jugable.
 			piezaActual.generar()
-			hub.mostrarImagen(siguientePieza)
+			// Cargar en el HUB la pieza siguiente a ser jugada.
+			hub.cargar(piezaSiguiente)
 		} else {
 			// Si no se puede generar, se termina el juego.
 			game.clear()
+			// Cargar los contadores del HUB.
 			hub.cargar()
-			// Detenemos el sonido del juego.
-			sonidoJuego.stop()
-			// Iniciar el sonido para el final del juego.
-			sonidoFinal.play()
-			// Generar mensaje de 'Fin de juego'.
-			hub.mostrarMensaje()
+			// Detener el sonido del juego.
+			musica.parar()
+			// Cargar el Final del Juego.
+			hub.cargarFinal()
 		}
 	}
 	
-	// Generar la primeras piezas.
+	// Generar las primeras piezas.
 	method generarPiezaInicial() {
-		siguientePieza = self.obtenerPieza()
+		// Obtener la pieza siguiente a ser jugada.
+		piezaSiguiente = self.obtenerPieza()
+		// Generar la primera pieza.
 		self.generarPieza()
 	}
 	
-	// Cargar las configuraciones iniciales.
+	// Cargar las configuraciones iniciales del juego.
 	method cargar() {
+		// Cargar las propiedades de la ventana.
 		self.ventana()
-		self.teclaEnter()
-		
-		// Mostrar el menu de bienvenida del juego.
+		// Cargar la funcionalidad para la tecla de 'CONTINUAR'.
+		self.continuar()
+		// Cargar el Menu del juego.
 		menu.cargar()
-		// Iniciar el sonido para el menu.
-		game.schedule(500, {sonidoMenu.play()})
 	}
 	
 	// Cargar las configuraciones del juego.
-	method cargarJuego(){
-		self.teclasJuego()
+	method cargarJuego() {
+		// Iniciar musica del juego.
+		musica.reproducir()
+		// Cargar la funcionalidad de los controles del jugar.
+		self.controles()
+		// Generar las primeras piezas.
+		self.generarPiezaInicial()
+		// Iniciar la caida de las piezas.
 		self.iniciarCaida()
-		self.iniciarMusica()
 	}
 	
 	// Configurar la informacion de la ventana.
@@ -87,56 +96,55 @@ object config {
 		game.title("TETRIS")
 	}
 	
-	// Configurar la tecla ENTER del juego.
-	method teclaEnter() {
-		// Comenzar o resetear partida.
+	// Cargar la funcionalidad para la tecla de 'CONTINUAR'.
+	method continuar() {
+		// Funcionalidad para comenzar la partida.
 		keyboard.enter().onPressDo({
-			// Si esta el menu habilitado.
-			if(menu.estaActivo()) {
-				// Ocultar menu.
-				menu.eliminar()
-				// Cargar el hub.
-				hub.cargar()
-				// Detenemos el sonido del menu.
-				sonidoMenu.stop()
-				// Cargar las configuraciones del juego.
-				self.cargarJuego()
-			}
-			
-			// Resetear la partida.
-			hub.resetear()
-			tablero.resetear()
-			self.resetearDificultad()
-			if(proxima.estaActiva()) proxima.ocultar()
-			if(piezaActual.estaActiva()) piezaActual.eliminar()
-			
-			// Generar las primeras piezas.
-			self.generarPiezaInicial()
+			// Ocultar el Menu del juego.
+			menu.ocultar()
+			// Cargar la interfaz del juego.
+			hub.cargar()
+			// Cargar las configuraciones del juego.
+			self.cargarJuego()
 		})
 	}
 	
 	// Configurar las teclas del juego.
-	method teclasJuego() {
+	method controles() {
 		// Movimiento de pieza.
-		keyboard.down().onPressDo({if(piezaActual.puedeBajar()) {piezaActual.moverAbajo() puntaje.incrementar(10)}})
+		keyboard.down().onPressDo({if(piezaActual.puedeBajar()) {piezaActual.moverAbajo() hub.puntajeAcumulado().incrementar(10)}})
 		keyboard.left().onPressDo({if(piezaActual.puedeIzquierda()) piezaActual.moverIzquierda()})
 		keyboard.right().onPressDo({if(piezaActual.puedeDerecha()) piezaActual.moverDerecha()})
 		
 		// Rotacion de pieza.
 		keyboard.up().onPressDo({if(piezaActual.puedeRotar()) piezaActual.girar()})
 		
+		// Reiniciar partida.
+		keyboard.enter().onPressDo({
+			// Resetear el hub.
+			hub.resetear()
+			// Resetear la interfaz del juego.
+			tablero.resetear()
+			// Resetar el tiempo de Caida.
+			self.resetearDificultad()
+			// Resetear Piezas.
+			if(hub.proximaPieza().estaActiva()) hub.proximaPieza().ocultar()
+			if(piezaActual.estaActiva()) piezaActual.eliminar()
+			self.generarPiezaInicial()
+		})
+		
 		// Bajar la pieza totalmente e incrustarla.
-		keyboard.space().onPressDo({piezaActual.bajarIncrustar() puntaje.incrementar(50)})
+		keyboard.space().onPressDo({piezaActual.bajarIncrustar() hub.puntajeAcumulado().incrementar(50)})
 		
 		// Pausar sonido del juego.
-		keyboard.p().onPressDo({if(sonidoJuego.paused()) sonidoJuego.resume() else sonidoJuego.pause()})
+		keyboard.p().onPressDo{if(musica.estaPausada()) musica.reanudar() else musica.pausar()}
 	}
 	
 	// Iniciar la caida de piezas.
 	method iniciarCaida() {
 		// Iniciamos caida de piezas.
 		self.caidaPiezas()
-		// Cada x tiempo, se aumenta la dificultad.
+		// Cada 20 segundos, se aumenta la dificultad.
 		game.onTick(20000, "AumentarDificultad", {
 			// Detener el evento de la caida de piezas.
 			game.removeTickEvent("CaidaPiezas")
@@ -150,7 +158,7 @@ object config {
 	method resetearDificultad() {
 		game.removeTickEvent("AumentarDificultad")
 		game.removeTickEvent("CaidaPiezas")
-		tiempoCaida = 1010
+		tiempoCaida = 1500
 		self.iniciarCaida()
 	}
 	
@@ -164,17 +172,9 @@ object config {
 			} else {
 				// Si no puede bajar, se incrusta la pieza y se genera una nueva.
 				tablero.incrustar(piezaActual)
-				proxima.ocultar()
+				hub.proximaPieza().ocultar()
 				self.generarPieza()
 			}
 		})
-	}
-	
-	// Iniciar musica del juego.
-	method iniciarMusica() {
-		// Loop en el sonido del juego.
-		sonidoJuego.shouldLoop(true)
-		// Iniciar el sonido para el juego.
-		sonidoJuego.play()
 	}
 }
