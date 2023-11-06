@@ -216,6 +216,6 @@ describe "Tablero" {
 	}
 	
 	test "Si se eliminan las filas 1 y 2, el mino en la posicion (3, 4) debera bajar 2 posiciones" {
-		assert.equals(2, tablero.cantidadBajar(new Mino(position = game.at(3,4), image = "Minos/lightblue.png"), [1, 2]))
+		assert.equals(2, tablero.cantidadBajar(new Mino_Z(position = game.at(3,4)), [1, 2]))
 	}
 }
