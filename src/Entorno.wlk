@@ -40,7 +40,7 @@ object menu {
 // HUB del juego o interfaz.
 object hub {
 	// Musica de Final de Juego.
-	const musica = game.sound("Sonidos/Determination.ogg")
+	const musica = new Musica(musica = game.sound("Sonidos/Determination.ogg"))
 	// Puntaje acumulado durante la partida.
 	const property puntajeAcumulado = new Contador(position = game.at(18,12))
 	// Filas completadas durante la partida.
