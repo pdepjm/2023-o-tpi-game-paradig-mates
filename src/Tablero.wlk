@@ -14,9 +14,11 @@ object tablero {
 	method alto() = 20
 	
 	// Saber si un mino esta dentro de los limites jugables.
-	method esValida(posicion) = posicion.x().between(1, self.ancho()) and posicion.y().between(1, self.alto())
+	method enLimitesJugables(posicion) = posicion.x().between(1, self.ancho()) and posicion.y().between(1, self.alto())
 	// Saber si hay un mino en una posicion determinada.
 	method hayMinoEn(posicion) = self.posicionesOcupadas().contains(posicion)
+	// Saber si es el movimiento es valido.
+	method movimientoInvalido(posicion) = self.hayMinoEn(posicion) or not self.enLimitesJugables(posicion)
 	
 	// Obtener las posiciones de los minos acumulados.
 	method posicionesOcupadas() = minosAcumulados.map({mino => mino.position()})

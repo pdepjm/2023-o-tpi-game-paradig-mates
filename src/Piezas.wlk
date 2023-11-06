@@ -18,15 +18,15 @@ class Pieza {
 	method estaActiva() = game.hasVisual(self.centro())
 	// Saber si se puede generar.
 	method puedeGenerar() = minos.all({mino => not tablero.hayMinoEn(mino.position())})
-	// Saber si se puede mover a una posicion determinada. // TODO: Test
-	method puedeMover(posicion) = tablero.esValida(posicion) and not tablero.hayMinoEn(posicion)
 	
-	// Saber si se puede mover a una determinada posicion. // TODO: Test
-	method puedeBajar() = minos.all({mino => self.puedeMover(mino.position().down(1))})
-	method puedeDerecha() = minos.all({mino => self.puedeMover(mino.position().right(1))})
-	method puedeIzquierda() = minos.all({mino => self.puedeMover(mino.position().left(1))})
+	// Saber si se puede mover a una posicion determinada.
+	method puedeMover(direccion) = not minos.any{mino => 
+		tablero.movimientoInvalido(direccion.posicion(mino.position()))
+	}
 	// Saber si se puede rotar en sentido horario.
-	method puedeRotar(sentido) = minos.all({mino => self.puedeMover(sentido.posicion(mino.position(), self.centro().position()))})
+	method puedeRotar(sentido) = not minos.any({mino =>
+		tablero.movimientoInvalido(sentido.posicion(mino.position(), self.centro().position()))
+	})
 	
 	// Generar pieza en tablero.
 	method generar() {
@@ -41,16 +41,17 @@ class Pieza {
 	method mover(direccion) {
 		minos.forEach{mino => mino.mover(direccion)}
 	}
-	
 	// Rotar la pieza en un sentido dado.
 	method rotar(sentido) {
 		minos.forEach({mino => mino.rotar(sentido, self.centro().position())})
 	}
-	
-	// Bajar totalmente e incrustarla. // TODO: Test
+	// Bajar totalmente e incrustarla.
 	method bajarIncrustar() {
-		if(self.puedeBajar()){
+		// Comprobar si puede bajar.
+		if(self.puedeMover(abajo)){
+			// Si puede bajar, baja.
 			self.mover(abajo)
+			// Recursividad.
 			self.bajarIncrustar()
 		}
 	}

@@ -154,17 +154,17 @@ describe "Piezas" {
 	}
 	
 	test "Es posible moverlo hacia abajo" {
-		unaPieza.moverAbajo()
+		unaPieza.mover(abajo)
 		assert.equals(config.centroGeneracion().down(1), unaPieza.centro().position())
 	}
 	
 	test "Es posible moverlo hacia la derecha" {
-		unaPieza.moverDerecha()
+		unaPieza.mover(derecha)
 		assert.equals(config.centroGeneracion().right(1), unaPieza.centro().position())
 	}
 	
 	test "Es posible moverlo hacia la izquierda" {
-		unaPieza.moverIzquierda()
+		unaPieza.mover(izquierda)
 		assert.equals(config.centroGeneracion().left(1), unaPieza.centro().position())
 	}
 }
@@ -176,19 +176,19 @@ describe "Tablero" {
 	const unaPieza = new Pieza_Z()
 	
 	test "La posicion (0, 1) no es valida" {
-		assert.notThat(tablero.esValida(game.at(0, 1)))
+		assert.notThat(tablero.enLimitesJugables(game.at(0, 1)))
 	}
 	
 	test "La posicion (1, 0) no es valida" {
-		assert.notThat(tablero.esValida(game.at(1, 0)))
+		assert.notThat(tablero.enLimitesJugables(game.at(1, 0)))
 	}
 	
 	test "La posicion (11, 1) no es valida" {
-		assert.notThat(tablero.esValida(game.at(11, 1)))
+		assert.notThat(tablero.enLimitesJugables(game.at(11, 1)))
 	}
 	
 	test "La posicion (1, 1) es valida" {
-		assert.that(tablero.esValida(game.at(1, 1)))
+		assert.that(tablero.enLimitesJugables(game.at(1, 1)))
 	}
 	
 	test "Es posible agregar una pieza a minos ocupados" {

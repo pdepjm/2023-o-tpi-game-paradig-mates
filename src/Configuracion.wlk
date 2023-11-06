@@ -112,9 +112,9 @@ object config {
 	// Configurar las teclas del juego.
 	method controles() {
 		// Movimiento de pieza.
-		keyboard.down().onPressDo({if(piezaActual.puedeBajar()) {piezaActual.mover(abajo) hub.puntajeAcumulado().incrementar(10)}})
-		keyboard.left().onPressDo({if(piezaActual.puedeIzquierda()) piezaActual.mover(izquierda)})
-		keyboard.right().onPressDo({if(piezaActual.puedeDerecha()) piezaActual.mover(derecha)})
+		keyboard.down().onPressDo({if(piezaActual.puedeMover(abajo)) {piezaActual.mover(abajo) hub.puntajeAcumulado().incrementar(10)}})
+		keyboard.left().onPressDo({if(piezaActual.puedeMover(izquierda)) piezaActual.mover(izquierda)})
+		keyboard.right().onPressDo({if(piezaActual.puedeMover(derecha)) piezaActual.mover(derecha)})
 		
 		// Rotacion de pieza.
 		keyboard.up().onPressDo({if(piezaActual.puedeRotar(horario)) piezaActual.rotar(horario)})
@@ -166,7 +166,7 @@ object config {
 	method caidaPiezas() {
 		game.onTick(tiempoCaida, "CaidaPiezas", {
 			// Comprobar si se puede bajar la pieza.
-			if(piezaActual.puedeBajar()) {
+			if(piezaActual.puedeMover(abajo)) {
 				// Si puede bajar, baja.
 				piezaActual.mover(abajo)
 			} else {
