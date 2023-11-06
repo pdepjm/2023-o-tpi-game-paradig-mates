@@ -26,7 +26,7 @@ class Pieza {
 	method puedeDerecha() = minos.all({mino => self.puedeMover(mino.position().right(1))})
 	method puedeIzquierda() = minos.all({mino => self.puedeMover(mino.position().left(1))})
 	// Saber si se puede rotar en sentido horario.
-	method puedeRotar() = minos.all({mino => self.puedeMover(self.rotarCoordenadas(mino))})
+	method puedeRotar(sentido) = minos.all({mino => self.puedeMover(sentido.posicion(mino.position(), self.centro().position()))})
 	
 	// Generar pieza en tablero.
 	method generar() {
@@ -37,14 +37,16 @@ class Pieza {
 		minos.forEach({mino => game.removeVisual(mino)})
 	}
 	
-	// Mover los minos de la pieza dado una direccion.
+	// Mover los minos de la pieza en una direccion dada.
 	method mover(direccion) {
 		minos.forEach{mino => mino.mover(direccion)}
 	}
-	// Girar pieza en sentido horario.
-	method girar(){
-		minos.forEach({mino => mino.position(self.rotarCoordenadas(mino))})
+	
+	// Rotar la pieza en un sentido dado.
+	method rotar(sentido) {
+		minos.forEach({mino => mino.rotar(sentido, self.centro().position())})
 	}
+	
 	// Bajar totalmente e incrustarla. // TODO: Test
 	method bajarIncrustar() {
 		if(self.puedeBajar()){
@@ -52,12 +54,6 @@ class Pieza {
 			self.bajarIncrustar()
 		}
 	}
-	
-	// Rotar en sentido horario las coordenadas de la posicion de un mino dado.
-	method rotarCoordenadas(mino) = game.at(
-		mino.position().y() + self.centro().position().x() - self.centro().position().y(),
-		- mino.position().x() + self.centro().position().x() + self.centro().position().y()
-	)
 }
 
 // Pieza I. (Rojo)
@@ -103,7 +99,7 @@ class Pieza_O inherits Pieza(
 		new Mino_O(position = config.centroGeneracion().up(1)),
 		new Mino_O(position = config.centroGeneracion().right(1)),
 		new Mino_O(position = config.centroGeneracion().up(1).right(1))
-	]) {override method girar() {}}
+	]) {override method rotar(sentido) {}}
 // Pieza S. (Verde)
 class Pieza_S inherits Pieza(
 	display = "Piezas/miniS.png",
@@ -146,9 +142,14 @@ class Mino {
 	// Posicion del mino en tablero.
 	var property position
 	
-	// Mover mino hacia una direccion.
+	// Mover mino hacia una direccion determinada.
 	method mover(direccion) {
 		position = direccion.posicion(position)
+	}
+	
+	// Rotar mino alrededor del centro y en un sentido determinado.
+	method rotar(sentido, centro) {
+		position = sentido.posicion(position, centro)
 	}
 }
 
@@ -204,4 +205,20 @@ object abajo {
 object derecha {
 	// Obtener una posicion a la derecha.
 	method posicion(origen) = origen.right(1)
+}
+
+object horario {
+	// Obtener una posicion rotada en sentido horario.
+	method posicion(origen, centro) = game.at(
+		origen.y() + centro.x() - centro.y(),
+		- origen.x() + centro.x() + centro.y()
+	)
+}
+
+object antiHorario {
+	// Obtener una posicion rotada en sentido anti-horario.
+	method posicion(origen, centro) = game.at(
+		- origen.y() + centro.x() - centro.y(),
+		origen.x() + centro.x() + centro.y()
+	)
 }

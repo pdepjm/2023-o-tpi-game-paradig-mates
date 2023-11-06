@@ -117,7 +117,7 @@ object config {
 		keyboard.right().onPressDo({if(piezaActual.puedeDerecha()) piezaActual.mover(derecha)})
 		
 		// Rotacion de pieza.
-		keyboard.up().onPressDo({if(piezaActual.puedeRotar()) piezaActual.girar()})
+		keyboard.up().onPressDo({if(piezaActual.puedeRotar(horario)) piezaActual.rotar(horario)})
 		
 		// Reiniciar partida.
 		keyboard.enter().onPressDo({
