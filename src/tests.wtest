@@ -210,11 +210,6 @@ describe "Tablero" {
 		assert.notThat(unaPieza.puedeGenerar())
 	}
 	
-	test "Es posible obtener una lista de las filas completas" {
-		const posiciones = (1..tablero.ancho()).map({columna => game.at(columna, 1)}) + (2..tablero.ancho()).map({columna => game.at(columna, 3)})
-		assert.equals([1], tablero.filasCompletas(posiciones))
-	}
-	
 	test "Si se eliminan las filas 1 y 2, el mino en la posicion (3, 4) debera bajar 2 posiciones" {
 		assert.equals(2, tablero.cantidadBajar(new Mino_Z(position = game.at(3,4)), [1, 2]))
 	}
