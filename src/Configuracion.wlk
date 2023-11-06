@@ -112,9 +112,9 @@ object config {
 	// Configurar las teclas del juego.
 	method controles() {
 		// Movimiento de pieza.
-		keyboard.down().onPressDo({if(piezaActual.puedeBajar()) {piezaActual.moverAbajo() hub.puntajeAcumulado().incrementar(10)}})
-		keyboard.left().onPressDo({if(piezaActual.puedeIzquierda()) piezaActual.moverIzquierda()})
-		keyboard.right().onPressDo({if(piezaActual.puedeDerecha()) piezaActual.moverDerecha()})
+		keyboard.down().onPressDo({if(piezaActual.puedeBajar()) {piezaActual.mover(abajo) hub.puntajeAcumulado().incrementar(10)}})
+		keyboard.left().onPressDo({if(piezaActual.puedeIzquierda()) piezaActual.mover(izquierda)})
+		keyboard.right().onPressDo({if(piezaActual.puedeDerecha()) piezaActual.mover(derecha)})
 		
 		// Rotacion de pieza.
 		keyboard.up().onPressDo({if(piezaActual.puedeRotar()) piezaActual.girar()})
@@ -168,7 +168,7 @@ object config {
 			// Comprobar si se puede bajar la pieza.
 			if(piezaActual.puedeBajar()) {
 				// Si puede bajar, baja.
-				piezaActual.moverAbajo()
+				piezaActual.mover(abajo)
 			} else {
 				// Si no puede bajar, se incrusta la pieza y se genera una nueva.
 				tablero.incrustar(piezaActual)

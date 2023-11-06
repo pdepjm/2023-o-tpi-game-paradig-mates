@@ -37,15 +37,9 @@ class Pieza {
 		minos.forEach({mino => game.removeVisual(mino)})
 	}
 	
-	// Mover la pieza hacia una direccion.
-	method moverAbajo(){
-		minos.forEach({mino => mino.position(mino.position().down(1))})
-	}
-	method moverIzquierda(){
-		minos.forEach({mino => mino.position(mino.position().left(1))})
-	}
-	method moverDerecha(){
-		minos.forEach({mino => mino.position(mino.position().right(1))})
+	// Mover los minos de la pieza dado una direccion.
+	method mover(direccion) {
+		minos.forEach{mino => mino.mover(direccion)}
 	}
 	// Girar pieza en sentido horario.
 	method girar(){
@@ -54,7 +48,7 @@ class Pieza {
 	// Bajar totalmente e incrustarla. // TODO: Test
 	method bajarIncrustar() {
 		if(self.puedeBajar()){
-			self.moverAbajo()
+			self.mover(abajo)
 			self.bajarIncrustar()
 		}
 	}
@@ -151,6 +145,11 @@ class Pieza_Z inherits Pieza(
 class Mino {
 	// Posicion del mino en tablero.
 	var property position
+	
+	// Mover mino hacia una direccion.
+	method mover(direccion) {
+		position = direccion.posicion(position)
+	}
 }
 
 // Molde Mino I. (Rojo)
@@ -187,4 +186,22 @@ class Mino_T inherits Mino {
 class Mino_Z inherits Mino {
 	// Establecer la imagen del mino.
 	method image() = "Minos/lightblue.png"
+}
+
+//////////////////////////////////////////////////////////
+// DIRECCIONES.
+//////////////////////////////////////////////////////////
+object izquierda {
+	// Obtener una posicion a la izquierda.
+	method posicion(origen) = origen.left(1)
+}
+
+object abajo {
+	// Obtener una posicion abajo.
+	method posicion(origen) = origen.down(1)
+}
+
+object derecha {
+	// Obtener una posicion a la derecha.
+	method posicion(origen) = origen.right(1)
 }
