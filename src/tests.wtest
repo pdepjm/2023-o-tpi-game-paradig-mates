@@ -28,11 +28,11 @@ describe "Direcciones" {
 //////////////////////////////////////////////////////////
 describe "Sentidos" {
 	test "Es posible obtener una posicion rotada en sentido horario" {
-		assert.equals(game.at(0,2), horario.posicion(game.at(2,2), game.at(1,1)))
+		assert.equals(game.at(2,0), horario.posicion(game.at(2,2), game.at(1,1)))
 	}
 	
 	test "Es posible obtener una posicion rotada en sentido anti-horario" {
-		assert.equals(game.at(2,0), antiHorario.posicion(game.at(2,2), game.at(1,1)))
+		assert.equals(game.at(0,2), antiHorario.posicion(game.at(2,2), game.at(1,1)))
 	}
 }
 
@@ -240,12 +240,12 @@ describe "Mino" {
 	
 	test "Es posible rotarlo en sentido horario" {
 		unMino.rotar(horario, game.at(1,1))
-		assert.equals(game.at(0,2), unMino.position())
+		assert.equals(game.at(2,0), unMino.position())
 	}
 	
 	test "Es posible rotarlo en sentido antiHorario" {
 		unMino.rotar(antiHorario, game.at(1,1))
-		assert.equals(game.at(2,0), unMino.position())
+		assert.equals(game.at(0,2), unMino.position())
 	}
 }
 

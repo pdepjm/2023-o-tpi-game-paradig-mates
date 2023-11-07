@@ -25,15 +25,15 @@ object derecha {
 object horario {
 	// Obtener una posicion rotada en sentido horario.
 	method posicion(origen, centro) = game.at(
-		- origen.y() + centro.x() + centro.y(),
-		origen.x() - centro.x() + centro.y()
+		origen.y() + centro.x() - centro.y(),
+		- origen.x() + centro.x() + centro.y()
 	)
 }
 
 object antiHorario {
 	// Obtener una posicion rotada en sentido anti-horario.
 	method posicion(origen, centro) = game.at(
-		origen.y() + centro.x() - centro.y(),
-		- origen.x() + centro.x() + centro.y()
+		- origen.y() + centro.x() + centro.y(),
+		origen.x() - centro.x() + centro.y()
 	)
 }
