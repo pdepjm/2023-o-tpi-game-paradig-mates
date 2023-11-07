@@ -1,4 +1,5 @@
 import wollok.game.*
+import Direcciones.*
 import Entorno.*
 import Informacion.*
 import Piezas.*
@@ -6,7 +7,7 @@ import Reproductor.*
 import Tablero.*
 
 //////////////////////////////////////////////////////////
-// CONFIGURACIONES.
+// ♦ CONFIGURACIONES.
 //////////////////////////////////////////////////////////
 // Configuraciones del juego.
 object config {
@@ -128,7 +129,7 @@ object config {
 			// Resetar el tiempo de Caida.
 			self.resetearDificultad()
 			// Resetear Piezas.
-			if(hub.proximaPieza().estaActiva()) hub.proximaPieza().ocultar()
+			if(hub.proximaPieza().estaActivo()) hub.proximaPieza().ocultar()
 			if(piezaActual.estaActiva()) piezaActual.eliminar()
 			self.generarPiezaInicial()
 		})

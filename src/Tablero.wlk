@@ -2,7 +2,7 @@ import wollok.game.*
 import Entorno.*
 
 //////////////////////////////////////////////////////////
-// TABLERO DE JUEGO.
+// ♦ TABLERO DE JUEGO.
 //////////////////////////////////////////////////////////
 // Parte del tablero jugable.
 object tablero {
@@ -18,7 +18,7 @@ object tablero {
 	// Saber si hay un mino en una posicion determinada.
 	method hayMinoEn(posicion) = self.posicionesOcupadas().contains(posicion)
 	// Saber si es el movimiento es valido.
-	method movimientoInvalido(posicion) = self.hayMinoEn(posicion) or not self.enLimitesJugables(posicion)
+	method posicionValida(posicion) = not self.hayMinoEn(posicion) and self.enLimitesJugables(posicion)
 	
 	// Obtener las posiciones de los minos acumulados.
 	method posicionesOcupadas() = minosAcumulados.map({mino => mino.position()})

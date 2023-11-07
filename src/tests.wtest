@@ -1,12 +1,43 @@
 import wollok.game.*
 import Configuracion.*
+import Direcciones.*
 import Entorno.*
 import Informacion.*
 import Piezas.*
 import Tablero.*
 
 //////////////////////////////////////////////////////////
-// ENTORNO.
+// ♦ DIRECCIONES.
+//////////////////////////////////////////////////////////
+describe "Direcciones" {
+	test "Es posible obtener una posicion abajo" {
+		assert.equals(game.at(1,0), abajo.posicion(game.at(1,1)))
+	}
+	
+	test "Es posible obtener una posicion izquierda" {
+		assert.equals(game.at(0,1), izquierda.posicion(game.at(1,1)))
+	}
+	
+	test "Es posible obtener una posicion derecha" {
+		assert.equals(game.at(2,1), derecha.posicion(game.at(1,1)))
+	}
+}
+
+//////////////////////////////////////////////////////////
+// ♦ SENTIDOS.
+//////////////////////////////////////////////////////////
+describe "Sentidos" {
+	test "Es posible obtener una posicion rotada en sentido horario" {
+		assert.equals(game.at(0,2), horario.posicion(game.at(2,2), game.at(1,1)))
+	}
+	
+	test "Es posible obtener una posicion rotada en sentido anti-horario" {
+		assert.equals(game.at(2,0), antiHorario.posicion(game.at(2,2), game.at(1,1)))
+	}
+}
+
+//////////////////////////////////////////////////////////
+// ♦ ENTORNO.
 //////////////////////////////////////////////////////////
 describe "Menu" {
 	test "Es posbible mostrarlo" {
@@ -60,97 +91,109 @@ describe "Hub" {
 }
 
 //////////////////////////////////////////////////////////
-// INFORMACION.
+// ♦ INFORMACION.
 //////////////////////////////////////////////////////////
-describe "Puntaje obtenido" {
-	test "Es posible aumentarlo dado un valor" {
-		hub.puntajeAcumulado().incrementar(100)
-		hub.puntajeAcumulado().incrementar(200)
-		assert.equals("300", hub.puntajeAcumulado().text())
-	}
-	
-	test "Es posible resetearlo a 0" {
-		hub.puntajeAcumulado().incrementar(100)
-		hub.puntajeAcumulado().resetear()
-		assert.equals("0", hub.puntajeAcumulado().text())
-	}
-}
-
-describe "Filas completadas" {
-	test "Es posible aumentarlo en 1" {
-		hub.filasCompletadas().incrementar(1)
-		assert.equals("1", hub.filasCompletadas().text())
-	}
-	
-	test "Es posible aumentarlo en 2" {
-		hub.filasCompletadas().incrementar(2)
-		assert.equals("2", hub.filasCompletadas().text())
-	}
-	
-	test "Es posible aumentarlo en 3" {
-		hub.filasCompletadas().incrementar(3)
-		assert.equals("3", hub.filasCompletadas().text())
-	}
-	
-	test "Es posible aumentarlo en 4" {
-		hub.filasCompletadas().incrementar(4)
-		assert.equals("4", hub.filasCompletadas().text())
-	}
-	
-	test "Es posible resetearlo a 0" {
-		hub.filasCompletadas().incrementar(2)
-		hub.filasCompletadas().resetear()
-		assert.equals("0", hub.filasCompletadas().text())
-	}
-}
-
-describe "Proxima pieza" {
-	const unaPieza = new Pieza_Z()
+describe "Contador" {
+	const unContador = new Contador(position = game.at(0,0))
 	
 	test "Es posible cargarlo" {
-		hub.proximaPieza().image(unaPieza.display())
-		hub.proximaPieza().cargar()
-		assert.that(hub.proximaPieza().estaActiva())
+		unContador.cargar()
+		assert.that(game.hasVisual(unContador))
+	}
+	
+	test "Es posible aumentarlo dado un valor" {
+		unContador.incrementar(100)
+		unContador.incrementar(200)
+		assert.equals("300", unContador.text())
+	}
+	
+	test "Es posible resetearlo a 0" {
+		unContador.incrementar(100)
+		unContador.resetear()
+		assert.equals("0", unContador.text())
+	}
+}
+
+describe "Display" {
+	const unDisplay = new Display(position = game.at(0, 0), image = "Piezas/miniZ.png")
+	
+	test "Es posible saber si esta activo" {
+		unDisplay.cargar()
+		assert.that(unDisplay.estaActivo())
+	}
+	
+	test "Es posible cargarlo" {
+		unDisplay.cargar()
+		assert.that(game.hasVisual(unDisplay))
 	}
 	
 	test "Es posible ocultarlo" {
-		hub.proximaPieza().image(unaPieza.display())
-		hub.proximaPieza().cargar()
-		hub.proximaPieza().ocultar()
-		assert.notThat(hub.proximaPieza().estaActiva())
+		unDisplay.cargar()
+		unDisplay.ocultar()
+		assert.notThat(game.hasVisual(unDisplay))
 	}
 }
 
 describe "Mensaje" {
 	const mensaje = new Mensaje(image = "Creaciones/Continuar.png", position = game.at(0,0))
 	
-	test "Es posible mostrar el mensaje" {
+	test "Es posible saber si esta activo" {
 		mensaje.cargar()
 		assert.that(mensaje.estaActivo())
+	}
+	
+	test "Es posible mostrar el mensaje" {
+		mensaje.cargar()
+		assert.that(game.hasVisual(mensaje))
 	}
 	
 	test "Es posible ocultar el mensaje" {
 		mensaje.cargar()
 		mensaje.ocultar()
-		assert.notThat(mensaje.estaActivo())
+		assert.notThat(game.hasVisual(mensaje))
 	}
 }
 
 //////////////////////////////////////////////////////////
-// PIEZAS.
+// ♦ PIEZAS.
 //////////////////////////////////////////////////////////
 describe "Piezas" {
 	const unaPieza = new Pieza_Z()
 	
-	test "Es posible mostrarlo en el tablero" {
+	test "Es posible saber si esta activa" {
 		unaPieza.generar()
 		assert.that(unaPieza.estaActiva())
+	}
+	
+	test "Es posible mostrarlo en el tablero" {
+		unaPieza.generar()
+		assert.that(game.hasVisual(unaPieza.centro()))
 	}
 	
 	test "Es posible eliminarlo del tablero" {
 		unaPieza.generar()
 		unaPieza.eliminar()
-		assert.notThat(unaPieza.estaActiva())
+		assert.notThat(game.hasVisual(unaPieza.centro()))
+	}
+	
+	test "Es posible saber si se puede mover abajo" {
+		assert.that(unaPieza.puedeMover(abajo))
+	}
+	
+	test "Es posible saber si se puede mover a la izquierda" {
+		assert.that(unaPieza.puedeMover(izquierda))
+	}
+	
+	test "Es posible saber si se puede mover a la derecha" {
+		assert.that(unaPieza.puedeMover(derecha))
+	}
+	
+	test "Es posible saber si se puede rotar en sentido horario" {
+		assert.that(unaPieza.puedeRotar(horario))
+	}
+	
+	test "Es posible saber si se puede rotar en sentido anti-horario" {
+		assert.that(unaPieza.puedeRotar(antiHorario))
 	}
 	
 	test "Es posible moverlo hacia abajo" {
@@ -167,27 +210,64 @@ describe "Piezas" {
 		unaPieza.mover(izquierda)
 		assert.equals(config.centroGeneracion().left(1), unaPieza.centro().position())
 	}
+	
+	test "Es posible bajarlo totalmente e incrustarlo" {
+		unaPieza.bajarIncrustar()
+		assert.equals(config.centroGeneracion().down(18), unaPieza.centro().position())
+	}
 }
 
 //////////////////////////////////////////////////////////
-// TABLERO.
+// ♦ MINOS.
+//////////////////////////////////////////////////////////
+describe "Mino" {
+	const unMino = new Mino_Z(position = game.at(2,2))
+	
+	test "Es posible moverlo hacia abajo" {
+		unMino.mover(abajo)
+		assert.equals(game.at(2,1), unMino.position())
+	}
+	
+	test "Es posible moverlo hacia la izquierda" {
+		unMino.mover(izquierda)
+		assert.equals(game.at(1,2), unMino.position())
+	}
+	
+	test "Es posible moverlo hacia la derecha" {
+		unMino.mover(derecha)
+		assert.equals(game.at(3,2), unMino.position())
+	}
+	
+	test "Es posible rotarlo en sentido horario" {
+		unMino.rotar(horario, game.at(1,1))
+		assert.equals(game.at(0,2), unMino.position())
+	}
+	
+	test "Es posible rotarlo en sentido antiHorario" {
+		unMino.rotar(antiHorario, game.at(1,1))
+		assert.equals(game.at(2,0), unMino.position())
+	}
+}
+
+//////////////////////////////////////////////////////////
+// ♦ TABLERO.
 //////////////////////////////////////////////////////////
 describe "Tablero" {
 	const unaPieza = new Pieza_Z()
 	
-	test "La posicion (0, 1) no es valida" {
+	test "La posicion (0, 1) no esta dentro del tablero jugable" {
 		assert.notThat(tablero.enLimitesJugables(game.at(0, 1)))
 	}
 	
-	test "La posicion (1, 0) no es valida" {
+	test "La posicion (1, 0) no esta dentro del tablero jugable" {
 		assert.notThat(tablero.enLimitesJugables(game.at(1, 0)))
 	}
 	
-	test "La posicion (11, 1) no es valida" {
+	test "La posicion (11, 1) no esta dentro del tablero jugable" {
 		assert.notThat(tablero.enLimitesJugables(game.at(11, 1)))
 	}
 	
-	test "La posicion (1, 1) es valida" {
+	test "La posicion (1, 1) esta dentro del tablero jugable" {
 		assert.that(tablero.enLimitesJugables(game.at(1, 1)))
 	}
 	

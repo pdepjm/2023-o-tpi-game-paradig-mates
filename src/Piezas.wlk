@@ -1,9 +1,10 @@
 import wollok.game.*
 import Configuracion.*
+import Direcciones.*
 import Tablero.*
 
 //////////////////////////////////////////////////////////
-// PIEZAS JUGABLES.
+// ♦ PIEZAS JUGABLES.
 //////////////////////////////////////////////////////////
 // Clase abstracta de las Piezas del tetris (Formado por 4 minos)
 class Pieza {
@@ -20,12 +21,12 @@ class Pieza {
 	method puedeGenerar() = minos.all({mino => not tablero.hayMinoEn(mino.position())})
 	
 	// Saber si se puede mover a una posicion determinada.
-	method puedeMover(direccion) = not minos.any{mino => 
-		tablero.movimientoInvalido(direccion.posicion(mino.position()))
+	method puedeMover(direccion) = minos.all{mino => 
+		tablero.posicionValida(direccion.posicion(mino.position()))
 	}
 	// Saber si se puede rotar en sentido horario.
-	method puedeRotar(sentido) = not minos.any({mino =>
-		tablero.movimientoInvalido(sentido.posicion(mino.position(), self.centro().position()))
+	method puedeRotar(sentido) = minos.all({mino =>
+		tablero.posicionValida(sentido.posicion(mino.position(), self.centro().position()))
 	})
 	
 	// Generar pieza en tablero.
@@ -57,7 +58,7 @@ class Pieza {
 	}
 }
 
-// Pieza I. (Rojo)
+// Molde Pieza I. (Rojo)
 class Pieza_I inherits Pieza(
 	display = "Piezas/miniI.png",
 	minos = [
@@ -68,7 +69,7 @@ class Pieza_I inherits Pieza(
 		new Mino_I(position = config.centroGeneracion().down(1)),
 		new Mino_I(position = config.centroGeneracion().down(2))
 	]){}
-// Pieza J. (Azul)
+// Molde Pieza J. (Azul)
 class Pieza_J inherits Pieza(
 	display = "Piezas/miniJ.png",
 	minos = [
@@ -79,7 +80,7 @@ class Pieza_J inherits Pieza(
 		new Mino_J(position = config.centroGeneracion().down(1)),
 		new Mino_J(position = config.centroGeneracion().down(1).left(1))
 	]) {}
-// Pieza L. (Naranja)
+// Molde Pieza L. (Naranja)
 class Pieza_L inherits Pieza(
 	display = "Piezas/miniL.png",
 	minos = [
@@ -90,7 +91,7 @@ class Pieza_L inherits Pieza(
 		new Mino_L(position = config.centroGeneracion().down(1)),
 		new Mino_L(position = config.centroGeneracion().down(1).right(1))
 	]) {}
-// Pieza O. (Blanco)
+// Molde Pieza O. (Blanco)
 class Pieza_O inherits Pieza(
 	display = "Piezas/miniO.png",
 	minos = [
@@ -101,7 +102,7 @@ class Pieza_O inherits Pieza(
 		new Mino_O(position = config.centroGeneracion().right(1)),
 		new Mino_O(position = config.centroGeneracion().up(1).right(1))
 	]) {override method rotar(sentido) {}}
-// Pieza S. (Verde)
+// Molde Pieza S. (Verde)
 class Pieza_S inherits Pieza(
 	display = "Piezas/miniS.png",
 	minos = [
@@ -112,7 +113,7 @@ class Pieza_S inherits Pieza(
 		new Mino_S(position = config.centroGeneracion().left(1)),
 		new Mino_S(position = config.centroGeneracion().up(1).right(1))
 	]) {}
-// Pieza T. (Violeta)
+// Molde Pieza T. (Violeta)
 class Pieza_T inherits Pieza(
 	display = "Piezas/miniT.png",
 	minos = [
@@ -123,7 +124,7 @@ class Pieza_T inherits Pieza(
 		new Mino_T(position = config.centroGeneracion().left(1)),
 		new Mino_T(position = config.centroGeneracion().right(1))
 	]) {}
-// Pieza Z. (Celeste)
+// Molde Pieza Z. (Celeste)
 class Pieza_Z inherits Pieza(
 	display = "Piezas/miniZ.png",
 	minos = [
@@ -136,7 +137,7 @@ class Pieza_Z inherits Pieza(
 	]) {}
 
 //////////////////////////////////////////////////////////
-// MINOS.
+// ♦ MINOS.
 //////////////////////////////////////////////////////////
 // Clase abstracta para los minos de las piezas.
 class Mino {
@@ -188,38 +189,4 @@ class Mino_T inherits Mino {
 class Mino_Z inherits Mino {
 	// Establecer la imagen del mino.
 	method image() = "Minos/lightblue.png"
-}
-
-//////////////////////////////////////////////////////////
-// DIRECCIONES.
-//////////////////////////////////////////////////////////
-object izquierda {
-	// Obtener una posicion a la izquierda.
-	method posicion(origen) = origen.left(1)
-}
-
-object abajo {
-	// Obtener una posicion abajo.
-	method posicion(origen) = origen.down(1)
-}
-
-object derecha {
-	// Obtener una posicion a la derecha.
-	method posicion(origen) = origen.right(1)
-}
-
-object horario {
-	// Obtener una posicion rotada en sentido horario.
-	method posicion(origen, centro) = game.at(
-		origen.y() + centro.x() - centro.y(),
-		- origen.x() + centro.x() + centro.y()
-	)
-}
-
-object antiHorario {
-	// Obtener una posicion rotada en sentido anti-horario.
-	method posicion(origen, centro) = game.at(
-		- origen.y() + centro.x() - centro.y(),
-		origen.x() + centro.x() + centro.y()
-	)
 }

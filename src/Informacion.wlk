@@ -1,7 +1,7 @@
 import wollok.game.*
 
 //////////////////////////////////////////////////////////
-// INFORMACIONES DE LA PARTIDA.
+// ♦ INFORMACIONES DE LA PARTIDA.
 //////////////////////////////////////////////////////////
 // Molde para los contadores de texto mostradas en el HUB.
 class Contador {
@@ -37,7 +37,7 @@ class Display {
 	var property image = ""
 	
 	// Consultar si esta la pieza activa en el tablero.
-	method estaActiva() = game.hasVisual(self)
+	method estaActivo() = game.hasVisual(self)
 	
 	// Cargar la proxima pieza.
 	method cargar() {
