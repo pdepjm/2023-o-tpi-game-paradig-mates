@@ -113,12 +113,20 @@ object config {
 	// Configurar las teclas del juego.
 	method controles() {
 		// Movimiento de pieza.
-		keyboard.down().onPressDo({if(piezaActual.puedeMover(abajo)) {piezaActual.mover(abajo) hub.puntajeAcumulado().incrementar(10)}})
-		keyboard.left().onPressDo({if(piezaActual.puedeMover(izquierda)) piezaActual.mover(izquierda)})
-		keyboard.right().onPressDo({if(piezaActual.puedeMover(derecha)) piezaActual.mover(derecha)})
+		keyboard.s().onPressDo({if(piezaActual.puedeMover(abajo)) {piezaActual.mover(abajo) hub.puntajeAcumulado().incrementar(1)}})
+		keyboard.a().onPressDo({if(piezaActual.puedeMover(izquierda)) piezaActual.mover(izquierda)})
+		keyboard.d().onPressDo({if(piezaActual.puedeMover(derecha)) piezaActual.mover(derecha)})
 		
 		// Rotacion de pieza.
-		keyboard.up().onPressDo({if(piezaActual.puedeRotar(horario)) piezaActual.rotar(horario)})
+		keyboard.q().onPressDo({if(piezaActual.puedeRotar(antiHorario)) piezaActual.rotar(antiHorario)})
+		keyboard.e().onPressDo({if(piezaActual.puedeRotar(horario)) piezaActual.rotar(horario)})
+		
+		
+		// Bajar la pieza totalmente e incrustarla.
+		keyboard.space().onPressDo({piezaActual.bajarIncrustar() hub.puntajeAcumulado().incrementar(50)})
+		
+		// Pausar sonido del juego.
+		keyboard.p().onPressDo{if(musica.estaPausada()) musica.reanudar() else musica.pausar()}
 		
 		// Reiniciar partida.
 		keyboard.enter().onPressDo({
@@ -133,12 +141,6 @@ object config {
 			if(piezaActual.estaActiva()) piezaActual.eliminar()
 			self.generarPiezaInicial()
 		})
-		
-		// Bajar la pieza totalmente e incrustarla.
-		keyboard.space().onPressDo({piezaActual.bajarIncrustar() hub.puntajeAcumulado().incrementar(50)})
-		
-		// Pausar sonido del juego.
-		keyboard.p().onPressDo{if(musica.estaPausada()) musica.reanudar() else musica.pausar()}
 	}
 	
 	// Iniciar la caida de piezas.
