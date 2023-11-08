@@ -52,10 +52,11 @@ La cantidad de puntos que se obtiene al completar lineas en la matrix.
 
 ## 🔸 Controles:
 **Controles de la pieza**.
-- ↑ :  Rotar sentido horario.
-- ↓ :  Mover abajo.
-- → :  Mover derecha.
-- ← :  Mover izquierda.
+- q :  Rotar sentido anti-horario.
+- e :  Rotar sentido horario.
+- a :  Mover izquierda.
+- s :  Mover abajo.
+- d :  Mover derecha.
 - Estacio:  Incrustar.
 
 **Controles de la matrix**.
@@ -64,7 +65,7 @@ La cantidad de puntos que se obtiene al completar lineas en la matrix.
 
 ## 🔸 Reglas de Juego / Instrucciones:
 ### Mecanicas:
-Distintos tetriminos, figuras geométricas compuestas por cuatro bloques cuadrados unidos de forma ortogonal, las cuales se generan en el área superior de la pantalla. Su caida no se puede impedir, pero puede decidir la rotación de la pieza (0°, 90°, 180°, 270°) y en qué lugar debe caer. Cuando una línea horizontal se completa, esa línea desaparece y todas las piezas que están por encima descienden una posición, liberando espacio de juego y, por tanto, facilitando la tarea de situar nuevas piezas. El juego acaba cuando las piezas se amontonan hasta llegar a lo más alto (3x5 bloques en el área visible), interfiriendo la creación de más piezas19 y finalizando el juego.
+Distintos tetriminos, figuras geométricas compuestas por cuatro bloques cuadrados unidos de forma ortogonal, las cuales se generan en el área superior de la pantalla. Su caida no se puede impedir, pero puede decidir la rotación de la pieza (0°, 90°, 180°, 270°) y en qué lugar debe caer. Cuando una línea horizontal se completa, esa línea desaparece y todas las piezas que están por encima descienden una posición, liberando espacio de juego y, por tanto, facilitando la tarea de situar nuevas piezas. El juego acaba cuando las piezas se amontonan hasta llegar a lo más alto, interfiriendo la creación de más piezas19 y finalizando el juego.
 <br>
 > - Al abrir el juego, se lanzará un menu con el siguiente mensaje: <br>
 > <img src="assets/Creaciones/Continuar.png" alt="Mensaje - Fin de Juego" width="300"/> <br><br>
@@ -79,7 +80,7 @@ Formación objetivo del juego, completar líneas en la parte inferior y así lim
 1. Se cuenta con 7 piezas diferenctes.
 2. Se obtiene más puntos en el juego cuando se completan varias líneas a la vez. Entre más líneas acumuladas, mejor puntaje.
 3. El mínimo es 1 línea y el máximo es 4.
-4. El jugador puede decidir la rotación de la pieza (0°, 90°, 180°, 270°) en sentido horario.
+4. El jugador puede decidir la rotación de la pieza (0°, 90°, 180°, 270°).
 5. A lo largo del juego, la velocidad de caida va aumentando progresivamente.
 6. El máximo de líneas se conoce como Tetris. La única forma de realizarlo es con la I-Tetrimino, por lo que es una de las piezas más importantes. Se debe acumular piezas dejando el espacio preciso para que la I-Tetrimino calce.
 7. Puedes ver en la cola 'Proxima' cual será la siguiente pieza.
