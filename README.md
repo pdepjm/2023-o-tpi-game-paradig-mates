@@ -57,7 +57,7 @@ La cantidad de puntos que se obtiene al completar lineas en la matrix.
 - a :  Mover izquierda.
 - s :  Mover abajo.
 - d :  Mover derecha.
-- Estacio:  Incrustar.
+- Espacio:  Incrustar.
 
 **Controles de la matrix**.
 - Enter: Comenzar/Reiniciar.
